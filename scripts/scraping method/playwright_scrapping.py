@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 import csv
 import random
 
+
 def scrape_with_playwright(url):
     results = []
     
