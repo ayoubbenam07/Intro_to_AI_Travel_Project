@@ -117,8 +117,10 @@ class TravelProblem_LocalSearch:
                 try_state =  state[:]
                 item = random.choice(self.landmarks)
                 if item not in state : try_state.append(item)
-                if not self.valid_state(try_state) : failure +=1 
-
+                if not self.valid_state(try_state) : 
+                    failure +=1 
+                    continue
+                
                 state  = try_state                      
 
 
@@ -196,7 +198,7 @@ class TravelProblem_LocalSearch:
             return state 
         return random.choice(neighbors)
     
-    
+
 
     def evaluate(self, state: List['Landmark']) -> float:
         """ 
