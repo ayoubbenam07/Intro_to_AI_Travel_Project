@@ -71,8 +71,9 @@ class TravelProblem_LocalSearch:
             if not landmark.is_open(self.Travel_day, int(current_hour)): 
                 return False
             
-            if landmark.landmark_type not in self.type_filter: 
-                return False
+            if self.type_filter :
+                if landmark.landmark_type not in self.type_filter: 
+                 return False
                 
             # Add the duration spent visiting the landmark
             current_hour += (landmark.visit_duration / 60.0)
