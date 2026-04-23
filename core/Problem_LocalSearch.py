@@ -81,8 +81,8 @@ class TravelProblem_LocalSearch:
         return_mins = self.time_matrix[state[-1].name][self.hotel.id]
         current_hour += (return_mins / 60.0)
         
-        # 4. Hard Constraint: Did the total trip exceed the user's allowed time?
-        if (current_hour - trip_start_time) > self.max_travel_time:
+        # 4. total time between max time and max time -1 , eg : max time 3pm , good one :   2.7 pm
+        if (current_hour - trip_start_time) > self.max_travel_time or (current_hour - trip_start_time) < self.max_travel_time -1.1 :
             return False
             
         return True
