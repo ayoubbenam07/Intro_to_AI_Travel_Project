@@ -1,63 +1,474 @@
-Name,Description,Type,Rating,Latitude,Longitude
-Martyrs' Memorial (Maqam E'chahid),An iconic towering concrete monument celebrating Algeria's independence.,Monument,9.5,36.7458,3.0698
-Botanical Garden Hamma,A lush and historic botanical garden established in 1832 featuring thousands of plant species.,Park/Garden,9.6,36.7466763,3.0727362
-Casbah of Algiers,A historic UNESCO World Heritage citadel characterized by its narrow winding streets and rich history.,Historical Site,8.5,36.7844706,3.0578458
-Great Mosque of Algiers (Djamaa el Djazaïr),A modern architectural marvel boasting the world's tallest minaret.,Mosque,9.7,36.7333,3.1436
-Notre Dame d'Afrique,A stunning Catholic basilica from the 19th century offering panoramic views of the Bay of Algiers.,Cathedral,9.5,36.8009649,3.0432768
-Bardo National Museum,A fascinating museum of prehistory and ethnography housed in a beautifully restored Moorish villa.,Museum,8.9,36.7603755,3.0461464
-National Museum of Fine Arts,One of the largest art museums in Africa featuring Algerian and European masterpieces.,Museum,9.0,36.7460178,3.0724043
-Palais des Raïs (Bastion 23),A beautifully preserved Ottoman-era palace complex sitting right on the Mediterranean coast.,Palace,9.2,36.7885,3.0631
-Ketchaoua Mosque,A historic mosque blending Moorish and Byzantine architecture located at the foot of the Casbah.,Mosque,9.1,36.7850951,3.0607434
-La Grande Poste,A magnificent neo-Moorish post office that serves as a central landmark in downtown Algiers.,Historical Site,9.3,36.7727638,3.0588067
-Museum of Antiquities and Islamic Arts,The oldest museum in Algeria showcasing ancient mosaics and beautiful Islamic artifacts.,Museum,7.8,36.7622,3.0483
-Martyrs' Square (Place des Martyrs),A bustling public square steeped in history and offering great views of the sea.,Square/Plaza,7.5,36.7847493,3.0623509
-National Museum of Moudjahid,Located beneath the Martyrs' Memorial it details the Algerian struggle for independence.,Museum,8.5,36.7455,3.0700
-Dar Mustapha Pacha,An exquisite 18th-century Ottoman palace renowned for its interior tile work.,Palace,8.2,36.7856532,3.0607354
-Museum of Modern Art of Algiers (MaMa),A hub for contemporary Algerian art located in a beautifully restored neo-Moorish commercial building.,Museum,8.0,36.7770,3.0583
-Djamaa el Djedid,A 17th-century Ottoman mosque with striking white domes prominently situated near the harbor.,Mosque,8.6,36.7836,3.0625
-Djamaa el Kebir (Great Mosque),One of the oldest mosques in Algiers featuring beautiful Almoravid architecture.,Mosque,8.8,36.7853,3.0642
-Ali La Pointe Museum,A poignant memorial dedicated to the famed Algerian martyr located deep within the Casbah.,Museum,7.9,36.7833518,3.0586752
-Ben Aknoun Zoo,A sprawling zoo and amusement park perfect for family outings.,Park/Garden,3.2,36.74297,3.0064728
-Liberty Park (Parc de la Liberté),A quiet geometrical park offering scenic stairs greenery and Ottoman-inspired ceramics.,Park/Garden,6.2,36.7628,3.0486
-Museum of Popular Arts and Traditions,Housed in a 16th-century palace this museum displays traditional Algerian crafts and jewelry.,Museum,7.4,36.786707,3.0609357
-Dar Aziza,One of the oldest surviving palaces in the Casbah featuring classic courtyard architecture.,Palace,7.6,36.7850529,3.0615164
-Dar Hassan Pacha,A majestic former winter palace known for its fusion of Moorish and European styles.,Palace,7.2,36.7852733,3.0610256
-Emir Abdelkader Square,A vibrant central plaza featuring a prominent statue of the famous Algerian leader.,Square/Plaza,8.1,36.7886783,3.06054
-Port of Algiers,The historic and modern maritime heart of the city.,Historical Site,3.5,36.7636474,3.0609709
-Sablettes Promenade,A highly popular waterfront park area with walking paths playgrounds and sea views.,Park/Promenade,8.9,36.7459321,3.104403
-Sidi Fredj Marina,A picturesque marina and historical peninsula perfect for coastal dining and boat watching.,Marina/Coastal,8.5,36.7637637,2.8471988
-Moretti Beach,A popular and well-maintained beach resort area just west of the city.,Beach,7.0,36.7624762,2.8679304
-Zeralda Beach,A spacious sandy beach offering numerous tourist complexes and relaxation spots.,Beach,6.1,36.7162454,2.868799
-Ain Benian Coast,A rocky and scenic coastal stretch known for excellent seafood restaurants.,Beach/Coastal,6.8,36.8028,2.9230
-Fort de l'Empereur,The ruins of a historic fortress offering sweeping views over the city.,Historical Site,3.8,36.7766,3.0416
-Cape Caxine Lighthouse,A historic 19th-century lighthouse guiding ships into the Bay of Algiers.,Monument,7.5,36.8122,2.9467
-Tifariti Park,A lush urban green space offering a tranquil escape from the bustling city.,Park/Garden,5.0,36.7651,3.0498
-Beirut Garden,A well-shaded family-friendly park known for its old trees and peaceful atmosphere.,Park/Garden,5.2,36.7600,3.0465
-Dounia Park,A massive developing ecological park ideal for long walks and outdoor activities.,Park/Garden,4.8,36.7418848,2.9842636
-El Hamma Library,The majestic national library building offering impressive modern architecture.,Cultural Center,8.7,36.7484164,3.0719156
-Villa Abd-el-Tif,A historic villa that once hosted artists in residence now a center for cultural events.,Cultural Center,7.8,36.7469,3.0733
-National Theatre Mahieddine Bachtarzi,A stunning performing arts venue located in a historic building.,Cultural Center,8.6,36.7812519,3.0600742
-Safir Mosque,A historic mosque situated within the winding alleys of the Casbah.,Mosque,6.8,36.7833129,3.05753
-Sidi Ramadan Mosque,Believed to be one of the oldest mosques in the Casbah area.,Mosque,6.5,36.7865243,3.0584051
-Ali Bitchin Mosque,A 17th-century mosque built by an Italian convert with a fascinating backstory.,Mosque,7.5,36.7861,3.0617
-El Barani Mosque,A beautiful historical mosque located near the entrance of the Casbah citadel.,Mosque,6.0,36.7844519,3.0557747
-Ben Farès Mosque,Originally the Great Synagogue of Algiers before being converted into a mosque.,Historical Site,7.0,36.7839,3.0586
-Ryadh El Feth,A vibrant commercial and cultural complex surrounding the Martyrs' Memorial.,Cultural Center,7.5,36.7444,3.0697
-Central Post Office Square,The lively area surrounding La Grande Poste full of cafes and local life.,Square/Plaza,8.5,36.7728,3.0588
-Hydra Square,The upscale center of the Hydra district known for chic cafes and restaurants.,Square/Plaza,8.2,36.7461,3.0289
-El Kettani Beach,A popular urban beach located in the Bab El Oued neighborhood.,Beach,4.5,36.7925,3.0536
-Bouchaoui Forest,A dense and highly popular forest area used by locals for jogging and picnics.,Park/Forest,8.6,36.7597514,2.9132367
-Bainem Forest,The largest forest in the Algiers province offering excellent hiking trails.,Park/Forest,8.8,36.7965031,2.9691428
-Casbah Citadel,The ruined upper fortress that originally protected the old city.,Historical Site,6.5,36.7844,3.0558
-Bab Azzoun Street,A famous historic shopping street lined with French-colonial arcades.,Historical Site,6.5,36.7819,3.0603
-Didouche Mourad Street,The vibrant commercial artery of Algiers featuring stunning Haussmannian architecture.,Historical Site,8.7,36.7625697,3.0437059
-Audin Square,A central and busy intersection famous for its bookstores and student life.,Square/Plaza,8.0,36.7700561,3.0553706
-Algiers Opera House,A modern state-of-the-art venue hosting symphonies and theatrical performances.,Cultural Center,9.0,36.7328,2.9247
-National Library of Algeria,A massive cultural institution with extensive archives overlooking the bay.,Cultural Center,8.5,36.7484164,3.0719156
-Monument to the Dead of Algiers,A solemn monument paying tribute to those who lost their lives in World War I.,Monument,5.8,36.7730,3.0550
-Grotte de Cervantes,The cave where the famous Spanish author Miguel de Cervantes hid during his captivity.,Historical Site,4.2,36.7481,3.0675
-Djemila Boulevard,A scenic coastal road offering some of the best sunset views in the city.,Historical Site,7.8,36.7960,2.8910
-El Kettar Cemetery,A historic tiered cemetery offering profound insight into the city's past and amazing sea views.,Historical Site,5.5,36.7857854,3.049501
-Garden City Mall,A beautifully designed modern open-air shopping and lifestyle center located in Cheraga.,Shopping/Mall,8.8,36.7599,2.9610
-Ardis Mall,A massive commercial center featuring retail stores a hypermarket and a waterfront promenade.,Shopping/Mall,7.6,36.7367,3.1542
-Bab Ezzouar Mall,One of the largest and most popular enclosed shopping and entertainment centers in Algiers.,Shopping/Mall,8.5,36.7212,3.1818
+ID,Name,Description,Type,Rating,Latitude,Longitude,EstimatedTime (min),Hours,Images,,,,,,,,,,,"{""restaurants"": [{""name"": ""Restaurant1"", ""lat"": 0, ""lon"": 0}], ""cafes"": [{""name"": ""Cafe1"", ""lat"": 0, ""lon"": 0}]}"
+1,Martyrs' Memorial (Maqam E'chahid),An iconic towering concrete monument celebrating Algeria's independence.,Monument,9.5,36.74592665,3.069569499,30,"{ ""mon"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""tue"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""wed"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""thu"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""fri"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""sat"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""sun"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+}",.,,,,,,,,,,,
+2,Botanical Garden Hamma,A lush and historic botanical garden established in 1832 featuring thousands of plant species.,Nature,9.6,36.7466763,3.0727362,90,"{  ""mon"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0],
+  ""tue"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0],
+  ""wed"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0],
+  ""thu"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0],
+  ""fri"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0],
+  ""sat"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0],
+  ""sun"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0]
+}",.,,,,,,,,,,,
+3,Casbah of Algiers,A historic UNESCO World Heritage citadel characterized by its narrow winding streets and rich history.,Historical Site,9.5,36.7844706,3.0578458,110,"{ ""mon"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0],
+  ""tue"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0],
+  ""wed"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0],
+  ""thu"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0],
+  ""fri"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0],
+  ""sat"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0],
+  ""sun"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0]
+}",.,,,,,,,,,,,
+4,Great Mosque of Algiers (Djamaa el Djazaïr),A modern architectural marvel boasting the world's tallest minaret.,Mosque,9.7,36.7333,3.1436,60,"{ ""mon"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""tue"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""wed"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""thu"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""fri"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""sat"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""sun"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0]
+}",.,,,,,,,,,,,
+5,Notre Dame d'Afrique,A stunning Catholic basilica from the 19th century offering panoramic views of the Bay of Algiers.,Cathedral,9.1,36.8009649,3.0432768,40,"{  ""mon"": [0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,1,1,1,0,0,0,0,0,0],
+  ""tue"": [0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,1,1,1,0,0,0,0,0,0],
+  ""wed"": [0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,1,1,1,0,0,0,0,0,0],
+  ""thu"": [0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,1,1,1,0,0,0,0,0,0],
+  ""fri"": [0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,1,1,1,0,0,0,0,0,0],
+  ""sat"": [0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,1,1,1,0,0,0,0,0,0],
+  ""sun"": [0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,1,1,1,0,0,0,0,0,0]
+}",.,,,,,,,,,,,
+6,Bardo National Museum,A fascinating museum of prehistory and ethnography housed in a beautifully restored Moorish villa.,Museum,8.9,36.7603755,3.0461464,60,"{  ""mon"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0],
+  ""tue"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0],
+  ""wed"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0],
+  ""thu"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0],
+  ""fri"": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0],
+  ""sat"": [0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,0,0,0],
+  ""sun"": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+}",.,,,,,,,,,,,
+7,National Museum of Fine Arts,One of the largest art museums in Africa featuring Algerian and European masterpieces.,Museum,9,36.7460178,3.0724043,80,"{  ""mon"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0],
+  ""tue"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0],
+  ""wed"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0],
+  ""thu"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0],
+  ""fri"": [0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,0,0,0],
+  ""sat"": [0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,0,0,0],
+  ""sun"": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+}",.,,,,,,,,,,,
+8,Palais des Raïs (Bastion 23),A beautifully preserved Ottoman-era palace complex sitting right on the Mediterranean coast.,Cultural Center & Event Venue,9.2,36.7885,3.0631,50,"{  ""mon"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0],
+  ""tue"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0],
+  ""wed"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0],
+  ""thu"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0],
+  ""fri"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0],
+  ""sat"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0],
+  ""sun"": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+}",.,,,,,,,,,,,
+9,Ketchaoua Mosque,A historic mosque blending Moorish and Byzantine architecture located at the foot of the Casbah.,Mosque,9.1,36.7850951,3.0607434,30,"{ ""mon"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""tue"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""wed"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""thu"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""fri"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""sat"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""sun"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0]
+}",.,,,,,,,,,,,
+10,La Grande Poste,A magnificent neo-Moorish post office that serves as a central landmark in downtown Algiers.,Historical Site,9.3,36.7727638,3.0588067,20,"{ ""mon"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""tue"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""wed"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""thu"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""fri"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""sat"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""sun"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+}",.,,,,,,,,,,,
+11,Museum of Antiquities and Islamic Arts,The oldest museum in Algeria showcasing ancient mosaics and beautiful Islamic artifacts.,Museum,7.8,36.7622,3.0483,90,"{  ""mon"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0],
+  ""tue"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0],
+  ""wed"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0],
+  ""thu"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0],
+  ""fri"":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  ""sat"": [0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,0,0,0],
+  ""sun"": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+}",.,,,,,,,,,,,
+12,Martyrs' Square (Place des Martyrs),A bustling public square steeped in history and offering great views of the sea.,Public Square,7.5,36.7847493,3.0623509,30,"{ ""mon"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""tue"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""wed"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""thu"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""fri"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""sat"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""sun"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+}",.,,,,,,,,,,,
+13,National Museum of Moudjahid,Located beneath the Martyrs' Memorial it details the Algerian struggle for independence.,Museum,8.5,36.7455,3.07,60,"{  ""mon"": [0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0],
+  ""tue"": [0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0],
+  ""wed"": [0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0],
+  ""thu"": [0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0],
+  ""fri"":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  ""sat"": [0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0],
+  ""sun"": [0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0]
+}",.,,,,,,,,,,,
+14,Dar Mustapha Pacha,An exquisite 18th-century Ottoman palace renowned for its interior tile work.,Cultural Center & Event Venue,8.2,36.7856532,3.0607354,45,"{ ""mon"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0],
+  ""tue"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0],
+  ""wed"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0],
+  ""thu"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0],
+  ""fri"": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  ""sat"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0],
+  ""sun"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0]
+}",.,,,,,,,,,,,
+15,Museum of Modern Art of Algiers (MaMa),A hub for contemporary Algerian art located in a beautifully restored neo-Moorish commercial building.,Museum,8,36.777,3.0583,60,"{  ""mon"": [0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
+  ""tue"": [0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
+  ""wed"": [0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
+  ""thu"": [0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
+  ""fri"":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  ""sat"": [0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
+  ""sun"": [0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0]
+}",.,,,,,,,,,,,
+16,Djamaa el Djedid,A 17th-century Ottoman mosque with striking white domes prominently situated near the harbor.,Mosque,8.6,36.7836,3.0625,30,"{ ""mon"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""tue"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""wed"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""thu"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""fri"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""sat"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""sun"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0]
+}",.,,,,,,,,,,,
+17,Ali La Pointe Museum,A poignant memorial dedicated to the famed Algerian martyr located deep within the Casbah.,Museum,7.9,36.7833518,3.0586752,40,"{  ""mon"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0],
+  ""tue"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0],
+  ""wed"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0],
+  ""thu"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0],
+  ""fri"":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  ""sat"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0],
+  ""sun"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0]
+}",.,,,,,,,,,,,
+18,Ben Aknoun Zoo,A sprawling zoo and amusement park perfect for family outings.,Park,4.2,36.74297,3.0064728,120,"{  ""mon"": [0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0],
+  ""tue"": [0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0],
+  ""wed"": [0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0],
+  ""thu"": [0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0],
+  ""fri"": [0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0],
+  ""sat"": [0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0],
+  ""sun"": [0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0]
+}",.,,,,,,,,,,,
+19,Liberty Park (Parc de la Liberté),A quiet geometrical park offering scenic stairs greenery and Ottoman-inspired ceramics.,Park,6.2,36.7628,3.0486,45,"{ ""mon"": [0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
+  ""tue"": [0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
+  ""wed"": [0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
+  ""thu"": [0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
+  ""fri"": [0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
+  ""sat"": [0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
+  ""sun"": [0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0]
+}",.,,,,,,,,,,,
+20,Museum of Popular Arts and Traditions,Housed in a 16th-century palace this museum displays traditional Algerian crafts and jewelry.,Museum,7.4,36.786707,3.0609357,60,"{  ""mon"": [0,0,0,0,0,0,0,0,1,1,1,1,0,1,1,1,1,0,0,0,0,0,0,0],
+  ""tue"": [0,0,0,0,0,0,0,0,1,1,1,1,0,1,1,1,1,0,0,0,0,0,0,0],
+  ""wed"": [0,0,0,0,0,0,0,0,1,1,1,1,0,1,1,1,1,0,0,0,0,0,0,0],
+  ""thu"": [0,0,0,0,0,0,0,0,1,1,1,1,0,1,1,1,1,0,0,0,0,0,0,0],
+  ""fri"": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  ""sat"": [0,0,0,0,0,0,0,0,1,1,1,1,0,1,1,1,1,0,0,0,0,0,0,0],
+  ""sun"": [0,0,0,0,0,0,0,0,1,1,1,1,0,1,1,1,1,0,0,0,0,0,0,0]
+}",.,,,,,,,,,,,
+21,Dar Aziza,One of the oldest surviving palaces in the Casbah featuring classic courtyard architecture.,Cultural Center & Event Venue,7.6,36.7850529,3.0615164,45,"{ ""mon"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0],
+  ""tue"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0],
+  ""wed"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0],
+  ""thu"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0],
+  ""fri"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0],
+  ""sat"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0],
+  ""sun"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0]
+}",.,,,,,,,,,,,
+22,Dar Hassan Pacha,A majestic former winter palace known for its fusion of Moorish and European styles.,Cultural Center & Event Venue,7.2,36.7852733,3.0610256,45,"{ ""mon"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
+  ""tue"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
+  ""wed"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
+  ""thu"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
+  ""fri"": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  ""sat"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
+  ""sun"": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+}",.,,,,,,,,,,,
+23,Emir Abdelkader Square,A vibrant central plaza featuring a prominent statue of the famous Algerian leader.,Public Square,8.1,36.7886783,3.06054,15,"{ ""mon"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""tue"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""wed"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""thu"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""fri"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""sat"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""sun"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+}",.,,,,,,,,,,,
+24,Port of Algiers,The historic and modern maritime heart of the city.,Historical Site,5,36.7636474,3.0609709,20,"{ ""mon"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""tue"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""wed"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""thu"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""fri"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""sat"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""sun"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+}",.,,,,,,,,,,,
+25,Sablettes Promenade,A highly popular waterfront park area with walking paths playgrounds and sea views.,Park,8.9,36.7459321,3.104403,80,"{ ""mon"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""tue"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""wed"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""thu"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""fri"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""sat"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""sun"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+}",.,,,,,,,,,,,
+26,Sidi Fredj Marina,A picturesque marina and historical peninsula perfect for coastal dining and boat watching.,Beach,8.5,36.7637637,2.8471988,60,"{ ""mon"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""tue"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""wed"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""thu"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""fri"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""sat"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""sun"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+}",.,,,,,,,,,,,
+27,Musée Central de l'Armée,A massive military museum featuring historical artifacts tanks and aircraft located near the Martyrs' Memorial.,Museum,9,36.74266491,3.070282725,60,"{  ""mon"":[0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0],
+  ""tue"": [0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
+  ""wed"": [0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
+  ""thu"": [0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
+  ""fri"": [0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
+  ""sat"": [0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
+  ""sun"": [0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0]
+}",.https://lh3.googleusercontent.com/gps-cs-s/APNQkAHr_r0LI3uX9k-BkuCmyjDYbLOc9LiLU-evewX2fmlcVEQzaa-GTE8pNzL9BMozJEvuwGv_q_heDixUBxdVLxuZHrB4g-dMeQD7uPVK-_-k_XVc3eUwTjK8M2yOGsNlBHXzYxZF=w408-h306-k-no,.,,,,,,,,,,
+28,Zeralda Beach,A spacious sandy beach offering numerous tourist complexes and relaxation spots.,Beach,4,36.71389918,2.823384395,90,"{  ""mon"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""tue"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""wed"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""thu"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""fri"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""sat"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""sun"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0]
+}","https://www.google.com/maps/place/Zeralda+Beach/@36.7137788,2.8233844,3a,75y,90t/data=!3m8!1e5!3m6!1sCIHM0ogKEICAgICCwcW6lgE!2e10!3e10!6shttps:%2F%2Flh3.googleusercontent.com%2Fgps-cs-s%2FAPNQkAHwfpbmgKxZt0b51C4ulisUPGcj_zAZIwiJnB80NBExLSYb4mzmeqoXa7oLHJPYLv_Xs5RjeDf21weoPkn8u0yY6udrYWFo-QPMuhFWS_m2omWDcj3TPyan_dtrjXeD4nUkkIboKw%3Dw224-h398-k-no!7i640!8i1138!4m9!3m8!1s0x128fa3048630f1d1:0x452a46eeacd23d63!8m2!3d36.7137788!4d2.8233844!10e5!14m1!1BCgIgAQ!16s%2Fg%2F1tdhx53j?entry=ttu&g_ep=EgoyMDI2MDQxNS4wIKXMDSoASAFQAw%3D%3D#",.,,,,,,,,,,
+29,Ain Benian Coast,A rocky and scenic coastal stretch known for excellent seafood restaurants.,Beach,6.8,36.8028,2.923,90,"{  ""mon"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""tue"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""wed"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""thu"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""fri"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""sat"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""sun"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0]
+}",https://lh3.googleusercontent.com/gps-cs-s/APNQkAGNwxx-_jZil1f63X-4L-4WWPAHQtivLu-moiagZvwaLLHee6Nn71Tg6XDQCRDtLiWc2p-VE8KnQNWTSd5RDYdvdkFTXOG7lw0W_L2n3dS4kFpMAjQ5-Q0Gmp9r1rWngtr-Edu7=w408-h725-k-no,.,,,,,,,,,,
+30,Palais des Expositions (SAFEX),The sprawling main venue for international trade fairs auto shows and major cultural events.,Cultural Center & Event Venue,7.3,36.73448444,3.152326222,90,"{ ""mon"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
+  ""tue"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
+  ""wed"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
+  ""thu"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
+  ""fri"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
+  ""sat"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
+  ""sun"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0]
+}",.,,,,,,,,,,,
+31,Cathédrale du Sacré-Cœur d'Alger,A striking modern cathedral built in the 1950s designed to look like a cooling tower or a nomad's tent.,Cathedral,7.9,36.76445795,3.047466495,30,"{ ""mon"": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  ""tue"": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0],
+  ""wed"": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0],
+  ""thu"": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0],
+  ""fri"": [0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0],
+  ""sat"": [0,0,0,0,0,0,0,0,0,0,1,1,0,0,1,1,1,1,0,0,0,0,0,0],
+  ""sun"": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+}",https://lh3.googleusercontent.com/gps-cs-s/APNQkAElTRDyE1_g5IcBiH-mFg0hdMi90fNColaadxa-Zq5CztRRpZgsccKRcLE83dhIqnKPLogFvO_2ncb7vFmHYSiB9gDVlP4DUbYmSSdRH7bPB_R2BGZBEvkJzRSCCXEk1dXaBwpoRg=w408-h384-k-no,.,,,,,,,,,,
+32,Tifariti Park,A lush urban green space offering a tranquil escape from the bustling city.,Park,5,36.7651867,3.041913074,45,"{ ""mon"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0],
+  ""tue"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0],
+  ""wed"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0],
+  ""thu"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0],
+  ""fri"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0],
+  ""sat"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0],
+  ""sun"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0]
+}",.,,,,,,,,,,,
+33,Beirut Garden,A well-shaded family-friendly park known for its old trees and peaceful atmosphere.,Nature,5.2,36.76848187,3.046601422,45,"{ ""mon"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
+  ""tue"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
+  ""wed"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
+  ""thu"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
+  ""fri"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
+  ""sat"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
+  ""sun"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0]
+}",.,,,,,,,,,,,
+34,Dounia Park,A massive developing ecological park ideal for long walks and outdoor activities.,Park,4,36.7418848,2.9842636,60,"{ ""mon"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0],
+  ""tue"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0],
+  ""wed"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0],
+  ""thu"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0],
+  ""fri"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0],
+  ""sat"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0],
+  ""sun"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0]
+}",.https://lh3.googleusercontent.com/gps-cs-s/APNQkAHtUkfJUqlsuGwrbqjd15TjQGTv46YwPLbGBIHKW3xJlZLkgvCznGHFYWZroimQ6O501-1DxCD2DUO443j5VeWamXEDgUbBjD8LJqj7U5e9UM09C6ujTVqe01Z9C8KpVi2JMi5HzA=w408-h306-k-no,.,,,,,,,,,,
+35,Palais de la Culture Moufdi Zakaria,A prominent cultural center hosting exhibitions and events with breathtaking views of the bay.,Cultural Center & Event Venue,8.3,36.73766413,3.082030266,90,"{ ""mon"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0],
+  ""tue"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0],
+  ""wed"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0],
+  ""thu"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0],
+  ""fri"": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  ""sat"": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  ""sun"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0]
+}",.https://lh3.googleusercontent.com/gps-cs-s/APNQkAErBakRV0FUx5cumYes-prSAIb5hqDpWaoUJ3swGBkcgiR7Fwrzc8Um0D0S3JtcMuGF6NEEVax6f51GPWWJAoOucZsbwyaVirz5t60hFGFxzf667AK4ei2Sfyy2FO3O-U2UOq-qlA=w408-h304-k-no,.,,,,,,,,,,
+36,Musée National de la Marine,A fascinating museum located in the historic Amirauté building showcasing Algeria's rich naval history.,Museum,8.1,36.79416503,3.067292767,100,"{ ""mon"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0],
+  ""tue"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0],
+  ""wed"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0],
+  ""thu"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0],
+  ""fri"": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  ""sat"": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  ""sun"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0]
+}",.https://lh3.googleusercontent.com/gps-cs-s/APNQkAFa-DSouY3xGlDlJbbJLbeW0uiVAgJuBZufrzdqdiuQZqRPuFnPtGhiU8ujvbaUyD8n7vPDdKg74x72eIc4ArSeZkhj7ewe7S2raieGcqfDsmJRiwVjI1I4TM7gwXfD14s1Gz3A=w408-h255-k-no,.,,,,,,,,,,
+37,National Theatre Mahieddine Bachtarzi,A stunning performing arts venue located in a historic building.,Cultural Center & Event Venue,8.6,36.7812519,3.0600742,50,"{ ""mon"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0],
+  ""tue"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0],
+  ""wed"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0],
+  ""thu"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0],
+  ""fri"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0],
+  ""sat"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0],
+  ""sun"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0]
+}",.,,,,,,,,,,,
+38,Safir Mosque,A historic mosque situated within the winding alleys of the Casbah.,Mosque,6.8,36.7833129,3.05753,30,"{ ""mon"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""tue"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""wed"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""thu"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""fri"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""sat"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""sun"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0]
+}",.,,,,,,,,,,,
+39,Sidi Ramadan Mosque,Believed to be one of the oldest mosques in the Casbah area.,Mosque,6.5,36.7865243,3.0584051,30,"{ ""mon"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""tue"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""wed"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""thu"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""fri"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""sat"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""sun"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0]
+}",.,,,,,,,,,,,
+40,Ali Bitchin Mosque,A 17th-century mosque built by an Italian convert with a fascinating backstory.,Mosque,7.5,36.7861,3.0617,30,"{ ""mon"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""tue"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""wed"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""thu"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""fri"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""sat"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""sun"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0]
+}",.,,,,,,,,,,,
+41,El Barani Mosque,A beautiful historical mosque located near the entrance of the Casbah citadel.,Mosque,6,36.7844519,3.0557747,40,"{ ""mon"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""tue"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""wed"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""thu"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""fri"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""sat"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""sun"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0]
+}",.,,,,,,,,,,,
+42,Ben Farès Mosque,Originally the Great Synagogue of Algiers before being converted into a mosque.,Historical Site,7,36.7839,3.0586,30,"{ ""mon"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""tue"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""wed"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""thu"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""fri"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""sat"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""sun"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0]
+}",.,,,,,,,,,,,
+43,Ryadh El Feth,A vibrant commercial and cultural complex surrounding the Martyrs' Memorial.,Cultural Center & Event Venue,7.5,36.7444,3.0697,120,"{ ""mon"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0],
+  ""tue"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0],
+  ""wed"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0],
+  ""thu"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0],
+  ""fri"": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  ""sat"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0],
+  ""sun"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0]
+}",.,,,,,,,,,,,
+45,Hydra Square,The upscale center of the Hydra district known for chic cafes and restaurants.,Public Square,8.2,36.7461,3.0289,40,"{ ""mon"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""tue"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""wed"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""thu"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""fri"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""sat"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""sun"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+}",.,,,,,,,,,,,
+46,El Kettani Beach,A popular urban beach located in the Bab El Oued neighborhood.,Beach,4.5,36.7925,3.0536,80,"{ ""mon"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""tue"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""wed"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""thu"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""fri"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""sat"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""sun"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+}",.,,,,,,,,,,,
+47,Bouchaoui Forest,A dense and highly popular forest area used by locals for jogging and picnics.,Nature,8.6,36.7597514,2.9132367,110,"{ ""mon"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""tue"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""wed"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""thu"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""fri"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""sat"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""sun"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+}",.,,,,,,,,,,,
+48,Bainem Forest,The largest forest in the Algiers province offering excellent hiking trails.,Nature,8.8,36.7965031,2.9691428,105,"{ ""mon"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""tue"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""wed"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""thu"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""fri"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""sat"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""sun"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+}",.,,,,,,,,,,,
+49,Bab Azzoun Street,A famous historic shopping street lined with French-colonial arcades.,Historical Site,6.5,36.7819,3.0603,75,"{ ""mon"": [0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
+  ""tue"": [0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
+  ""wed"": [0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
+  ""thu"": [0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
+  ""fri"": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  ""sat"": [0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
+  ""sun"": [0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0]
+}",.,,,,,,,,,,,
+50,Didouche Mourad Street,The vibrant commercial artery of Algiers featuring stunning Haussmannian architecture.,Public Square,8.5,36.7625697,3.0437059,90,"{ ""mon"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""tue"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""wed"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""thu"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""fri"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""sat"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""sun"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+}",.,,,,,,,,,,,
+51,Audin Square,A central and busy intersection famous for its bookstores and student life.,Public Square,8,36.7700561,3.0553706,25,"{ ""mon"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""tue"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""wed"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""thu"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""fri"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""sat"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""sun"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+}",.,,,,,,,,,,,
+52,Algiers Opera House,A modern state-of-the-art venue hosting symphonies and theatrical performances.,Cultural Center & Event Venue,6,36.7328,2.9247,90,"{ ""mon"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0],
+  ""tue"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0],
+  ""wed"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0],
+  ""thu"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0],
+  ""fri"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0],
+  ""sat"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0],
+  ""sun"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0]
+}",.,,,,,,,,,,,
+53,National Library of Algeria,A massive cultural institution with extensive archives overlooking the bay.,Cultural Center & Event Venue,8.5,36.7484164,3.0719156,50,"{ ""mon"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0],
+  ""tue"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0],
+  ""wed"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0],
+  ""thu"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0],
+  ""fri"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0],
+  ""sat"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0],
+  ""sun"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0]
+}",.,,,,,,,,,,,
+54,Monument to the Dead of Algiers,A solemn monument paying tribute to those who lost their lives in World War I.,Monument,3.8,36.773,3.055,10,"{ ""mon"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""tue"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""wed"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""thu"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""fri"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""sat"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  ""sun"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+}",.,,,,,,,,,,,
+55,City Center Mall,"A modern retail and lifestyle complex offering a variety of international and local stores, diverse dining options, and a large Carrefour hypermarket",Shopping/Mall,6.2,36.72954476,3.178308308,40,"{""mon"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""tue"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""wed"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""thu"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
+  ""fri"": [0,0,0,0,0,0,0,0,0,1,1,1,1,0,1,1,1,1,1,1,1,1,1,0],
+  ""sat"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""sun"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0]
+}",.,,,,,,,,,,,
+56,Cinéma Algeria,"A beautifully renovated historic cinema located right in the heart of the capital on the famous Rue Didouche Mourad, known for screening both recent Algerian and international films.",Cultural Center & Event Venue,6.5,36.7663,3.0538,90,"{ ""mon"": [0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0],
+  ""tue"": [0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0],
+  ""wed"": [0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0],
+  ""thu"": [0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0],
+  ""fri"": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  ""sat"": [0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0],
+  ""sun"": [0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0]
+}",.,,,,,,,,,,,
+57,Sidi Abdellah Water Park,"A family-friendly aquatic and amusement park located in the Mahelma (Sidi Abdellah) area, offering swimming pools and water slides to cool off during the hot summer months
+",Park,5,36.6668,2.8751,60,"{ ""mon"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
+  ""tue"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
+  ""wed"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
+  ""thu"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
+  ""fri"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
+  ""sat"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
+  ""sun"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0]
+}",.,,,,,,,,,,,
+58,Garden City Mall,A beautifully designed modern open-air shopping and lifestyle center located in Cheraga.,Shopping/Mall,9.2,36.75797738,2.947634713,90,"{ ""mon"": [1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0],
+  ""tue"": [1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0],
+  ""wed"": [1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0],
+  ""thu"": [1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0],
+  ""fri"": [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0],
+  ""sat"": [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0],
+  ""sun"": [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0]
+}",.,,,,,,,,,,,
+59,Ardis Mall,A massive commercial center featuring retail stores a hypermarket and a waterfront promenade.,Shopping/Mall,7.6,36.74014779,3.143229505,80,"{ ""mon"": [0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0],
+  ""tue"": [0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0],
+  ""wed"": [0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0],
+  ""thu"": [0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0],
+  ""fri"": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0],
+  ""sat"": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0],
+  ""sun"": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0]
+}",.,,,,,,,,,,,
+60,Bab Ezzouar Mall,One of the largest and most popular enclosed shopping and entertainment centers in Algiers.,Shopping/Mall,8.5,36.71202728,3.197197193,90,"{ ""mon"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""tue"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""wed"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""thu"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""fri"": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0],
+  ""sat"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+  ""sun"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0]
+}",.https://lh3.googleusercontent.com/gps-cs-s/APNQkAEwm_IUy4O36C4EsH1y34n6UA5QG_6oNNA0ig7B3NMQyJ5TttDbe20VgyoxsACPYDEPCNaJu2gCkwGqbed7aRJdR3HFrFJ3jhxvMIdCFRJAgL7vfvo_CBWIMHQmejiV-NatAt6WH3CQhP-1=w408-h272-k-no,.,,,,,,,,,,
