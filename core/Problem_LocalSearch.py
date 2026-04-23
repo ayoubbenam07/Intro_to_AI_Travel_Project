@@ -233,7 +233,7 @@ class TravelProblem_LocalSearch:
         Calculates the Great-Circle (Haversine) distance
         Accepts both Landmark and Hotel objects (duck typing) since both have .lat and .lon.
         """
-
+        
         # radius of earth in kilometers 
         R = 6371.0
         lat1 = math.radians(loc1.lat)
