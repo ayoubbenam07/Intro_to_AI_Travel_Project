@@ -41,9 +41,9 @@ class Landmark:
     def is_open(self, day: str, arrival_minutes: float) -> bool:
         """
         Checks if the landmark is open for the entire visit duration.
-
+    
         Args:
-            day (str): Day abbreviation e.g. 'mon', 'tue'
+            day(str): Day abbreviation e.g. 'mon', 'tue'
             arrival_minutes (float): Arrival time in minutes from midnight
                                     e.g. 540 = 09:00, 545.7 = 09:05:42
 
