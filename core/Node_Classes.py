@@ -79,5 +79,6 @@ class Hotel:
 
     def __init__(self, name, lon, lat):
         self.id = name
+        self.name = name
         self.lon = lon
         self.lat = lat
