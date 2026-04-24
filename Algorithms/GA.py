@@ -22,30 +22,56 @@ class Genetic_Algorithm:
     # Generating Population
 
     def generate_population(self):
-        # printing = f"Generating initial population of size {self.population_size}..."
-        # print(printing)
+          
         population = []
+        trip_start_time = 8.0  
         for _ in range(self.population_size):
             shuffled = self.problem.landmarks[:]
             random.shuffle(shuffled)
             individual = []
-            total_time = 0
+            current_time = trip_start_time * 60  
+
             for landmark in shuffled:
-                if not individual:  
-                    time_to_landmark = self.problem.time_matrix[self.problem.hotel.id][landmark.name]
+                if not individual:
+                    travel_mins = self.problem.time_matrix[self.problem.hotel.id][landmark.name]
                 else:
-                    time_to_landmark = self.problem.time_matrix[individual[-1].name][landmark.name]
-                visit_time = landmark.visit_duration
-                time_to_hotel = self.problem.time_matrix[landmark.name][self.problem.hotel.id]
-                projected_total = total_time + time_to_landmark + visit_time + time_to_hotel
-                if projected_total > self.problem.max_travel_time:
+                    travel_mins = self.problem.time_matrix[individual[-1].name][landmark.name]
+
+                arrival_time = current_time + travel_mins
+
+                # If closed at arrival, try waiting until it opens
+                if not landmark.is_open(self.problem.Travel_day, arrival_time % 1440):
+                    opening = landmark.opening_hours[self.problem.Travel_day]
+                    if opening is None:
+                        continue
+                    hour = int(arrival_time // 60) + 1
+                    waited = False
+                    while hour < 24:
+                        if opening[hour % 24] == 1:
+                            wait_arrival = hour * 60
+                            return_mins = self.problem.time_matrix[landmark.name][self.problem.hotel.id]
+                            finish_time = wait_arrival + landmark.visit_duration + return_mins
+                            if (finish_time / 60) - trip_start_time <= self.problem.max_travel_time:
+                                arrival_time = wait_arrival
+                                waited = True
+                            break
+                        hour += 1
+                    if not waited:
+                        continue
+
+                if self.problem.type_filter and landmark.landmark_type not in self.problem.type_filter:
                     continue
+
+                return_mins = self.problem.time_matrix[landmark.name][self.problem.hotel.id]
+                finish_time = arrival_time + landmark.visit_duration + return_mins
+                if (finish_time / 60) - trip_start_time > self.problem.max_travel_time:
+                    continue
+
                 individual.append(landmark)
-                total_time += time_to_landmark + visit_time
+                current_time = arrival_time + landmark.visit_duration
+
             population.append(individual)
-        # print(f"Initial population generated with {len(population)} valid individuals.")
         return population
-    
 
     # Fitness Function
 
@@ -77,14 +103,17 @@ class Genetic_Algorithm:
 
 
     def roulette_wheel_selection(self):
-        fitnesses = [self.calculate_fitness(individual) for individual in self.population]
+        fitnesses = [max(0, self.calculate_fitness(individual)) for individual in self.population]
         total_fitness = sum(fitnesses)
+        if total_fitness == 0:
+            return random.choice(self.population)
         R = random.uniform(0, total_fitness)
         cumulative_fitness = 0
         for individual, fitness in zip(self.population, fitnesses):
             cumulative_fitness += fitness
             if cumulative_fitness >= R:
                 return individual
+        return self.population[-1]
 
 
     def rank_selection(self):
@@ -97,19 +126,24 @@ class Genetic_Algorithm:
             cumulative_sum += (i + 1)
             if cumulative_sum >= R:
                 return individual
+        return sorted_population[-1]
 
 
     # Crossover Methods
 
     # not good for our problem since it can produce invalid sols ( contains duplications)
     def one_point_crossover(self, parent1: List['Landmark'], parent2: List['Landmark']):
+        if min(len(parent1), len(parent2)) < 2:
+            return parent1[:], parent2[:]
         point = random.randint(1, min(len(parent1), len(parent2)) - 1)
         child1 = parent1[:point] + parent2[point:]
         child2 = parent2[:point] + parent1[point:]
         return child1, child2
-
+    
     # the same problem as one-point-crossover
     def two_point_crossover(self, parent1: List['Landmark'], parent2: List['Landmark']):
+        if min(len(parent1), len(parent2)) < 3:
+            return parent1[:], parent2[:]
         point1 = random.randint(1, min(len(parent1), len(parent2)) - 2)
         point2 = random.randint(point1 + 1, min(len(parent1), len(parent2)) - 1)
         point1, point2 = min(point1, point2), max(point1, point2)
@@ -118,6 +152,8 @@ class Genetic_Algorithm:
         return child1, child2
 
     def pmx_crossover(self, parent1: List['Landmark'], parent2: List['Landmark']):
+        if min(len(parent1), len(parent2)) < 2:
+            return parent1[:], parent2[:]
         point1, point2 = sorted(random.sample(range(min(len(parent1), len(parent2))), 2))
         child1 = [None] * len(parent1)
         child2 = [None] * len(parent2)
@@ -140,10 +176,12 @@ class Genetic_Algorithm:
                 child2[i] = gene
 
         return child1, child2
-
+    
 
     def order_crossover(self, parent1: List['Landmark'], parent2: List['Landmark']):
         limit = min(len(parent1), len(parent2))
+        if limit < 2:
+            return parent1[:], parent2[:]
         p1, p2 = sorted(random.sample(range(limit), 2))
 
         child1 = [None] * len(parent1)
@@ -189,7 +227,7 @@ class Genetic_Algorithm:
                 used2.add(gene)
 
         return child1, child2
-
+    
 
     # unfortunately works only when the size of the parents is the same
     def cycle_crossover_for_permutations(self, parent1: List['Landmark'], parent2: List['Landmark']):
@@ -262,7 +300,8 @@ class Genetic_Algorithm:
     # works for different size of parents
     def edge_recombination_crossover(self, parent1: List['Landmark'], parent2: List['Landmark'], neighborhood_selection: Literal['linear', 'circular'] = 'linear'):
             if not parent1 or not parent2:
-                return parent1[:], parent2[:]
+                return (parent1 or [])[:], (parent2 or [])[:] 
+
             child_length = max(len(parent1), len(parent2))
 
             # Child 1 
@@ -327,21 +366,21 @@ class Genetic_Algorithm:
     # Mutation Methods
 
     def swap_mutation(self, individual: List['Landmark']):
-        if (random.random() < self.mutation_rate):
+        if len(individual) >= 2 and random.random() < self.mutation_rate:
             idx1, idx2 = random.sample(range(len(individual)), 2)
             individual[idx1], individual[idx2] = individual[idx2], individual[idx1]
         return individual
 
 
     def inversion_mutation(self, individual: List['Landmark']):
-        if (random.random() < self.mutation_rate):
+        if len(individual) >= 2 and random.random() < self.mutation_rate:
             idx1, idx2 = sorted(random.sample(range(len(individual)), 2))
             individual[idx1:idx2 + 1] = reversed(individual[idx1:idx2 + 1])
         return individual
 
 
     def scramble_mutation(self, individual: List['Landmark']):
-        if(random.random() < self.mutation_rate):
+        if len(individual) >= 2 and random.random() < self.mutation_rate:
             idx1, idx2 = sorted(random.sample(range(len(individual)), 2))
             subset = individual[idx1:idx2 + 1]
             random.shuffle(subset)
@@ -380,24 +419,37 @@ class Genetic_Algorithm:
 
     # The evolvement loop
 
-    def evolve(self, selection_method: Literal['tournament', 'roulette', 'rank'], crossover_method: Literal['one_point', 'two_point', 'pmx', 'order', 'cycle', 'edge_recombination'], mutation_method: Literal['swap', 'inversion', 'scramble', 'insertion', 'deletion', 'displacement'], tournament_size: int = 5, neighborhood_selection: Literal['linear', 'circular' ] = 'linear', elitism_rate: float = 0.1):
-        self.population = sorted(self.population, key=lambda x: self.calculate_fitness(x), reverse=True)
+    def evolve(self, selection_method, crossover_method, mutation_method,
+           tournament_size=5, neighborhood_selection='linear', elitism_rate=0.1):
+    
+        self.population = sorted(self.population, key=self.calculate_fitness, reverse=True)
         best_overall = self.population[0]
-        num_elitists = int(self.population_size * elitism_rate)
+        num_elitists = max(1, int(self.population_size * elitism_rate))
+    
+
         for generation in range(self.generations):
-            # ellitism step
+
             new_population = self.population[:num_elitists]
+            
+            max_attempts = self.population_size * 10  # ← guard against infinite loop
+            attempts = 0
+    
             while len(new_population) < self.population_size:
+                attempts += 1
+                if attempts > max_attempts:
+                    
+                    break
+                
                 if selection_method == 'tournament':
                     parent1 = self.tournament_selection(tournament_size)
                     parent2 = self.tournament_selection(tournament_size)
                 elif selection_method == 'roulette':
                     parent1 = self.roulette_wheel_selection()
                     parent2 = self.roulette_wheel_selection()
-                elif selection_method == 'rank':
+                else:
                     parent1 = self.rank_selection()
                     parent2 = self.rank_selection()
-
+    
                 if crossover_method == 'one_point':
                     child1, child2 = self.one_point_crossover(parent1, parent2)
                 elif crossover_method == 'two_point':
@@ -407,43 +459,37 @@ class Genetic_Algorithm:
                 elif crossover_method == 'order':
                     child1, child2 = self.order_crossover(parent1, parent2)
                 elif crossover_method == 'cycle':
-                    if len(parent1) != len(parent2):
-                        child1, child2 = parent1[:], parent2[:]
-                    else:
-                        child1, child2 = self.cycle_crossover(parent1, parent2)
-                elif crossover_method == 'edge_recombination':
+                    child1, child2 = self.cycle_crossover(parent1, parent2)
+                else:
                     child1, child2 = self.edge_recombination_crossover(parent1, parent2, neighborhood_selection)
-
+    
                 if mutation_method == 'swap':
-                    child1 = self.swap_mutation(child1)
-                    child2 = self.swap_mutation(child2)
+                    child1, child2 = self.swap_mutation(child1), self.swap_mutation(child2)
                 elif mutation_method == 'inversion':
-                    child1 = self.inversion_mutation(child1)
-                    child2 = self.inversion_mutation(child2)
+                    child1, child2 = self.inversion_mutation(child1), self.inversion_mutation(child2)
                 elif mutation_method == 'scramble':
-                    child1 = self.scramble_mutation(child1)
-                    child2 = self.scramble_mutation(child2)
+                    child1, child2 = self.scramble_mutation(child1), self.scramble_mutation(child2)
                 elif mutation_method == 'insertion':
-                    child1 = self.insertion_mutation(child1)
-                    child2 = self.insertion_mutation(child2)
+                    child1, child2 = self.insertion_mutation(child1), self.insertion_mutation(child2)
                 elif mutation_method == 'deletion':
-                    child1 = self.deletion_mutation(child1)
-                    child2 = self.deletion_mutation(child2)
-                elif mutation_method == 'displacement':
-                    child1 = self.displacement_mutation(child1)
-                    child2 = self.displacement_mutation(child2)
+                    child1, child2 = self.deletion_mutation(child1), self.deletion_mutation(child2)
+                else:
+                    child1, child2 = self.displacement_mutation(child1), self.displacement_mutation(child2)
+
+                child1 = self.repair_individual(child1)
+                child2 = self.repair_individual(child2)
+
+
                 if self.is_valid_individual(child1):
                     new_population.append(child1)
                 if len(new_population) < self.population_size and self.is_valid_individual(child2):
                     new_population.append(child2)
-                
-            
+    
             self.population = sorted(new_population[:self.population_size], key=self.calculate_fitness, reverse=True)
-
+    
             if self.calculate_fitness(self.population[0]) > self.calculate_fitness(best_overall):
                 best_overall = self.population[0][:]
-
-            # print(f"Gen {generation+1}: Best Fitness = {self.calculate_fitness(best_overall):.6f}")
+    
         return best_overall
 
 
@@ -470,7 +516,9 @@ class Genetic_Algorithm:
 
         total_time += self.problem.time_matrix[itinerary[-1].name][self.problem.hotel.id]
 
-        return total_time
+        return total_time / 60
+    
+    
 
 
     def erx_neighbor_map(self, parent1: List['Landmark'], parent2: List['Landmark'], neighborhood_selection: Literal['linear', 'circular' ] = 'linear'):
@@ -491,29 +539,90 @@ class Genetic_Algorithm:
 
 
     def is_valid_individual(self, individual: List['Landmark']) -> bool:
+        # if not individual:
+        #     return False
+        # if None in individual:
+        #     return False
+        # if len(set(lm.id for lm in individual)) != len(individual):
+        #     return False
+        # return True
+        return self.problem.valid_state(individual, hard_constraints=True)
+    
+
+    def repair_individual(self, individual: List['Landmark']):
         if not individual:
-            return False
-        if None in individual:
-            return False
-        if len(set(lm.id for lm in individual)) != len(individual):
-            return False
-        return True
+            return individual
+    
+        # Remove None values and duplicates first
+        seen_ids = set()
+        cleaned = []
+        for lm in individual:
+            if lm is not None and lm.id not in seen_ids:
+                cleaned.append(lm)
+                seen_ids.add(lm.id)
+    
+        # Drop landmarks that violate the type filter (they can never be valid)
+        if self.problem.type_filter:
+            cleaned = [lm for lm in cleaned if lm.landmark_type in self.problem.type_filter]
+    
+        trip_start_time = 8.0  
+        current_time = trip_start_time * 60  
+        repaired = []
+    
+        for landmark in cleaned:
+            if not repaired:
+                travel_mins = self.problem.time_matrix[self.problem.hotel.id][landmark.name]
+            else:
+                travel_mins = self.problem.time_matrix[repaired[-1].name][landmark.name]
+    
+            arrival_time = current_time + travel_mins
+    
+            # If closed at arrival, try waiting until it opens
+            if not landmark.is_open(self.problem.Travel_day, arrival_time % 1440):
+                opening = landmark.opening_hours[self.problem.Travel_day]
+                if opening is None:
+                    continue
+                hour = int(arrival_time // 60) + 1
+                waited = False
+                while hour < 24:
+                    if opening[hour % 24] == 1:
+                        wait_arrival = hour * 60
+                        return_mins = self.problem.time_matrix[landmark.name][self.problem.hotel.id]
+                        finish_time = wait_arrival + landmark.visit_duration + return_mins
+                        if (finish_time / 60) - trip_start_time <= self.problem.max_travel_time:
+                            arrival_time = wait_arrival
+                            waited = True
+                        break
+                    hour += 1
+                if not waited:
+                    continue
+                
+            if self.problem.type_filter and landmark.landmark_type not in self.problem.type_filter:
+                continue
+            
+            return_mins = self.problem.time_matrix[landmark.name][self.problem.hotel.id]
+            finish_time = arrival_time + landmark.visit_duration + return_mins
+            if (finish_time / 60) - trip_start_time > self.problem.max_travel_time:
+                continue
+            
+            repaired.append(landmark)
+            current_time = arrival_time + landmark.visit_duration
+    
+        return repaired
+    
 
-
-
-
-
+    
 # SMALL TESTING FOR DEBUGGIN :)
 
 # landmarks = get_landmarks()
 # hotels = get_hotels()
 # time_matrix = get_time_matrix()
 
-# selection_methods = ['tournament','roulette', 'rank']
-# crossover_methods = ['one_point', 'two_point', 'pmx', 'order', 'cycle', 'edge_recombination']
-# mutation_methods = ['swap', 'inversion', 'scramble', 'insertion', 'deletion', 'displacement']
+# selection_methods = [ 'tournament', 'roulette', 'rank']
+# crossover_methods = [ 'one_point', 'two_point', 'pmx','order', 'cycle', 'edge_recombination']
+# mutation_methods = ['insertion', 'deletion', 'displacement', 'swap', 'inversion', 'scramble']
 
-# problem = TravelProblem_LocalSearch(landmarks, travel_information={ 'hotel': hotels[5], 'time_matrix': time_matrix, 'Travel_Time': 12*60, 'Travel_day': 'Mon', 'type_filter': None, 'Landmarks_number': None })
+# problem = TravelProblem_LocalSearch(landmarks, travel_information={ 'hotel': hotels[0], 'time_matrix': time_matrix, 'Travel_Time': 12, 'Travel_day': 'fri', 'type_filter': None, 'Landmarks_number': None })
 # My_Algorithm = Genetic_Algorithm(problem, population_size=100, generations=100, mutation_rate=0.1)
 # for selection in selection_methods:
 #     for crossover in crossover_methods:
@@ -522,4 +631,4 @@ class Genetic_Algorithm:
 #             My_Algorithm = Genetic_Algorithm(problem, population_size=100, generations=100, mutation_rate=0.1)
 #             print(f"\nRunning GA with Selection: {selection}, Crossover: {crossover}, Mutation: {mutation}")
 #             best_itinerary = My_Algorithm.evolve(selection_method=selection, crossover_method=crossover, mutation_method=mutation, tournament_size=5, neighborhood_selection='linear', elitism_rate=0.2)
-#             print("Best Itinerary:", hotels[5], [landmark.name for landmark in best_itinerary], "Total Interest Score:", sum(landmark.interest_score for landmark in best_itinerary), "Total Time:", round(My_Algorithm.calculate_total_time(best_itinerary), 2))
+#             print("Best Itinerary:", hotels[0], [landmark.name for landmark in best_itinerary], "\nTotal Interest Score:", sum(landmark.interest_score for landmark in best_itinerary), "\nTotal Time:", round(My_Algorithm.calculate_total_time(best_itinerary), 2), '\nNumber of Landmarks:', len(best_itinerary))
