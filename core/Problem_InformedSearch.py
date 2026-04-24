@@ -37,7 +37,7 @@ class TravelProblem_InformedSearch:
 
             deadline = self.starting_time + self.time_budget
 
-            if (landmark.is_open_minutes(self.visiting_day, arrival_time) and return_time <= deadline):
+            if (landmark.is_open(self.visiting_day, arrival_time) and return_time <= deadline):
                 possible_actions.append(('visit', landmark.name))
         
         possible_actions.append(('return', self.hotel.name))

@@ -33,7 +33,7 @@ class TravelProblem_LocalSearch:
         # Extract user preferences and constraints
         self.hotel = travel_information['hotel']
         self.Travel_day = travel_information['Travel_day']
-        self.max_travel_time = travel_information['Travel_Time']
+        self.max_travel_time = travel_information['Travel_Time']  
         self.Landmarks_number = travel_information['Landmarks_number']
         self.type_filter = travel_information['type_filter']
         
@@ -56,8 +56,10 @@ class TravelProblem_LocalSearch:
         if len(set(lm.id for lm in state)) != len(state): 
             return False
         
-        trip_start_time = 8.0  # Assuming trips start at 8:00 AM and we can change it if we want 
-        current_hour = trip_start_time
+        trip_start_time = 8.0  # Assuming trips start at 8:00 AM and we can change it if we want
+
+        #current time with minutes  
+        current_time  = trip_start_time*60
         
         # 2. Iterate through the itinerary to track time and check constraints
         for i, landmark in enumerate(state):
@@ -67,26 +69,29 @@ class TravelProblem_LocalSearch:
                 travel_mins = self.time_matrix[self.hotel.id][landmark.name]
             else:
                 travel_mins = self.time_matrix[state[i-1].name][landmark.name]
-                
-            current_hour += (travel_mins / 60.0)
-            
+                           
+             #arrival time in minutes 
+            current_time += travel_mins
+
             # Check if landmark is open at arrival and exit times  
-            if not landmark.is_open(self.Travel_day, int(current_hour)): 
+            if not landmark.is_open(self.Travel_day, current_time ): 
                 return False
             
             if self.type_filter and landmark.landmark_type not in self.type_filter: 
                 return False
                 
-            # Add the duration spent visiting the landmark
-            current_hour += (landmark.visit_duration / 60.0)
+            # Add the duration spent visiting the landmark ( in minutes )
+            current_time += landmark.visit_duration 
 
         # 3. Add the return trip to the hotel
         return_mins = self.time_matrix[state[-1].name][self.hotel.id]
-        current_hour += (return_mins / 60.0)
         
+        current_time += return_mins 
+        
+        return_hour = current_time/60
         # 4. Hard Constraint: Did the total trip exceed the user's allowed time?
         if hard_constraints:
-            if (current_hour - trip_start_time) > self.max_travel_time:
+            if (return_hour - trip_start_time) > self.max_travel_time:
                 return False
             
         return True
@@ -211,24 +216,25 @@ class TravelProblem_LocalSearch:
         A lower resulting float indicates a better itinerary.
         """
         total_rating = 0
-        total_distance = 0 
+        total_travel_time = 0 
 
         for i, landmark in enumerate(state):
             total_rating += landmark.interest_score
             
-            # Distance from hotel to first landmark, or between landmarks
+            # Travel time from hotel to first landmark, or between landmarks
             if i == 0:
-                total_distance += self.distance(self.hotel, landmark)
+                total_travel_time += self.time_matrix[self.hotel.id][landmark.name]
             else:
-                total_distance += self.distance(state[i-1], landmark)
+                
+                total_travel_time += self.time_matrix[state[i-1].name][landmark.name]
 
-        # Distance from final landmark back to the hotel
-        total_distance += self.distance(state[-1], self.hotel)
+        # Travel time  from final landmark back to the hotel
+        total_travel_time += self.time_matrix[state[-1].name][self.hotel.id]
 
        
         #let the rating as the most importatn criteria 
         #the lower is better , it will be negative
-        score =  total_distance -1000*total_rating
+        score =  total_travel_time -1000*total_rating
         
         return score
     
