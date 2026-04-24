@@ -33,7 +33,10 @@ class TravelProblem_LocalSearch:
         # Extract user preferences and constraints
         self.hotel = travel_information['hotel']
         self.Travel_day = travel_information['Travel_day']
-        self.max_travel_time = travel_information['Travel_Time']  
+        self.max_travel_time = travel_information['Travel_Time'] 
+        if self.max_travel_time > 24 :
+            raise ValueError("travel time should be less than 24 hours !")
+
         self.Landmarks_number = travel_information['Landmarks_number']
         self.type_filter = travel_information['type_filter']
         
@@ -69,12 +72,13 @@ class TravelProblem_LocalSearch:
                 travel_mins = self.time_matrix[self.hotel.id][landmark.name]
             else:
                 travel_mins = self.time_matrix[state[i-1].name][landmark.name]
-                           
+                            
              #arrival time in minutes 
             current_time += travel_mins
 
             # Check if landmark is open at arrival and exit times  
-            if not landmark.is_open(self.Travel_day, current_time ): 
+            # % 1440 for minutes -> % 24 for hours 
+            if not landmark.is_open(self.Travel_day, ( current_time % 1440 ) ): 
                 return False
             
             if self.type_filter and landmark.landmark_type not in self.type_filter: 
