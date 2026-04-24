@@ -1,6 +1,7 @@
 import random
 import math
 from typing import List, Dict, Any
+from core.Node_Classes import Landmark, Hotel
 
 class TravelProblem_LocalSearch:
     """
@@ -43,11 +44,13 @@ class TravelProblem_LocalSearch:
         self.initial_state = self._generate_random_state()
 
 
-    def valid_state(self, state: List['Landmark']) -> bool:
+    def valid_state(self, state: List['Landmark'], hard_constraints: bool = True) -> bool:
         """
         Validates an itinerary based on time limits, opening hours, and category filters.
         """
         # 1. Quick Failure Checks: Null values or duplicate landmarks
+        if not state:
+            return False
         if None in state: 
             return False
         if len(set(lm.id for lm in state)) != len(state): 
@@ -71,9 +74,8 @@ class TravelProblem_LocalSearch:
             if not landmark.is_open(self.Travel_day, int(current_hour)): 
                 return False
             
-            if self.type_filter :
-                if landmark.landmark_type not in self.type_filter: 
-                 return False
+            if self.type_filter and landmark.landmark_type not in self.type_filter: 
+                return False
                 
             # Add the duration spent visiting the landmark
             current_hour += (landmark.visit_duration / 60.0)
@@ -82,9 +84,10 @@ class TravelProblem_LocalSearch:
         return_mins = self.time_matrix[state[-1].name][self.hotel.id]
         current_hour += (return_mins / 60.0)
         
-        # 4. total time between max time and max time -1 , eg : max time 3pm , good one :   2.7 pm
-        if (current_hour - trip_start_time) > self.max_travel_time or (current_hour - trip_start_time) < self.max_travel_time -1.1 :
-            return False
+        # 4. Hard Constraint: Did the total trip exceed the user's allowed time?
+        if hard_constraints:
+            if (current_hour - trip_start_time) > self.max_travel_time:
+                return False
             
         return True
     
