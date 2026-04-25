@@ -3,7 +3,7 @@ import math
 from typing import List, Optional
 from core.Node_Classes import Landmark
 from core.Problem_LocalSearch import TravelProblem_LocalSearch
-
+ 
 class Simulated_Annealing:
     """
     Simulated Annealing implementation for the Travel Guide problem.
