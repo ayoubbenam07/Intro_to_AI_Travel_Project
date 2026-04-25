@@ -23,6 +23,7 @@ class TravelProblem_LocalSearch:
                 - 'Landmarks_number': int (Number of landmarks the user wants to visit).
                 - 'type_filter': list[str] (Allowed categories, e.g., ['Museum', 'Park']).
                 - 'time_matrix': dict (Precomputed travel times in minutes between locations).
+                - 'trip_start_time': int ( the starting hour of the trip )
         """
         if not landmarks:
             raise ValueError("No list of landmarks provided!")
@@ -42,6 +43,7 @@ class TravelProblem_LocalSearch:
         
         # Important: The time matrix must be passed in to calculate real road travel times
         self.time_matrix = travel_information['time_matrix']
+        self.trip_start_time = travel_information['trip_start_time']
 
         # Generate the initial starting state (must be done AFTER setting rules)
         self.initial_state = self._generate_random_state()
@@ -58,11 +60,11 @@ class TravelProblem_LocalSearch:
             return False
         if len(set(lm.id for lm in state)) != len(state): 
             return False
-        
-        trip_start_time = 8.0  # Assuming trips start at 8:00 AM and we can change it if we want
+         
+
 
         #current time with minutes  
-        current_time  = trip_start_time*60
+        current_time  = self.trip_start_time*60
         
         # 2. Iterate through the itinerary to track time and check constraints
         for i, landmark in enumerate(state):
@@ -95,7 +97,7 @@ class TravelProblem_LocalSearch:
         return_hour = current_time/60
         # 4. Hard Constraint: Did the total trip exceed the user's allowed time?
         if hard_constraints:
-            if (return_hour - trip_start_time) > self.max_travel_time:
+            if (return_hour - self.trip_start_time) > self.max_travel_time or (return_hour - self.trip_start_time) < self.max_travel_time-2:
                 return False
             
         return True
