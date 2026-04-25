@@ -1,6 +1,9 @@
 # impelemnt everything in details with docuementations and comments
 
 import random
+import sys
+import os
+sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 from typing import List, Literal
 from utils.data_loader import get_landmarks, get_hotels, get_time_matrix
 from core.Problem_LocalSearch import TravelProblem_LocalSearch
@@ -24,7 +27,7 @@ class Genetic_Algorithm:
     def generate_population(self):
           
         population = []
-        trip_start_time = 8.0  
+        trip_start_time = self.problem.trip_start_time
         for _ in range(self.population_size):
             shuffled = self.problem.landmarks[:]
             random.shuffle(shuffled)
@@ -87,8 +90,6 @@ class Genetic_Algorithm:
         
         return fitness
 
-
-
     # Selection Methods
 
     def tournament_selection(self, tournament_size: int):
@@ -96,38 +97,31 @@ class Genetic_Algorithm:
         winner = tournament_players[0]
         winner_fitness = self.calculate_fitness(winner)
         for player in tournament_players[1:]:
-            if self.calculate_fitness(player) > winner_fitness:
+            current_fitness = self.calculate_fitness(player)
+            if current_fitness > winner_fitness:
                 winner = player
+                winner_fitness = current_fitness
         return winner
         
+    def roulette_wheel_selection(self, k: int):
+        
+        fitnesses = [max(0, self.calculate_fitness(ind)) for ind in self.population]
+        
+        if sum(fitnesses) == 0:
+            return random.choices(self.population, k=k)
+        
+        return random.choices(self.population, weights=fitnesses, k=k)
 
+    def rank_selection(self, k: int):
+            fitnesses = [self.calculate_fitness(ind) for ind in self.population]
+            
+            sorted_population = [ind for _, ind in sorted(zip(fitnesses, self.population), key=lambda pair: pair[0])]
 
-    def roulette_wheel_selection(self):
-        fitnesses = [max(0, self.calculate_fitness(individual)) for individual in self.population]
-        total_fitness = sum(fitnesses)
-        if total_fitness == 0:
-            return random.choice(self.population)
-        R = random.uniform(0, total_fitness)
-        cumulative_fitness = 0
-        for individual, fitness in zip(self.population, fitnesses):
-            cumulative_fitness += fitness
-            if cumulative_fitness >= R:
-                return individual
-        return self.population[-1]
+            ranks = list(range(1, len(self.population) + 1))
+            
+            parents = random.choices(sorted_population, weights=ranks, k=k)
 
-
-    def rank_selection(self):
-        fitnesses = [self.calculate_fitness(individual) for individual in self.population]
-        sorted_population = [x for _, x in sorted(zip(fitnesses, self.population), key=lambda pair: pair[0])]
-        total_sum = self.population_size * (self.population_size + 1) / 2
-        R = random.uniform(0, total_sum)
-        cumulative_sum = 0
-        for i, individual in enumerate(sorted_population):
-            cumulative_sum += (i + 1)
-            if cumulative_sum >= R:
-                return individual
-        return sorted_population[-1]
-
+            return parents
 
     # Crossover Methods
 
@@ -175,8 +169,7 @@ class Genetic_Algorithm:
                     gene = mapping2[gene]
                 child2[i] = gene
 
-        return child1, child2
-    
+        return child1, child2 
 
     def order_crossover(self, parent1: List['Landmark'], parent2: List['Landmark']):
         limit = min(len(parent1), len(parent2))
@@ -228,7 +221,6 @@ class Genetic_Algorithm:
 
         return child1, child2
     
-
     # unfortunately works only when the size of the parents is the same
     def cycle_crossover_for_permutations(self, parent1: List['Landmark'], parent2: List['Landmark']):
         cycle = []
@@ -294,8 +286,7 @@ class Genetic_Algorithm:
         child1 = child1_common + all_unique[:half + len(all_unique) % 2]
         child2 = child2_common + all_unique[half + len(all_unique) % 2:]
 
-        return child1, child2
-    
+        return child1, child2    
 
     # works for different size of parents
     def edge_recombination_crossover(self, parent1: List['Landmark'], parent2: List['Landmark'], neighborhood_selection: Literal['linear', 'circular'] = 'linear'):
@@ -371,13 +362,11 @@ class Genetic_Algorithm:
             individual[idx1], individual[idx2] = individual[idx2], individual[idx1]
         return individual
 
-
     def inversion_mutation(self, individual: List['Landmark']):
         if len(individual) >= 2 and random.random() < self.mutation_rate:
             idx1, idx2 = sorted(random.sample(range(len(individual)), 2))
             individual[idx1:idx2 + 1] = reversed(individual[idx1:idx2 + 1])
         return individual
-
 
     def scramble_mutation(self, individual: List['Landmark']):
         if len(individual) >= 2 and random.random() < self.mutation_rate:
@@ -386,8 +375,6 @@ class Genetic_Algorithm:
             random.shuffle(subset)
             individual[idx1:idx2 + 1] = subset
         return individual
-
-
 
     def insertion_mutation(self, individual: List['Landmark']):
         if random.random() < self.mutation_rate:
@@ -398,13 +385,11 @@ class Genetic_Algorithm:
                 individual.insert(insert_pos, added_landmark)
         return individual
 
-
     def deletion_mutation(self, individual: List['Landmark']):
         if len(individual) > 1 and random.random() < self.mutation_rate:
             delete_pos = random.randint(0, len(individual) - 1)
             individual.pop(delete_pos)
         return individual
-
 
     def displacement_mutation(self, individual: List['Landmark']):
         if len(individual) > 1 and random.random() < self.mutation_rate:
@@ -415,7 +400,6 @@ class Genetic_Algorithm:
             new_individual[insert_pos:insert_pos] = segment
             return new_individual
         return individual
-
 
     # The evolvement loop
 
@@ -444,11 +428,9 @@ class Genetic_Algorithm:
                     parent1 = self.tournament_selection(tournament_size)
                     parent2 = self.tournament_selection(tournament_size)
                 elif selection_method == 'roulette':
-                    parent1 = self.roulette_wheel_selection()
-                    parent2 = self.roulette_wheel_selection()
+                    parent1, parent2 = self.roulette_wheel_selection(2)
                 else:
-                    parent1 = self.rank_selection()
-                    parent2 = self.rank_selection()
+                    parent1, parent2 = self.rank_selection(2)
     
                 if crossover_method == 'one_point':
                     child1, child2 = self.one_point_crossover(parent1, parent2)
@@ -492,8 +474,6 @@ class Genetic_Algorithm:
     
         return best_overall
 
-
-
     # helper functions
 
     def calculate_total_distance(self, itinerary: List['Landmark']) -> float:
@@ -501,7 +481,6 @@ class Genetic_Algorithm:
         for i in range(len(itinerary) - 1):
             total_distance += self.problem.distance(itinerary[i], itinerary[i + 1])
         return total_distance
-    
 
     def calculate_total_time(self, itinerary: List['Landmark']) -> float:
         if not itinerary:
@@ -518,9 +497,6 @@ class Genetic_Algorithm:
 
         return total_time / 60
     
-    
-
-
     def erx_neighbor_map(self, parent1: List['Landmark'], parent2: List['Landmark'], neighborhood_selection: Literal['linear', 'circular' ] = 'linear'):
         unique_landmarks = set(parent1) | set(parent2)
         mapping = {landmark: set() for landmark in unique_landmarks}
@@ -537,7 +513,6 @@ class Genetic_Algorithm:
                     mapping[lm].add(parent[(i + 1) % n])
         return mapping
 
-
     def is_valid_individual(self, individual: List['Landmark']) -> bool:
         # if not individual:
         #     return False
@@ -548,7 +523,6 @@ class Genetic_Algorithm:
         # return True
         return self.problem.valid_state(individual, hard_constraints=True)
     
-
     def repair_individual(self, individual: List['Landmark']):
         if not individual:
             return individual
@@ -565,7 +539,7 @@ class Genetic_Algorithm:
         if self.problem.type_filter:
             cleaned = [lm for lm in cleaned if lm.landmark_type in self.problem.type_filter]
     
-        trip_start_time = 8.0  
+        trip_start_time = self.problem.trip_start_time
         current_time = trip_start_time * 60  
         repaired = []
     
@@ -622,7 +596,7 @@ class Genetic_Algorithm:
 # crossover_methods = [ 'one_point', 'two_point', 'pmx','order', 'cycle', 'edge_recombination']
 # mutation_methods = ['insertion', 'deletion', 'displacement', 'swap', 'inversion', 'scramble']
 
-# problem = TravelProblem_LocalSearch(landmarks, travel_information={ 'hotel': hotels[0], 'time_matrix': time_matrix, 'Travel_Time': 12, 'Travel_day': 'fri', 'type_filter': None, 'Landmarks_number': None })
+# problem = TravelProblem_LocalSearch(landmarks, travel_information={ 'hotel': hotels[0], 'time_matrix': time_matrix, 'Travel_Time': 12, 'Travel_day': 'fri', 'type_filter': None, 'Landmarks_number': None , 'trip_start_time': 8})
 # My_Algorithm = Genetic_Algorithm(problem, population_size=100, generations=100, mutation_rate=0.1)
 # for selection in selection_methods:
 #     for crossover in crossover_methods:
