@@ -52,6 +52,7 @@ class TravelProblem_LocalSearch:
     def valid_state(self, state: List['Landmark'], hard_constraints: bool = True) -> bool:
         """
         Validates an itinerary based on time limits, opening hours, and category filters.
+        Checks if the trip starts and ends at the hotel.
         """
         # 1. Quick Failure Checks: Null values or duplicate landmarks
         if not state:
@@ -60,44 +61,43 @@ class TravelProblem_LocalSearch:
             return False
         if len(set(lm.id for lm in state)) != len(state): 
             return False
-         
 
-
-        #current time with minutes  
-        current_time  = self.trip_start_time*60
+        # Current time with minutes  
+        current_time = self.trip_start_time * 60
         
         # 2. Iterate through the itinerary to track time and check constraints
         for i, landmark in enumerate(state):
-            
             # Add travel time to get to this landmark
             if i == 0:
+                # Travel from hotel to first landmark
                 travel_mins = self.time_matrix[self.hotel.id][landmark.name]
             else:
+                # Travel between landmarks
                 travel_mins = self.time_matrix[state[i-1].name][landmark.name]
                             
-             #arrival time in minutes 
+            # Arrival time in minutes 
             current_time += travel_mins
 
-            # Check if landmark is open at arrival and exit times  
-            # % 1440 for minutes -> % 24 for hours 
-            if not landmark.is_open(self.Travel_day, ( current_time % 1440 ) ): 
+            # Check if landmark is open at arrival
+            if not landmark.is_open(self.Travel_day, (current_time % 1440)): 
                 return False
             
             if self.type_filter and landmark.landmark_type not in self.type_filter: 
                 return False
                 
-            # Add the duration spent visiting the landmark ( in minutes )
+            # Add the duration spent visiting the landmark (in minutes)
             current_time += landmark.visit_duration 
 
-        # 3. Add the return trip to the hotel
+        # 3. Add the return trip to the hotel (Ensures it ends at hotel)
         return_mins = self.time_matrix[state[-1].name][self.hotel.id]
-        
         current_time += return_mins 
         
-        return_hour = current_time/60
+        return_hour = current_time / 60
+        
         # 4. Hard Constraint: Did the total trip exceed the user's allowed time?
         if hard_constraints:
-            if (return_hour - self.trip_start_time) > self.max_travel_time or (return_hour - self.trip_start_time) < self.max_travel_time-2:
+            duration = return_hour - self.trip_start_time
+            if duration > self.max_travel_time or duration < max(0, self.max_travel_time - 2):
                 return False
             
         return True
