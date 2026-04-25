@@ -6,13 +6,24 @@ class TravelProblem_InformedSearch:
         self,
         hotel: Hotel,
         landmarks: list[Landmark],
+        type_filter: list[str],
         time_matrix: dict[str, dict[str, float]],
         time_budget: int,
         starting_time: int,
         visiting_day: str,
     ):
         self.hotel = hotel
-        self.landmarks = landmarks
+        if len(type_filter) > 0:
+            lower_filter = [t.lower() for t in type_filter]
+
+            self.landmarks = [
+                landmark
+                for landmark in landmarks
+                if landmark.landmark_type.lower() in lower_filter
+            ]
+        else:
+            self.landmarks = landmarks
+        
         self.landmark_map = {l.name: l for l in landmarks}
         self.time_matrix = time_matrix
         self.time_budget = time_budget
