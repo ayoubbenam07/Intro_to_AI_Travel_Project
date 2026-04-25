@@ -622,7 +622,7 @@ class Genetic_Algorithm:
 # crossover_methods = [ 'one_point', 'two_point', 'pmx','order', 'cycle', 'edge_recombination']
 # mutation_methods = ['insertion', 'deletion', 'displacement', 'swap', 'inversion', 'scramble']
 
-# problem = TravelProblem_LocalSearch(landmarks, travel_information={ 'hotel': hotels[0], 'time_matrix': time_matrix, 'Travel_Time': 12, 'Travel_day': 'fri', 'type_filter': None, 'Landmarks_number': None })
+# problem = TravelProblem_LocalSearch(landmarks, travel_information={ 'hotel': hotels[0], 'time_matrix': time_matrix, 'Travel_Time': 12, 'Travel_day': 'fri', 'type_filter': None })
 # My_Algorithm = Genetic_Algorithm(problem, population_size=100, generations=100, mutation_rate=0.1)
 # for selection in selection_methods:
 #     for crossover in crossover_methods:

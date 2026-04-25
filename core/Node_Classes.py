@@ -37,7 +37,7 @@ class Landmark:
         self.landmark_type = landmark_type
 
     # check this , since we will be working with minutes and time matrix is in minutes we wont be doing conversion from min to hours
-    # please do not be MOTA3ASSIB
+
     def is_open(self, day: str, arrival_minutes: float) -> bool:
         """
         Checks if the landmark is open for the entire visit duration.
@@ -51,8 +51,9 @@ class Landmark:
             bool: True if landmark is open for every hour slot of the visit
         """
         opening = self.opening_hours[day]
-
+       
         if opening is None:
+            print("no openning hour provided")
             return False
 
         finish_minutes = arrival_minutes + self.visit_duration
@@ -67,8 +68,9 @@ class Landmark:
 
         for hour in range(arrival_hour, finish_hour + 1):
             if opening[hour % 24] == 0:
+                
                 return False
-
+        
         return True
 
 

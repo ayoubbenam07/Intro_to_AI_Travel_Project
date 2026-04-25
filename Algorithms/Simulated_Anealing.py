@@ -3,9 +3,9 @@ import math
 from typing import List, Optional
 from core.Node_Classes import Landmark
 from core.Problem_LocalSearch import TravelProblem_LocalSearch
- 
+
 class Simulated_Annealing:
-    """
+    """      
     Simulated Annealing implementation for the Travel Guide problem.
     It uses a cooling schedule to exploration and exploitation of the search space.
     """
@@ -50,11 +50,13 @@ class Simulated_Annealing:
         
         best_state = current_state
         best_fitness = current_fitness
-
+        
+       
         while self.temp > self.min_temp:
             # neighbors:
             neighbors = self.problem.generate_neighbors(current_state)
-            
+             
+
             if not neighbors:
                 break
 
@@ -85,11 +87,14 @@ class Simulated_Annealing:
                     current_state = neighbor
                     current_fitness = neighbor_fitness
 
-
+            
             # Cool down
             self.temp *= self.cooling_rate
-
+            
         return best_state
+    
+
 
     def __str__(self):
         return f"Simulated Annealing (Temp: {self.temp}, Cooling: {self.cooling_rate})"
+ 
