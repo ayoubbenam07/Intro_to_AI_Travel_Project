@@ -18,7 +18,7 @@ class TravelProblem_InformedSearch:
         self.starting_time = starting_time
         self.visiting_day = visiting_day
         self.initial_state = (self.hotel.name, frozenset(), self.starting_time) # (Current Position, Dict of visited, Current time)
-
+ 
     def get_landmark_by_name(self, name):
         return self.landmark_map.get(name)
     
