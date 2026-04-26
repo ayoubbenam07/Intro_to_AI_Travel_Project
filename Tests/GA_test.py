@@ -42,7 +42,7 @@ problem = TravelProblem_LocalSearch(
 )
 
 # ── parameters ───────────────────────────────────────────────────────────
-Generation_values   = [50, 100, 200]
+Generation_values   = [50, 75, 100, 125, 150, 175, 200]
 Mutation_rates      = [0.02, 0.04, 0.06, 0.08, 0.1, 0.12, 0.14, 0.16, 0.18, 0.2, 0.3]
 Selection_methods   = ['tournament', 'roulette', 'rank']
 Crossover_methods   = ['one_point', 'two_point', 'pmx', 'order', 'cycle', 'edge_recombination']
