@@ -18,12 +18,12 @@ class TravelProblem_LocalSearch:
             travel_information: A dictionary containing user preferences and constraints.
                 Expected keys:
                 - 'hotel': Hotel object (starting and ending point).
-                - 'Travel_day': three lettter string  (e.g., 'Mon' , 'Fri' ).
+                - 'Travel_day': three lettter string  (e.g., 'mon' , 'fri' ).
                 - 'Travel_Time': float (Max travel time allowed in hours).
-                - 'Landmarks_number': int (Number of landmarks the user wants to visit).
                 - 'type_filter': list[str] (Allowed categories, e.g., ['Museum', 'Park']).
                 - 'time_matrix': dict (Precomputed travel times in minutes between locations).
                 - 'trip_start_time': int ( the starting hour of the trip )
+
         """
         if not landmarks:
             raise ValueError("No list of landmarks provided!")
@@ -38,9 +38,10 @@ class TravelProblem_LocalSearch:
         if self.max_travel_time > 24 :
             raise ValueError("travel time should be less than 24 hours !")
 
-        self.Landmarks_number = travel_information['Landmarks_number']
+      
         self.type_filter = travel_information['type_filter']
-        
+
+        self.trip_start_time = travel_information['trip_start_time']
         # Important: The time matrix must be passed in to calculate real road travel times
         self.time_matrix = travel_information['time_matrix']
         self.trip_start_time = travel_information['trip_start_time']
@@ -49,7 +50,7 @@ class TravelProblem_LocalSearch:
         self.initial_state = self._generate_random_state()
 
 
-    def valid_state(self, state: List['Landmark'], hard_constraints: bool = True) -> bool:
+    def valid_state(self, state: List['Landmark'], hard_constraints: bool = True, is_building: bool = False) -> bool:
         """
         Validates an itinerary based on time limits, opening hours, and category filters.
         Checks if the trip starts and ends at the hotel.
@@ -64,13 +65,14 @@ class TravelProblem_LocalSearch:
 
         # Current time with minutes  
         current_time = self.trip_start_time * 60
-        
+
         # 2. Iterate through the itinerary to track time and check constraints
         for i, landmark in enumerate(state):
             # Add travel time to get to this landmark
             if i == 0:
                 # Travel from hotel to first landmark
                 travel_mins = self.time_matrix[self.hotel.id][landmark.name]
+               
             else:
                 # Travel between landmarks
                 travel_mins = self.time_matrix[state[i-1].name][landmark.name]
@@ -79,12 +81,13 @@ class TravelProblem_LocalSearch:
             current_time += travel_mins
 
             # Check if landmark is open at arrival
-            if not landmark.is_open(self.Travel_day, (current_time % 1440)): 
+            if not landmark.is_open(self.Travel_day, (current_time % 1440)):
                 return False
             
             if self.type_filter and landmark.landmark_type not in self.type_filter: 
                 return False
-                
+
+              
             # Add the duration spent visiting the landmark (in minutes)
             current_time += landmark.visit_duration 
 
@@ -96,9 +99,14 @@ class TravelProblem_LocalSearch:
         
         # 4. Hard Constraint: Did the total trip exceed the user's allowed time?
         if hard_constraints:
+
             duration = return_hour - self.trip_start_time
-            if duration > self.max_travel_time or duration < max(0, self.max_travel_time - 2):
+            if duration > self.max_travel_time :        
                 return False
+            
+            if not is_building:
+                if duration < max(0, self.max_travel_time - 2):
+                    return False
             
         return True
     
@@ -110,35 +118,27 @@ class TravelProblem_LocalSearch:
         
         """
         # using the landmark number if provided 
-        if self.Landmarks_number : 
-            state = [None for _ in range(self.Landmarks_number)]
-
-            attempts = 0
-
-            # Keep rolling until we find a combination that passes all constraints
-            while not self.valid_state(state) and attempts < 1000:
-                state = [random.choice(self.landmarks) for _ in range(self.Landmarks_number)] 
-                attempts+=1
-
-            if (attempts >  1000):raise ValueError("constraints for generation invalid")
-
+        
 
         # without using the landmark number    
-        else :
-            state = []
+        
+        state = []
 
-            failure = 0 
-            while failure < 10: 
-                try_state =  state[:]
-                item = random.choice(self.landmarks)
-                if item not in state : try_state.append(item)
-                if not self.valid_state(try_state) : 
+        failure = 0 
+        while failure < 500: 
+            try_state =  state.copy()
+            item = random.choice(self.landmarks)
+            if item not in state : 
+                try_state.append(item)
+            else :
+                continue
+
+            if not self.valid_state(try_state, is_building=True) : 
                     failure +=1 
                     continue
                 
-                state  = try_state                      
-
-
+            state = try_state 
+     
         return state
     
 
@@ -176,11 +176,10 @@ class TravelProblem_LocalSearch:
                     neighbors.add(tuple(state_copy))
 
 
-        # --- Dynamic Strategies: ADD and REMOVE ---
-        if not self.Landmarks_number:
+      
             
-            # --- Strategy 3: ADD a landmark ---
-            for new_item in self.landmarks:
+        # --- Strategy 3: ADD a landmark ---
+        for new_item in self.landmarks:
                 if new_item.id not in current_ids:
                     # Try inserting the new item at every possible step of the trip
                     # range(len(state) + 1) allows us to put it at the very start, middle, or very end
@@ -191,9 +190,9 @@ class TravelProblem_LocalSearch:
                         if self.valid_state(state_copy):
                             neighbors.add(tuple(state_copy))
 
-            # --- Strategy 4: REMOVE a landmark ---
-            # We should only allow removing if the trip has more than 1 stop left!
-            if len(state) > 1:
+        # --- Strategy 4: REMOVE a landmark ---
+         # We should only allow removing if the trip has more than 1 stop left!
+        if len(state) > 1:
                 for i in range(len(state)):
                     state_copy = state[:]
                     state_copy.pop(i)  # Remove the landmark at index i

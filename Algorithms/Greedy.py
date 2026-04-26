@@ -33,13 +33,15 @@ def greedy_search(problem: TravelProblem_InformedSearch):
 
 # small test -_-
 
-# landmarks = get_landmarks()
-# hotels = get_hotels()
-# time_matrix = get_time_matrix()
+landmarks = get_landmarks()
+hotels = get_hotels()
+time_matrix = get_time_matrix()
 
-# my_problem = TravelProblem_InformedSearch(
-#     hotels[0], landmarks, time_matrix, 720, 480, "fri"
-# )
+my_problem = TravelProblem_InformedSearch(
+    hotels[0], landmarks, ["mosque", "nature"], time_matrix, 720, 480, "fri"
+)
 # path = greedy_search(my_problem)
 # path_names = [(state[0], state[2]) for state in path]
 # print(path_names)
+for i in range(0, len(my_problem.landmarks) - 1):
+    print(my_problem.landmarks[i].name)
