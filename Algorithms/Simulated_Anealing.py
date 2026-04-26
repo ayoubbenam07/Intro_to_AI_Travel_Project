@@ -3,9 +3,9 @@ import math
 from typing import List, Optional
 from core.Node_Classes import Landmark
 from core.Problem_LocalSearch import TravelProblem_LocalSearch
- 
+
 class Simulated_Annealing:
-    """
+    """      
     Simulated Annealing implementation for the Travel Guide problem.
     It uses a cooling schedule to exploration and exploitation of the search space.
     """
@@ -27,16 +27,15 @@ class Simulated_Annealing:
 
     def calculate_fitness(self, state: List[Landmark]) -> float:
         """
-        Calculates the fitness of a state based on interest scores and penalties for constraints.
+        Calculates the fitness of a state by delegating to the problem's evaluate method.
         
-        Note: The cost function in SA typically looks for minimization, 
-        so we treat interest as a negative cost or maximize objective.
+        Note: The problem.evaluate() method in this project returns a value to be minimized
+        (lower is better), combining interest scores and travel time.
         """
         if not self.problem.valid_state(state):
-            return float('-inf')
+            return float('inf') # Return infinity for invalid states (minimization)
         
-        # total interest score
-        return sum(landmark.interest_score for landmark in state)
+        return self.problem.evaluate(state)
 
     def run(self) -> List[Landmark]:
         """
@@ -50,11 +49,13 @@ class Simulated_Annealing:
         
         best_state = current_state
         best_fitness = current_fitness
-
+        
+       
         while self.temp > self.min_temp:
             # neighbors:
             neighbors = self.problem.generate_neighbors(current_state)
-            
+             
+
             if not neighbors:
                 break
 
@@ -63,19 +64,19 @@ class Simulated_Annealing:
             neighbor_fitness = self.calculate_fitness(neighbor)
 
             # Task 3: Acceptance Logic using Boltzmann Probability formula (P = e^-deltaE/T)
-            # For maximization: deltaE = (Current Fitness - Neighbor Fitness)
-            # If neighbor is better (neighbor > current), deltaE is negative, P > 1 (always accept)
-            # If neighbor is worse (neighbor < current), deltaE is positive, P = e^(-deltaE/T)
+            # For minimization: deltaE = (Neighbor Fitness - Current Fitness)
+            # If neighbor is better (neighbor < current), deltaE is negative, P > 1 (always accept)
+            # If neighbor is worse (neighbor > current), deltaE is positive, P = e^(-deltaE/T)
             
-            delta_e = current_fitness - neighbor_fitness
+            delta_e = neighbor_fitness - current_fitness
 
             if delta_e < 0:
-                # Better solutionfound, always accept
+                # Better solution found, always accept
                 current_state = neighbor
                 current_fitness = neighbor_fitness
                 
                 # Update global best
-                if current_fitness > best_fitness:
+                if current_fitness < best_fitness:
                     best_state = neighbor
                     best_fitness = neighbor_fitness
             else:
@@ -85,11 +86,13 @@ class Simulated_Annealing:
                     current_state = neighbor
                     current_fitness = neighbor_fitness
 
-
             # Cool down
             self.temp *= self.cooling_rate
-
+            
         return best_state
+    
+
 
     def __str__(self):
         return f"Simulated Annealing (Temp: {self.temp}, Cooling: {self.cooling_rate})"
+ 

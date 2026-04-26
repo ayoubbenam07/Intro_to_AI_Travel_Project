@@ -13,7 +13,7 @@ LANDMARKS_PATH = _BASE_DIR / "dataset" / "landmarks" / "Algiers_Landmarks.csv"
 HOTELS_PATH = _BASE_DIR / "dataset" / "hotels" / "Algiers_hotels.csv"
 TIME_MATRIX_PATH = _BASE_DIR / "utils" / "time_matrix.json" 
 
-def get_landmarks(landmarks_path=LANDMARKS_PATH):
+def get_landmarks(landmarks_path=LANDMARKS_PATH)->List[Landmark]:
     """
     Reads a CSV file containing landmark data, sets the first column as the index,
     and returns the data as a dictionary of dictionaries.
@@ -40,9 +40,10 @@ def get_landmarks(landmarks_path=LANDMARKS_PATH):
             interest_score=row['Rating']
         )
         landmarks.append(landmark)
+       
     return landmarks
 
-def get_hotels(hotels_path=HOTELS_PATH):
+def get_hotels(hotels_path=HOTELS_PATH)->List[Hotel]:
     """
     Reads a CSV file containing hotel data, sets the first column as the index,
     and returns the data as a dictionary of dictionaries.
