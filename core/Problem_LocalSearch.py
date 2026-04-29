@@ -219,7 +219,7 @@ class TravelProblem_LocalSearch:
         The Fitness Function. 
         Minimizes distance while heavily maximizing the interest score.
         A lower resulting float indicates a better itinerary.
-        """
+        """ 
         total_rating = 0
         total_travel_time = 0 
 
@@ -239,7 +239,8 @@ class TravelProblem_LocalSearch:
        
         #let the rating as the most importatn criteria 
         #the lower is better , it will be negative
-        score =  total_travel_time -1000*total_rating
+        RATING_WEIGHT = 20
+        score =  total_travel_time -RATING_WEIGHT*total_rating
         
         return score
     
