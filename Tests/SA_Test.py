@@ -2,11 +2,9 @@ import sys
 import os
 import random
 import time
-import tracemalloc
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-import concurrent.futures
 
 # Setup paths
 project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -17,13 +15,13 @@ from core.Problem_LocalSearch import TravelProblem_LocalSearch
 from utils import data_loader
 
 # ==========================================
-# 1. LOAD DATA ONCE (Shared Memory)
+# 1. LOAD DATA ONCE
 # ==========================================
-print("Loading data into shared memory...")
+print("Loading data...")
 landmarks = data_loader.get_landmarks()
 hotels = data_loader.get_hotels()
 time_matrix = data_loader.get_time_matrix()
-days = ["mon","tue", "wed" ,"thu","fri","sat","sun"]
+days = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"]
 
 travel_information = {
     "hotel": random.choice(hotels),
@@ -34,128 +32,153 @@ travel_information = {
     "trip_start_time": 8
 }
 
+print(f"hotel : {travel_information["hotel"].name}")
+print(f"travel day : {travel_information["Travel_day"]}")
 # ==========================================
-# 2. THE WORKER FUNCTION (Runs on 1 Core)
-# ==========================================
-def run_single_config(config):
-    """
-    Tests one specific combination of parameters.
-    """
-    temp, cr, min_t, runs_per_config = config
-    scores, times, memories = [], [], []
-    
-    for _ in range(runs_per_config):
-        problem = TravelProblem_LocalSearch(landmarks, travel_information)
-        sa = Simulated_Annealing(problem, initial_temp=temp, cooling_rate=cr, min_temp=min_t)
-        
-        tracemalloc.start()
-        start_time = time.time()
-        
-        best_state = sa.run()
-        score = sa.calculate_fitness(best_state)
-        
-        exec_time = time.time() - start_time
-        current_mem, peak_mem = tracemalloc.get_traced_memory()
-        tracemalloc.stop()
-        
-        scores.append(score)
-        times.append(exec_time)
-        memories.append(peak_mem / 1024) # KB
-
-    return {
-        "Initial_Temp": temp,
-        "Cooling_Rate": cr,
-        "Min_Temp": min_t,
-        "Avg_Score": sum(scores) / len(scores),
-        "Avg_Time_Sec": sum(times) / len(times),
-        "Avg_Memory_KB": sum(memories) / len(memories)
-    }
-
-# ==========================================
-# 3. THE PLOTTING FUNCTION
+# 2. THE PLOTTING FUNCTION (Upgraded with Extra Heatmaps & Polygons)
 # ==========================================
 def plot_comprehensive_results(df):
-    """Generates and saves multiple analytical plots."""
+    """Generates and saves analytical plots covering all parameter relationships."""
     sns.set_theme(style="whitegrid")
     
-    # Get the directory where this script is located
     script_dir = os.path.dirname(os.path.abspath(__file__))
     results_folder = os.path.join(script_dir, "SA-test-results")
     
     if not os.path.exists(results_folder):
         os.makedirs(results_folder)
 
-    # PLOT 1: Fitness Score Matrix
+    # PLOT 1: Score Heatmap (Initial Temp vs Cooling Rate)
     plt.figure(figsize=(10, 8))
-    score_pivot = df.groupby(["Initial_Temp", "Cooling_Rate"])["Avg_Score"].mean().unstack()
+    score_pivot = df.groupby(["Initial_Temp", "Cooling_Rate"])["Score"].mean().unstack()
     sns.heatmap(score_pivot, annot=True, fmt=".1f", cmap="YlGnBu_r")
-    plt.title("Average Final Score (Lower is Better)")
-    plt.savefig(os.path.join(results_folder, "1_Fitness_Score_Heatmap.png"), dpi=300, bbox_inches='tight')
+    plt.title("Parameter Relation: Impact on FINAL SCORE (Lower = Better)")
+    plt.savefig(os.path.join(results_folder, "1_Score_Heatmap.png"), dpi=300, bbox_inches='tight')
     plt.close()
 
-    # PLOT 2: Time Complexity
+    # PLOT 2: Time Heatmap (Initial Temp vs Cooling Rate)
+    plt.figure(figsize=(10, 8))
+    time_pivot = df.groupby(["Initial_Temp", "Cooling_Rate"])["Time_Sec"].mean().unstack()
+    sns.heatmap(time_pivot, annot=True, fmt=".3f", cmap="Reds")
+    plt.title("Parameter Relation: Impact on EXECUTION TIME (Seconds)")
+    plt.savefig(os.path.join(results_folder, "2_Time_Heatmap.png"), dpi=300, bbox_inches='tight')
+    plt.close()
+
+    # PLOT 3: Visited Places Heatmap (Initial Temp vs Cooling Rate) -- NEW
+    plt.figure(figsize=(10, 8))
+    places_pivot = df.groupby(["Initial_Temp", "Cooling_Rate"])["Visited_Places"].mean().unstack()
+    sns.heatmap(places_pivot, annot=True, fmt=".0f", cmap="Greens")
+    plt.title("Parameter Relation: Average VISITED PLACES")
+    plt.savefig(os.path.join(results_folder, "3_Visited_Places_Heatmap.png"), dpi=300, bbox_inches='tight')
+    plt.close()
+
+    # PLOT 4: The Spread of Scores by Cooling Rate
     plt.figure(figsize=(10, 6))
-    sns.lineplot(data=df, x="Cooling_Rate", y="Avg_Time_Sec", hue="Min_Temp", marker="o", palette="viridis")
-    plt.title("Execution Time Impact: Cooling Rate vs Min Temp")
-    plt.ylabel("Execution Time (Seconds)")
-    plt.yscale("log") # Log scale for exponential growth
-    plt.savefig(os.path.join(results_folder, "2_Time_Complexity.png"), dpi=300, bbox_inches='tight')
+    sns.boxplot(data=df, x="Cooling_Rate", y="Score", hue="Initial_Temp", palette="Set2")
+    plt.title("Score Consistency based on Cooling Rate & Initial Temp")
+    plt.ylabel("Score (Lower is Better)")
+    plt.legend(title="Initial Temp", bbox_to_anchor=(1.05, 1), loc='upper left')
+    plt.savefig(os.path.join(results_folder, "4_Cooling_Rate_Spread.png"), dpi=300, bbox_inches='tight')
     plt.close()
 
-    # PLOT 3: Space Complexity
+    # PLOT 5: Number of Visited Places vs Score
     plt.figure(figsize=(10, 6))
-    sns.barplot(data=df, x="Cooling_Rate", y="Avg_Memory_KB", hue="Initial_Temp", palette="Set2")
-    plt.title("Peak Memory Usage (Space Complexity)")
-    plt.ylabel("Memory (KB)")
-    plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left', title="Initial Temp")
-    plt.savefig(os.path.join(results_folder, "3_Space_Complexity.png"), dpi=300, bbox_inches='tight')
+    sns.scatterplot(data=df, x="Visited_Places", y="Score", hue="Cooling_Rate", size="Initial_Temp", sizes=(50, 200), palette="deep", alpha=0.7)
+    plt.title("How Number of Places Relates to Score & Parameters")
+    plt.savefig(os.path.join(results_folder, "5_Places_vs_Score.png"), dpi=300, bbox_inches='tight')
     plt.close()
 
-    # PLOT 4: Min Temp Impact
+    # PLOT 6: Execution Time vs Number of Visited Places
     plt.figure(figsize=(10, 6))
-    sns.boxplot(data=df, x="Min_Temp", y="Avg_Score", palette="mako")
-    plt.title("How Minimum Temperature Bounds Impact Final Score")
-    plt.xlabel("Minimum Temperature (Stopping Criteria)")
-    plt.ylabel("Distribution of Scores (Lower is Better)")
-    plt.savefig(os.path.join(results_folder, "4_Min_Temp_Impact.png"), dpi=300, bbox_inches='tight')
+    sns.scatterplot(data=df, x="Visited_Places", y="Time_Sec", hue="Min_Temp", size="Cooling_Rate", sizes=(50, 200), palette="Set1", alpha=0.8)
+    plt.title("How Number of Places Relates to Execution Time")
+    plt.savefig(os.path.join(results_folder, "6_Places_vs_Time.png"), dpi=300, bbox_inches='tight')
     plt.close()
 
-    print(f"\nSUCCESS! 4 Comprehensive Plots have been saved to the '{results_folder}' folder.")
+    # PLOT 7: Polygon Hexbin Density (Time vs Score) -- NEW
+    hexplot = sns.jointplot(data=df, x="Time_Sec", y="Score", kind="hex", color="#4CB391", gridsize=15, cmap="viridis")
+    hexplot.fig.suptitle("Polygon Density: Execution Time vs Final Score", y=1.02)
+    plt.savefig(os.path.join(results_folder, "7_Polygon_Hexbin_Time_vs_Score.png"), dpi=300, bbox_inches='tight')
+    plt.close()
+
+    # PLOT 8: Polygon Topography Contour (Visited Places vs Score) -- NEW
+    plt.figure(figsize=(10, 8))
+    sns.kdeplot(data=df, x="Visited_Places", y="Score", fill=True, cmap="mako", thresh=0, levels=10, alpha=0.8)
+    sns.scatterplot(data=df, x="Visited_Places", y="Score", color="black", alpha=0.5, s=20) # Add the actual dots over the polygons
+    plt.title("Polygon Topography: Where do the best scores land based on Visited Places?")
+    plt.savefig(os.path.join(results_folder, "8_Polygon_Topography_Places_vs_Score.png"), dpi=300, bbox_inches='tight')
+    plt.close()
+
+    # PLOT 9: THE ULTIMATE PAIRPLOT
+    pair_plot = sns.pairplot(df, vars=['Initial_Temp', 'Cooling_Rate', 'Min_Temp', 'Score', 'Time_Sec', 'Visited_Places'], 
+                             diag_kind='kde', plot_kws={'alpha': 0.6})
+    pair_plot.fig.suptitle("Full Relational Matrix of All SA Variables", y=1.02)
+    plt.savefig(os.path.join(results_folder, "9_Full_Relational_Pairplot.png"), dpi=300, bbox_inches='tight')
+    plt.close()
+
+    print(f"\nSUCCESS! 9 Comprehensive Analytical Plots (including Heatmaps & Polygons) have been saved to '{results_folder}'.")
 
 # ==========================================
-# 4. THE MAIN CONTROLLER
+# 3. THE MAIN CONTROLLER (Single Core)
 # ==========================================
-def run_multiprocess_tests():
+def run_single_core_tests():
     
+    # Keeping your updated parameters
+    initial_temps = [100.0, 250.0, 500.0]
+    cooling_rates = [ 0.97, 0.98 , 0.99]
+    min_temps = [ 0.05, 0.1]
+    runs_per_config = 3  
+                            
+    results = []
+    
+    total_runs = len(initial_temps) * len(cooling_rates) * len(min_temps) * runs_per_config
+    current_run = 0
 
-    initial_temps = [100.0, 500.0, 1000.0, 5000.0]
-    cooling_rates = [ 0.95, 0.98, 0.99]
-    min_temps = [1.0, 0.1,  0.001]
-    runs_per_config = 3
-   
-
-    tasks = []
+    print(f"\nStarting Single-Core Tests: {total_runs} total runs planned...\n" + "="*50)
+    start_total_time = time.time()
+    
     for temp in initial_temps:
         for cr in cooling_rates:
             for min_t in min_temps:
-                tasks.append((temp, cr, min_t, runs_per_config))
+                for run_id in range(runs_per_config):
+                    current_run += 1
+                    
+                    # 1. Initialize Problem and Algorithm
+                    problem = TravelProblem_LocalSearch(landmarks, travel_information)
+                    sa = Simulated_Annealing(problem, initial_temp=temp, cooling_rate=cr, min_temp=min_t)
+                    
+                    # 2. Track Time and Run
+                    start_time = time.time()
+                    best_state = sa.run()
+                    exec_time = time.time() - start_time
+                    
+                    # 3. Extract Data
+                    score = sa.calculate_fitness(best_state)
+                    path_names = [landmark.name for landmark in best_state]
+                    num_places = len(best_state)
+                    
+                    # 4. Save to Results
+                    results.append({
+                        "Initial_Temp": temp,
+                        "Cooling_Rate": cr,
+                        "Min_Temp": min_t,
+                        "Score": score,
+                        "Time_Sec": exec_time,
+                        "Visited_Places": num_places
+                    })
+                    
+                    # 5. Print Output for Every Run
+                    print(f"Run [{current_run}/{total_runs}] | Params: Temp={temp}, Cool={cr}, MinT={min_t}")
+                    print(f"--> Score: {score:.2f}")
+                    print(f"--> Time:  {exec_time:.4f} seconds")
+                    print(f"--> Places Visited: {num_places}")
+                    print(f"--> Path:  {path_names}")
+                    print("-" * 50)
 
-    print(f"Starting parallel processing for {len(tasks)} configurations...")
-    start_total_time = time.time()
-    
-    results = []
-    
-    # ProcessPoolExecutor splits the tasks across your CPU cores
-    with concurrent.futures.ProcessPoolExecutor() as executor:
-        for result in executor.map(run_single_config, tasks):
-            results.append(result)
-            if len(results) % 2 == 0: 
-                print(f"Progress: {len(results)}/{len(tasks)} completed...")
+    print(f"\nAll tests finished in {time.time() - start_total_time:.2f} seconds!")
 
-    print(f"All tests finished in {time.time() - start_total_time:.2f} seconds!")
-
+    # Generate plots
     df = pd.DataFrame(results)
     plot_comprehensive_results(df)
 
 if __name__ == "__main__":
-    run_multiprocess_tests()
+    run_single_core_tests()
