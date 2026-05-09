@@ -1,0 +1,5 @@
+Algorithm Comparison Summary
+============================
+SA (Fast): Score = 105.50, Time = 1.2243s
+Pure ACS: Score = 98.80, Time = 0.0157s
+Hybrid ACS-SA: Score = 110.30, Time = 51.8677s

@@ -5,7 +5,7 @@ from core.Node_Classes import Landmark
 from core.Problem_LocalSearch import TravelProblem_LocalSearch
 
 class Simulated_Annealing:
-    """
+    """      
     Simulated Annealing implementation for the Travel Guide problem.
     Features: 
     - Adaptive Cooling
@@ -34,21 +34,26 @@ class Simulated_Annealing:
     def calculate_fitness(self, state: List[Landmark]) -> float:
         """
         Calculates the fitness of a state by delegating to the problem's evaluate method.
-        Lower is better (minimization).
+        Higher is better (maximization).
         """
         if not self.problem.valid_state(state):
-            return float('inf')
+            return -float('inf')
         
         return self.problem.evaluate(state)
 
     def run(self) -> List[Landmark]:
         """
         Executes the Simulated Annealing search.
+        Strictly follows the local search paradigm: moving from current state to neighbor.
 
         Returns:
             The best itinerary (list of Landmarks) found.
         """
-        # Start with a random initial state from the problem
+        # Diversity memory (Tabu-lite) to avoid cycles within the local neighborhood
+        tabu_list = []
+        max_tabu_size = 20
+        
+        # Start at the provided initial state (Local Search requirement)
         current_state = self.problem.initial_state
         current_fitness = self.calculate_fitness(current_state)
         
@@ -57,61 +62,67 @@ class Simulated_Annealing:
 
         reheat_count = 0
         stagnation_counter = 0
-        max_stagnation = 100 # Consecutive iterations without improvement
+        max_stagnation = 150 
 
         while reheat_count <= self.max_reheats:
-            self.temp = self.initial_temp * (1.0 / (reheat_count + 1)) # Scaled initial temp for reheats
+            # Temperature acts as the probability threshold for accepting 'down-hill' moves
+            self.temp = self.initial_temp * (1.0 / (reheat_count + 1)) 
             
             while self.temp > self.min_temp:
-                # Generate neighbors
+                # 1. Neighbor Generation: Explore the local neighborhood of the CURRENT state
                 neighbors = self.problem.generate_neighbors(current_state)
                 
                 if not neighbors:
                     break
 
-                # Pick a random neighbor
-                neighbor = random.choice(neighbors)
+                # 2. Select a neighbor (using Tabu-lite to ensure we don't oscillate locally)
+                valid_neighbors = [n for n in neighbors if tuple(lm.id for lm in n) not in tabu_list]
+                neighbor = random.choice(valid_neighbors) if valid_neighbors else random.choice(neighbors)
+                
                 neighbor_fitness = self.calculate_fitness(neighbor)
+                delta_e = current_fitness - neighbor_fitness # Maximization: current - neighbor
 
-                delta_e = neighbor_fitness - current_fitness
-
+                # 3. Acceptance Criterion: Local search moves to a neighbor
                 if delta_e < 0:
-                    # Improvement
+                    # Improvement move (neighbor is better)
                     current_state = neighbor
                     current_fitness = neighbor_fitness
                     stagnation_counter = 0 
                     
-                    if current_fitness < best_overall_fitness:
+                    if current_fitness > best_overall_fitness:
                         best_overall_state = neighbor
                         best_overall_fitness = current_fitness
                 else:
-                    # Acceptance Probability
-                    # I am adding a small bias to the temperature to prevent division by zero and maintain search pressure
+                    # Probabilistic move (Escape local optima)
+                    # For maximization: P = exp(-(current - neighbor) / T)
                     acceptance_prob = math.exp(-delta_e / max(self.temp, 1e-10))
-                    
                     if random.random() < acceptance_prob:
                         current_state = neighbor
                         current_fitness = neighbor_fitness
                     
                     stagnation_counter += 1
 
-                # Adaptive Cooling: slow down if I find improvements, speed up if stagnating
+                # Update Tabu List for local diversity
+                state_id = tuple(lm.id for lm in current_state)
+                tabu_list.append(state_id)
+                if len(tabu_list) > max_tabu_size:
+                    tabu_list.pop(0)
+
+                # 4. Cooling: Move from exploration to exploitation
                 if stagnation_counter == 0:
-                    effective_cooling = 1.0 - (1.0 - self.cooling_rate) * 0.5 # Cool slower when improving
+                    effective_cooling = 1.0 - (1.0 - self.cooling_rate) * 0.3 
                 else:
                     effective_cooling = self.cooling_rate
 
                 self.temp *= effective_cooling
 
-                # Early exit from this cycle if stagnating too long
                 if stagnation_counter > max_stagnation:
                     break
 
-            # Reheating logic: jump back to a higher temperature if I have reheats left
+            # 5. Reheating (Iterative Local Search): Restart from best or random to find new basins
             reheat_count += 1
             if reheat_count <= self.max_reheats:
-                # Perturb the best found state slightly to start the next cycle from a new perspective
-                # Or start from a completely new random state to explore a different region
+                # To maintain local search integrity, we jump to a new starting point
                 current_state = self.problem._generate_random_state()
                 current_fitness = self.calculate_fitness(current_state)
                 stagnation_counter = 0
