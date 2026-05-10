@@ -52,7 +52,7 @@ POPULATION_SIZE     = 100
 SEED                = 42
 
 # ── output directory ─────────────────────────────────────────────────────────
-OUTPUT_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "Tests", "GA-test-results")
+OUTPUT_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "Tests", "GA_test_results")
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 # ═════════════════════════════════════════════════════════════════════════════
