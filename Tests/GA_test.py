@@ -33,10 +33,10 @@ problem = TravelProblem_LocalSearch(
     travel_information={
         'hotel': hotels[0],
         'time_matrix': time_matrix,
-        'Travel_Time': 12,
+        'Travel_Time': 8,
         'Travel_day': 'fri',
         'type_filter': None,
-        'trip_start_time': 8,
+        'trip_start_time': 9,
     },
 )
 
