@@ -217,9 +217,9 @@ class TravelProblem_LocalSearch:
     def evaluate(self, state: List['Landmark']) -> float:
         """ 
         The Fitness Function. 
-        Minimizes distance while heavily maximizing the interest score.
-        A lower resulting float indicates a better itinerary.
-        """
+        Maximizes the interest score while relative to distance.
+        A higher resulting float indicates a better itinerary.
+        """ 
         total_rating = 0
         total_travel_time = 0 
 
@@ -230,16 +230,17 @@ class TravelProblem_LocalSearch:
             if i == 0:
                 total_travel_time += self.time_matrix[self.hotel.id][landmark.name]
             else:
-                
                 total_travel_time += self.time_matrix[state[i-1].name][landmark.name]
 
-        # Travel time  from final landmark back to the hotel
+        # Travel time from final landmark back to the hotel
         total_travel_time += self.time_matrix[state[-1].name][self.hotel.id]
 
-       
-        #let the rating as the most importatn criteria 
-        #the lower is better , it will be negative
-        score =  total_travel_time -1000*total_rating
+        # Standard Comparative Score: 
+        # Focus on maximizing Interest Score (heavily weighted) 
+        # while subtracting travel time costs.
+        RATING_WEIGHT = 7 # I tested with 7 and 5 and I didn't see a big change
+        # Invert the logic: (Rating * Weight) - travel_time - Maximizing 
+        score = (RATING_WEIGHT * total_rating) - total_travel_time
         
         return score
     

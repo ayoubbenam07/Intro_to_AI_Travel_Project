@@ -135,8 +135,6 @@ class hill_climbing:
 
 
         # --- Dynamic Strategies: ADD and REMOVE ---
-        if not self.problem.Landmarks_number:
-            
             # --- Strategy 3: ADD a landmark ---
             for new_item in self.problem.landmarks:
                 if new_item.id not in current_ids:
@@ -255,7 +253,7 @@ class hill_climbing:
 # hotels = get_hotels()
 # time_matrix = get_time_matrix()
 
-# problem = TravelProblem_LocalSearch(landmarks, travel_information={ 'hotel': hotels[0], 'time_matrix': time_matrix, 'Travel_Time': 12, 'Travel_day': 'fri', 'type_filter': None, 'Landmarks_number': None , 'trip_start_time': 8})
+# problem = TravelProblem_LocalSearch(landmarks, travel_information={ 'hotel': hotels[0], 'time_matrix': time_matrix, 'Travel_Time': 12, 'Travel_day': 'fri', 'type_filter': None,  'trip_start_time': 8})
 
 # base_strategies = ['steepest', 'stochastic', 'first_choice']
 # num_restarts = [1, 50,100]

@@ -36,7 +36,6 @@ problem = TravelProblem_LocalSearch(
         'Travel_Time': 12,
         'Travel_day': 'fri',
         'type_filter': None,
-        'Landmarks_number': None,
         'trip_start_time': 8,
     },
 )
