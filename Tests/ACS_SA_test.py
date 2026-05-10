@@ -13,7 +13,7 @@ from core.Problem_AntColony import ACSEnvironment
 from core.Node_Classes import Landmark
 from utils.data_loader import get_landmarks, get_hotels, get_time_matrix
 
-ALGO_NAME = "ACS"
+ALGO_NAME = "Hybrid-ACS-SA"
 RESULTS_DIR = _BASE_DIR / f"{ALGO_NAME}-results"
 RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -24,26 +24,26 @@ def calculate_unified_score(path, time_matrix):
     total_travel_time = sum(time_matrix[path[i].name][path[i+1].name] for i in range(len(path) - 1))
     return (7 * total_rating) - total_travel_time
 
-def run_acs_parameter_study():
+def run_hybrid_parameter_study():
     landmarks = get_landmarks()
     hotels = get_hotels()
     time_matrix = get_time_matrix()
     days = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"]
 
+
     selected_hotel = random.choice(hotels)
     visiting_day = random.choice(days)
 
-    print(f"--- Starting {ALGO_NAME} Parameter Study ---")
+    print(f"--- Starting {ALGO_NAME} Parameter & Scaling Study ---")
     print(f"Environment Fixed to: Hotel {selected_hotel.name}, Day {visiting_day}")
+    print("NOTE: Using best predefined Alpha(0.5), Beta(3.0), Rho(0.3). SA logic is embedded.")
 
-    # WIDER, AGGRESSIVE PARAMETER GRID
-    alphas = [0.5, 1.0, 1.5]       # Test strict vs loose pheromone tracking
-    betas = [2.5 , 3.0, 4.0]        # FORCE the ants to care about distance & ratings
-    rhos = [0.05, 0.2]        # Try faster evaporation (forgetting bad paths quickly)
-    
-    # Lowered hardware limits slightly to compensate for the larger grid
-    num_ants_list = [ 40,50,60]       
+    # Parameter Ranges: Focusing heavily on the scaling of Ants and Generations
+    num_ants_list = [30, 40, 50]
     generations_list = [80, 100, 120]
+    
+    # We will lock the best standard ACS variables found previously
+    best_alpha, best_beta, best_rho = 0.5, 3.0, 0.3
     
     param_results = []
     
@@ -51,18 +51,18 @@ def run_acs_parameter_study():
     overall_best_score = -float('inf')
     overall_best_path_names = []
     
-    print("\nExecuting Parameter Grid Search (This will take some time)...")
+    print("\nExecuting Hybrid Scaling Grid Search (This will take some time)...")
     
-    total_combinations = len(alphas) * len(betas) * len(rhos) * len(num_ants_list) * len(generations_list)
+    total_combinations = len(num_ants_list) * len(generations_list)
     current_iteration = 0
 
-    for alpha, beta, rho, ants, gens in itertools.product(alphas, betas, rhos, num_ants_list, generations_list):
+    for ants, gens in itertools.product(num_ants_list, generations_list):
         current_iteration += 1
         scores, times, visits = [], [], []
         
-        # Run 3 times to smooth out the randomness
+        # Run 3 times to smooth out the stochastic randomness of both algorithms
         for run_id in range(3):
-            # Create a fresh environment for every run
+            # Create a fresh environment
             env = ACSEnvironment(
                 hotel=selected_hotel, 
                 landmarks=landmarks, 
@@ -71,10 +71,20 @@ def run_acs_parameter_study():
                 trip_start_time_hours=9.0, 
                 visiting_day=visiting_day
             )
-            acs = AntColonySystem(env, num_ants=ants, generations=gens, alpha=alpha, beta=beta, rho=rho)
+            
+            # Initialize with hybrid_sa=True
+            acs_hybrid = AntColonySystem(
+                env, 
+                num_ants=ants, 
+                generations=gens, 
+                alpha=best_alpha, 
+                beta=best_beta, 
+                rho=best_rho, 
+                hybrid_sa=True
+            )
             
             start_t = time.time()
-            best_path, _ = acs.solve()  # ACS uses solve() returning (path, score)
+            best_path, _ = acs_hybrid.solve() 
             exec_time = time.time() - start_t
             
             # Calculate metrics
@@ -95,77 +105,80 @@ def run_acs_parameter_study():
         avg_visited = sum(visits) / 3
         
         param_results.append({
-            "Alpha": alpha, "Beta": beta, "Rho": rho, "Ants": ants, "Generations": gens,
-            "Avg_Score": avg_score, "Avg_Time_Sec": avg_time, "Avg_Visited": avg_visited
+            "Ants": ants, 
+            "Generations": gens,
+            "Avg_Score": avg_score, 
+            "Avg_Time_Sec": avg_time,
+            "Avg_Visited": avg_visited
         })
         
-        # Print exact runtimes to the console
-        print(f"[{current_iteration}/{total_combinations}] a={alpha:<3} | b={beta:<3} | p={rho:<4} | Ants={ants} | Gens={gens} --> Score: {avg_score:>6.2f} | Time: {avg_time:>6.2f} sec | Visited: {avg_visited:>4.1f}")
+        # Exact runtime and visited count logging dynamically printed
+        print(f"[{current_iteration}/{total_combinations}] Ants={ants:<2} | Gens={gens:<3} --> Score: {avg_score:>6.2f} | Time: {avg_time:>6.2f}s | Visited: {avg_visited:>4.1f}")
 
-    # Save data to CSV
+    # Save CSV
     df_params = pd.DataFrame(param_results)
-    df_params.to_csv(RESULTS_DIR / f"{ALGO_NAME}_Parameter_Study.csv", index=False)
+    df_params.to_csv(RESULTS_DIR / f"{ALGO_NAME}_Scaling_Study.csv", index=False)
 
     print("\nGenerating Plots...")
 
     # ---------------------------------------------------------
-    # PLOT 1: Heatmap - Alpha vs Beta (EVALUATION SCORE)
+    # PLOT 1: Heatmap - Ants vs Generations (EVALUATION SCORE)
     # ---------------------------------------------------------
-    # Averages out Rho, Ants, and Gens to show pure Alpha vs Beta relationship
-    pivot_score = df_params.pivot_table(index="Alpha", columns="Beta", values="Avg_Score", aggfunc='mean')
+    pivot_score = df_params.pivot_table(index="Ants", columns="Generations", values="Avg_Score", aggfunc='mean')
     plt.figure(figsize=(8, 6))
     sns.heatmap(pivot_score, annot=True, cmap="magma", fmt=".1f")
-    plt.title(f"{ALGO_NAME}: Evaluation Score (Alpha vs Beta)")
-    plt.ylabel("Alpha (Pheromone Importance)")
-    plt.xlabel("Beta (Heuristic Importance)")
+    plt.title(f"{ALGO_NAME}: Evaluation Score (Ants vs Generations)")
+    plt.ylabel("Number of Ants")
+    plt.xlabel("Number of Generations")
     plt.savefig(RESULTS_DIR / f"{ALGO_NAME}_Heatmap_Evaluation.png")
     plt.close()
 
     # ---------------------------------------------------------
-    # PLOT 2: Heatmap - Alpha vs Beta (TOTAL RUNTIME)
+    # PLOT 2: Heatmap - Ants vs Generations (TOTAL RUNTIME)
     # ---------------------------------------------------------
-    pivot_time = df_params.pivot_table(index="Alpha", columns="Beta", values="Avg_Time_Sec", aggfunc='mean')
+    pivot_time = df_params.pivot_table(index="Ants", columns="Generations", values="Avg_Time_Sec", aggfunc='mean')
     plt.figure(figsize=(8, 6))
     sns.heatmap(pivot_time, annot=True, cmap="OrRd", fmt=".2f")
-    plt.title(f"{ALGO_NAME}: Runtime in Seconds (Alpha vs Beta)")
-    plt.ylabel("Alpha")
-    plt.xlabel("Beta")
+    plt.title(f"{ALGO_NAME}: Runtime in Seconds (Ants vs Generations)")
+    plt.ylabel("Number of Ants")
+    plt.xlabel("Number of Generations")
     plt.savefig(RESULTS_DIR / f"{ALGO_NAME}_Heatmap_Runtime.png")
     plt.close()
 
     # ---------------------------------------------------------
-    # PLOT 3: Line Plot - Hardware Limits vs Evaluation Score
+    # PLOT 3: Line Plot - Performance Scaling vs Runtime Penalty
     # ---------------------------------------------------------
-    plt.figure(figsize=(10, 6))
-    sns.lineplot(data=df_params, x="Ants", y="Avg_Score", hue="Generations", marker="s", palette="Set1")
-    plt.title(f"{ALGO_NAME}: Impact of Ants & Generations on Score")
-    plt.ylabel("Evaluation Score")
-    plt.xlabel("Number of Ants")
-    plt.xticks(num_ants_list)  # Dynamically adapts to [30, 40, 50]
-    plt.savefig(RESULTS_DIR / f"{ALGO_NAME}_Line_Hardware_vs_Score.png")
+    fig, ax1 = plt.subplots(figsize=(10, 6))
+
+    color = 'tab:blue'
+    ax1.set_xlabel('Configuration Setup (Ants x Gens)')
+    ax1.set_ylabel('Evaluation Score', color=color)
+    
+    df_params['Config'] = df_params['Ants'].astype(str) + "x" + df_params['Generations'].astype(str)
+    
+    sns.lineplot(data=df_params, x='Config', y='Avg_Score', marker='D', color=color, ax=ax1, label='Score')
+    ax1.tick_params(axis='y', labelcolor=color)
+
+    ax2 = ax1.twinx()  
+    color = 'tab:red'
+    ax2.set_ylabel('Execution Time (sec)', color=color)  
+    sns.lineplot(data=df_params, x='Config', y='Avg_Time_Sec', marker='o', color=color, ax=ax2, label='Time')
+    ax2.tick_params(axis='y', labelcolor=color)
+
+    plt.title(f"{ALGO_NAME}: Evaluation Score vs Runtime Cost")
+    fig.tight_layout()  
+    plt.savefig(RESULTS_DIR / f"{ALGO_NAME}_DualAxis_Score_vs_Time.png")
     plt.close()
 
     # ---------------------------------------------------------
-    # PLOT 4: Line Plot - Hardware Limits vs Runtime
+    # PLOT 4: Heatmap - Ants vs Generations (LANDMARKS VISITED)
     # ---------------------------------------------------------
-    plt.figure(figsize=(10, 6))
-    sns.lineplot(data=df_params, x="Ants", y="Avg_Time_Sec", hue="Generations", marker="o", palette="crest")
-    plt.title(f"{ALGO_NAME}: Execution Time Scaling (Ants & Generations)")
-    plt.ylabel("Execution Time (Seconds)")
-    plt.xlabel("Number of Ants")
-    plt.xticks(num_ants_list) # Dynamically adapts to [30, 40, 50]
-    plt.savefig(RESULTS_DIR / f"{ALGO_NAME}_Line_Hardware_vs_Runtime.png")
-    plt.close()
-
-    # ---------------------------------------------------------
-    # PLOT 5: Heatmap - Alpha vs Beta (LANDMARKS VISITED)
-    # ---------------------------------------------------------
-    pivot_visited = df_params.pivot_table(index="Alpha", columns="Beta", values="Avg_Visited", aggfunc='mean')
+    pivot_visited = df_params.pivot_table(index="Ants", columns="Generations", values="Avg_Visited", aggfunc='mean')
     plt.figure(figsize=(8, 6))
-    sns.heatmap(pivot_visited, annot=True, cmap="crest", fmt=".1f")  
-    plt.title(f"{ALGO_NAME}: Avg Landmarks Visited (Alpha vs Beta)")
-    plt.ylabel("Alpha (Pheromone Importance)")
-    plt.xlabel("Beta (Heuristic Importance)")
+    sns.heatmap(pivot_visited, annot=True, cmap="crest", fmt=".1f")  # Using a distinct green/blue color map
+    plt.title(f"{ALGO_NAME}: Avg Landmarks Visited (Ants vs Generations)")
+    plt.ylabel("Number of Ants")
+    plt.xlabel("Number of Generations")
     plt.savefig(RESULTS_DIR / f"{ALGO_NAME}_Heatmap_Visited.png")
     plt.close()
 
@@ -181,8 +194,8 @@ def run_acs_parameter_study():
     formatted_path = "\n  -> ".join(overall_best_path_names)
     print(f"Full Path:\n  {formatted_path}")
     print("="*60)
-
+    
     print(f"\nDone! Check the '{ALGO_NAME}-results' folder for the CSV and charts.")
 
 if __name__ == "__main__":
-    run_acs_parameter_study()
+    run_hybrid_parameter_study()

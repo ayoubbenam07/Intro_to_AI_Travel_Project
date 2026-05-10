@@ -1,184 +1,177 @@
-import sys
-import os
-import random
-import time
+import sys, os, time, random, itertools
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+from pathlib import Path
 
-# Setup paths
-project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-sys.path.append(project_root)
+# Add project root to path
+_BASE_DIR = Path(__file__).resolve().parent
+sys.path.insert(0, str(_BASE_DIR))
 
 from Algorithms.Simulated_Anealing import Simulated_Annealing
 from core.Problem_LocalSearch import TravelProblem_LocalSearch
-from utils import data_loader
+from core.Node_Classes import Landmark
+from utils.data_loader import get_landmarks, get_hotels, get_time_matrix
 
-# ==========================================
-# 1. LOAD DATA ONCE
-# ==========================================
-print("Loading data...")
-landmarks = data_loader.get_landmarks()
-hotels = data_loader.get_hotels()
-time_matrix = data_loader.get_time_matrix()
-days = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"]
+ALGO_NAME = "SA"
+RESULTS_DIR = _BASE_DIR / f"{ALGO_NAME}-results"
+RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
-travel_information = {
-    "hotel": random.choice(hotels),
-    "Travel_day": random.choice(days), 
-    "Travel_Time": 10,
-    "type_filter": None,                    
-    "time_matrix": time_matrix,
-    "trip_start_time": 8
-}
+# Unified Score Function
+def calculate_unified_score(path, time_matrix):
+    if not path: return 0
+    total_rating = sum(node.interest_score for node in path if isinstance(node, Landmark))
+    total_travel_time = sum(time_matrix[path[i].name][path[i+1].name] for i in range(len(path) - 1))
+    return (7 * total_rating) - total_travel_time
 
-print(f"hotel : {travel_information['hotel'].name}")
-print(f"travel day : {travel_information['Travel_day']}")
-# ==========================================
-# 2. THE PLOTTING FUNCTION (Upgraded with Extra Heatmaps & Polygons)
-# ==========================================
-def plot_comprehensive_results(df):
-    """Generates and saves analytical plots covering all parameter relationships."""
-    sns.set_theme(style="whitegrid")
+def run_sa_parameter_study():
+    landmarks = get_landmarks()
+    hotels = get_hotels()
+    time_matrix = get_time_matrix()
+    days = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"]
     
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    results_folder = os.path.join(script_dir, "SA-test-results")
+    # Force identical environment for fair comparison
+    random.seed(42)
+    selected_hotel = random.choice(hotels)
+    visiting_day = random.choice(days)  
     
-    if not os.path.exists(results_folder):
-        os.makedirs(results_folder)
+    print(f"--- Starting {ALGO_NAME} Parameter Study ---")
+    print(f"Environment Fixed to: Hotel {selected_hotel.name}, Day {visiting_day}")
 
-    # PLOT 1: Score Heatmap (Initial Temp vs Cooling Rate)
-    plt.figure(figsize=(10, 8))
-    score_pivot = df.groupby(["Initial_Temp", "Cooling_Rate"])["Score"].mean().unstack()
-    sns.heatmap(score_pivot, annot=True, fmt=".1f", cmap="YlGnBu_r")
-    plt.title("Parameter Relation: Impact on FINAL SCORE (Lower = Better)")
-    plt.savefig(os.path.join(results_folder, "1_Score_Heatmap.png"), dpi=300, bbox_inches='tight')
+    # Adjusted parameters to prevent infinite loops / hours of execution
+    initial_temps = [50, 100, 300]
+    cooling_rates = [0.95, 0.97, 0.99]
+    max_reheats = [1, 2]
+    
+    param_results = []
+    
+    # Variables to track the absolute best path across ALL runs
+    overall_best_score = -float('inf')
+    overall_best_path_names = []
+    
+    travel_info = {
+        'hotel': selected_hotel, 'Travel_day': visiting_day, 'Travel_Time': 8.0, 
+        'type_filter': [], 'time_matrix': time_matrix, 'trip_start_time': 9
+    }
+    problem = TravelProblem_LocalSearch(landmarks, travel_info)
+
+    print("\nExecuting Parameter Grid Search (This will take some time)...")
+    
+    total_combinations = len(initial_temps) * len(cooling_rates) * len(max_reheats)
+    current_iteration = 0
+
+    for temp, cool, reheat in itertools.product(initial_temps, cooling_rates, max_reheats):
+        current_iteration += 1
+        scores, times, visits = [], [], []
+        
+        # Run each configuration 3 times for stability
+        for run_id in range(3):
+            sa = Simulated_Annealing(problem, initial_temp=temp, cooling_rate=cool, max_reheats=reheat)
+            
+            start_time = time.time()
+            best_state = sa.run()
+            exec_time = time.time() - start_time
+            
+            # Format path and calculate score
+            full_path = [selected_hotel] + best_state + [selected_hotel]
+            score = calculate_unified_score(full_path, time_matrix)
+            num_landmarks_visited = len(best_state)  # best_state only contains landmarks
+            
+            scores.append(score)
+            times.append(exec_time)
+            visits.append(num_landmarks_visited)
+            
+            # Check if this is the best path seen overall
+            if score > overall_best_score:
+                overall_best_score = score
+                overall_best_path_names = [node.name for node in full_path]
+            
+        avg_score = sum(scores) / 3
+        avg_time = sum(times) / 3
+        avg_visited = sum(visits) / 3
+        
+        # Save to list
+        param_results.append({
+            "Init_Temp": temp, 
+            "Cooling_Rate": cool, 
+            "Max_Reheats": reheat,
+            "Avg_Score": avg_score, 
+            "Avg_Time_Sec": avg_time,
+            "Avg_Visited": avg_visited
+        })
+        
+        # Print runtime exactly as requested
+        print(f"[{current_iteration}/{total_combinations}] Temp: {temp:<4} | Cool: {cool:<4} | Reheats: {reheat} --> Score: {avg_score:>6.2f} | Time: {avg_time:>6.2f}s | Visited: {avg_visited:>4.1f}")
+
+    # Convert to DataFrame and Save CSV
+    df_params = pd.DataFrame(param_results)
+    df_params.to_csv(RESULTS_DIR / f"{ALGO_NAME}_Parameter_Study.csv", index=False)
+
+    print("\nGenerating Plots...")
+
+    # ---------------------------------------------------------
+    # PLOT 1: Heatmap - Temp vs Cooling Rate (EVALUATION SCORE)
+    # ---------------------------------------------------------
+    # Averages out the "Reheats" so we strictly see Temp vs Cool
+    pivot_score = df_params.pivot_table(index="Init_Temp", columns="Cooling_Rate", values="Avg_Score", aggfunc='mean')
+    plt.figure(figsize=(8, 6))
+    sns.heatmap(pivot_score, annot=True, cmap="YlGnBu", fmt=".1f")
+    plt.title(f"{ALGO_NAME}: Evaluation Score (Temp vs Cooling Rate)")
+    plt.ylabel("Initial Temperature")
+    plt.xlabel("Cooling Rate")
+    plt.savefig(RESULTS_DIR / f"{ALGO_NAME}_Heatmap_Evaluation.png")
     plt.close()
 
-    # PLOT 2: Time Heatmap (Initial Temp vs Cooling Rate)
-    plt.figure(figsize=(10, 8))
-    time_pivot = df.groupby(["Initial_Temp", "Cooling_Rate"])["Time_Sec"].mean().unstack()
-    sns.heatmap(time_pivot, annot=True, fmt=".3f", cmap="Reds")
-    plt.title("Parameter Relation: Impact on EXECUTION TIME (Seconds)")
-    plt.savefig(os.path.join(results_folder, "2_Time_Heatmap.png"), dpi=300, bbox_inches='tight')
+    # ---------------------------------------------------------
+    # PLOT 2: Heatmap - Temp vs Cooling Rate (TOTAL RUNTIME)
+    # ---------------------------------------------------------
+    pivot_time = df_params.pivot_table(index="Init_Temp", columns="Cooling_Rate", values="Avg_Time_Sec", aggfunc='mean')
+    plt.figure(figsize=(8, 6))
+    sns.heatmap(pivot_time, annot=True, cmap="OrRd", fmt=".2f")
+    plt.title(f"{ALGO_NAME}: Runtime in Seconds (Temp vs Cooling Rate)")
+    plt.ylabel("Initial Temperature")
+    plt.xlabel("Cooling Rate")
+    plt.savefig(RESULTS_DIR / f"{ALGO_NAME}_Heatmap_Runtime.png")
     plt.close()
 
-    # PLOT 3: Visited Places Heatmap (Initial Temp vs Cooling Rate) -- NEW
-    plt.figure(figsize=(10, 8))
-    places_pivot = df.groupby(["Initial_Temp", "Cooling_Rate"])["Visited_Places"].mean().unstack()
-    sns.heatmap(places_pivot, annot=True, fmt=".0f", cmap="Greens")
-    plt.title("Parameter Relation: Average VISITED PLACES")
-    plt.savefig(os.path.join(results_folder, "3_Visited_Places_Heatmap.png"), dpi=300, bbox_inches='tight')
-    plt.close()
-
-    # PLOT 4: The Spread of Scores by Cooling Rate
+    # ---------------------------------------------------------
+    # PLOT 3: Line Plot - Max Reheats vs Evaluation Score
+    # ---------------------------------------------------------
     plt.figure(figsize=(10, 6))
-    sns.boxplot(data=df, x="Cooling_Rate", y="Score", hue="Initial_Temp", palette="Set2")
-    plt.title("Score Consistency based on Cooling Rate & Initial Temp")
-    plt.ylabel("Score (Lower is Better)")
-    plt.legend(title="Initial Temp", bbox_to_anchor=(1.05, 1), loc='upper left')
-    plt.savefig(os.path.join(results_folder, "4_Cooling_Rate_Spread.png"), dpi=300, bbox_inches='tight')
+    sns.lineplot(data=df_params, x="Max_Reheats", y="Avg_Score", hue="Cooling_Rate", marker="o", palette="Set2")
+    plt.title(f"{ALGO_NAME}: Impact of Reheats on Evaluation Score")
+    plt.ylabel("Evaluation Score")
+    plt.xlabel("Number of Reheats")
+    plt.xticks(max_reheats) # Dynamically adapts to [1, 2]
+    plt.savefig(RESULTS_DIR / f"{ALGO_NAME}_Line_Reheats_vs_Score.png")
     plt.close()
 
-    # PLOT 5: Number of Visited Places vs Score
-    plt.figure(figsize=(10, 6))
-    sns.scatterplot(data=df, x="Visited_Places", y="Score", hue="Cooling_Rate", size="Initial_Temp", sizes=(50, 200), palette="deep", alpha=0.7)
-    plt.title("How Number of Places Relates to Score & Parameters")
-    plt.savefig(os.path.join(results_folder, "5_Places_vs_Score.png"), dpi=300, bbox_inches='tight')
+    # ---------------------------------------------------------
+    # PLOT 4: Heatmap - Temp vs Cooling Rate (LANDMARKS VISITED)
+    # ---------------------------------------------------------
+    pivot_visited = df_params.pivot_table(index="Init_Temp", columns="Cooling_Rate", values="Avg_Visited", aggfunc='mean')
+    plt.figure(figsize=(8, 6))
+    sns.heatmap(pivot_visited, annot=True, cmap="crest", fmt=".1f")
+    plt.title(f"{ALGO_NAME}: Avg Landmarks Visited (Temp vs Cooling Rate)")
+    plt.ylabel("Initial Temperature")
+    plt.xlabel("Cooling Rate")
+    plt.savefig(RESULTS_DIR / f"{ALGO_NAME}_Heatmap_Visited.png")
     plt.close()
 
-    # PLOT 6: Execution Time vs Number of Visited Places
-    plt.figure(figsize=(10, 6))
-    sns.scatterplot(data=df, x="Visited_Places", y="Time_Sec", hue="Min_Temp", size="Cooling_Rate", sizes=(50, 200), palette="Set1", alpha=0.8)
-    plt.title("How Number of Places Relates to Execution Time")
-    plt.savefig(os.path.join(results_folder, "6_Places_vs_Time.png"), dpi=300, bbox_inches='tight')
-    plt.close()
-
-    # PLOT 7: Polygon Hexbin Density (Time vs Score) -- NEW
-    hexplot = sns.jointplot(data=df, x="Time_Sec", y="Score", kind="hex", color="#4CB391", gridsize=15, cmap="viridis")
-    hexplot.fig.suptitle("Polygon Density: Execution Time vs Final Score", y=1.02)
-    plt.savefig(os.path.join(results_folder, "7_Polygon_Hexbin_Time_vs_Score.png"), dpi=300, bbox_inches='tight')
-    plt.close()
-
-    # PLOT 8: Polygon Topography Contour (Visited Places vs Score) -- NEW
-    plt.figure(figsize=(10, 8))
-    sns.kdeplot(data=df, x="Visited_Places", y="Score", fill=True, cmap="mako", thresh=0, levels=10, alpha=0.8)
-    sns.scatterplot(data=df, x="Visited_Places", y="Score", color="black", alpha=0.5, s=20) # Add the actual dots over the polygons
-    plt.title("Polygon Topography: Where do the best scores land based on Visited Places?")
-    plt.savefig(os.path.join(results_folder, "8_Polygon_Topography_Places_vs_Score.png"), dpi=300, bbox_inches='tight')
-    plt.close()
-
-    # PLOT 9: THE ULTIMATE PAIRPLOT
-    pair_plot = sns.pairplot(df, vars=['Initial_Temp', 'Cooling_Rate', 'Min_Temp', 'Score', 'Time_Sec', 'Visited_Places'], 
-                             diag_kind='kde', plot_kws={'alpha': 0.6})
-    pair_plot.fig.suptitle("Full Relational Matrix of All SA Variables", y=1.02)
-    plt.savefig(os.path.join(results_folder, "9_Full_Relational_Pairplot.png"), dpi=300, bbox_inches='tight')
-    plt.close()
-
-    print(f"\nSUCCESS! 9 Comprehensive Analytical Plots (including Heatmaps & Polygons) have been saved to '{results_folder}'.")
-
-# ==========================================
-# 3. THE MAIN CONTROLLER (Single Core)
-# ==========================================
-def run_single_core_tests():
+    # Print the overall best path summary
+    print("\n" + "="*60)
+    print("🏆 OVERALL BEST ROUTE FOUND 🏆")
+    print("="*60)
+    print(f"Best Unified Score: {overall_best_score:.2f}")
+    print(f"Total Places Visited: {len(overall_best_path_names) - 2} (excluding start/end hotel)")
+    print("-" * 60)
     
-    # Keeping your updated parameters
-    initial_temps = [100.0, 250.0, 500.0]
-    cooling_rates = [ 0.97, 0.98 , 0.99]
-    min_temps = [ 0.05, 0.1]
-    runs_per_config = 3  
-                            
-    results = []
-    
-    total_runs = len(initial_temps) * len(cooling_rates) * len(min_temps) * runs_per_config
-    current_run = 0
+    # Format the path nicely
+    formatted_path = "\n  -> ".join(overall_best_path_names)
+    print(f"Full Path:\n  {formatted_path}")
+    print("="*60)
 
-    print(f"\nStarting Single-Core Tests: {total_runs} total runs planned...\n" + "="*50)
-    start_total_time = time.time()
-    
-    for temp in initial_temps:
-        for cr in cooling_rates:
-            for min_t in min_temps:
-                for run_id in range(runs_per_config):
-                    current_run += 1
-                    
-                    # 1. Initialize Problem and Algorithm
-                    problem = TravelProblem_LocalSearch(landmarks, travel_information)
-                    sa = Simulated_Annealing(problem, initial_temp=temp, cooling_rate=cr, min_temp=min_t)
-                    
-                    # 2. Track Time and Run
-                    start_time = time.time()
-                    best_state = sa.run()
-                    exec_time = time.time() - start_time
-                    
-                    # 3. Extract Data
-                    score = sa.calculate_fitness(best_state)
-                    path_names = [landmark.name for landmark in best_state]
-                    num_places = len(best_state)
-                    
-                    # 4. Save to Results
-                    results.append({
-                        "Initial_Temp": temp,
-                        "Cooling_Rate": cr,
-                        "Min_Temp": min_t,
-                        "Score": score,
-                        "Time_Sec": exec_time,
-                        "Visited_Places": num_places
-                    })
-                    
-                    # 5. Print Output for Every Run
-                    print(f"Run [{current_run}/{total_runs}] | Params: Temp={temp}, Cool={cr}, MinT={min_t}")
-                    print(f"--> Score: {score:.2f}")
-                    print(f"--> Time:  {exec_time:.4f} seconds")
-                    print(f"--> Places Visited: {num_places}")
-                    print(f"--> Path:  {path_names}")
-                    print("-" * 50)
-
-    print(f"\nAll tests finished in {time.time() - start_total_time:.2f} seconds!")
-
-    # Generate plots
-    df = pd.DataFrame(results)
-    plot_comprehensive_results(df)
+    print(f"\nDone! Check the '{ALGO_NAME}-results' folder for the CSV and charts.")
 
 if __name__ == "__main__":
-    run_single_core_tests()
+    run_sa_parameter_study()
