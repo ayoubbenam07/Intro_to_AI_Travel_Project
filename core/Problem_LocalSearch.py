@@ -238,8 +238,8 @@ class TravelProblem_LocalSearch:
         # Standard Comparative Score: 
         # Focus on maximizing Interest Score (heavily weighted) 
         # while subtracting travel time costs.
-        RATING_WEIGHT = 20 # I tested with 7 and 5 and I didn't see a big change
-        # Invert the logic: (Rating * Weight) - travel_time
+        RATING_WEIGHT = 7 # I tested with 7 and 5 and I didn't see a big change
+        # Invert the logic: (Rating * Weight) - travel_time - Maximizing 
         score = (RATING_WEIGHT * total_rating) - total_travel_time
         
         return score

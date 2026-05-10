@@ -40,6 +40,7 @@ class Simulated_Annealing:
             return -float('inf')
         
         return self.problem.evaluate(state)
+    
 
     def run(self) -> List[Landmark]:
         """
