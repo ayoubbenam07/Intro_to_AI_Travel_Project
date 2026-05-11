@@ -207,7 +207,7 @@ class AntColonySystem:
             problem.initial_state = landmarks_only
             
             # Run a 'lite' version of SA for speed (less reheats, faster cooling)
-            sa = Simulated_Annealing(problem, initial_temp=50.0, cooling_rate=0.9, max_reheats=1)
+            sa = Simulated_Annealing(problem, initial_temp=50.0, cooling_rate=0.95, max_reheats=1)
             refined_landmarks = sa.run()
             
             # Reconstruct the full path with hotels
