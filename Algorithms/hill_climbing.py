@@ -80,19 +80,8 @@ class hill_climbing:
             current_time = arrival_time + landmark.visit_duration
         return initial_state
     
-    def evaluate(self, state: List['Landmark']) -> float:
-        if not self.problem.valid_state(state):
-            return float('-inf') 
-        total_time_hours = self.calculate_total_time(state)
-        total_interest = sum(landmark.interest_score for landmark in state)
-        if total_time_hours > self.problem.max_travel_time:
-            time_overage = total_time_hours - self.problem.max_travel_time
-            penalty = time_overage * 0.1 
-            evaluation_rate = total_interest - penalty
-        else:
-            evaluation_rate = total_interest
-        
-        return evaluation_rate
+    def evaluate(self, state: List['Landmark']) -> float:        
+        return self.problem.evaluate(state)
 
     def generate_first_best_neighbors(self, state: List['Landmark']):
         """

@@ -3,7 +3,7 @@ hill_climbing_test.py
 =========================================================
 Tests the Hill Climbing algorithm across multiple:
   Base strategies          (steepest, stochastic, first_choice)
-  Number of restarts       (1, 10, 25, 50, 100)
+  Number of restarts       (1, 25, 50, 100)
 """
 
 import sys, os, random, time
@@ -11,7 +11,6 @@ import matplotlib.pyplot as plt
 import matplotlib
 matplotlib.use('Agg')
 import pandas as pd
-import numpy as np
 
 # ── project imports ──────────────────────────────────────────────────────────
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
@@ -80,7 +79,7 @@ for strategy in Base_strategies:
             'Runtime_s':   round(elapsed, 2),
         })
         print(f"  [{combo_idx:3d}/{total_combos}]  {strategy:12s} | restarts={restarts:3d}"
-              f"  ->  Interest={interest:7.2f} "
+              f"  ->  Fitness={fitness:7.2f} "
               f"time={tot_time:5.2f}h  #lm={n_lm}  ({elapsed:.1f}s)")
 
 df_full = pd.DataFrame(rows_full)

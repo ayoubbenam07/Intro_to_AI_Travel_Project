@@ -79,16 +79,7 @@ class Genetic_Algorithm:
     # Fitness Function
 
     def calculate_fitness(self, individual: List['Landmark']) -> float:
-        if not self.is_valid_individual(individual):
-            return float('-inf')    
-        total_time = self.calculate_total_time(individual)
-        total_interest = sum(landmark.interest_score for landmark in individual)
-        if total_time > self.problem.max_travel_time:
-            fitness = total_interest / (1 + total_time - self.problem.max_travel_time)
-        else:
-            fitness = total_interest  
-        
-        return fitness
+        return self.problem.evaluate(individual)
 
     # Selection Methods
 
