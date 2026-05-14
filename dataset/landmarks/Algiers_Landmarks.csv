@@ -47,7 +47,7 @@ ID,Name,Description,Type,Rating,Latitude,Longitude,EstimatedTime (min),Hours,Ima
   ""sat"": [0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,0,0,0],
   ""sun"": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 }",.
-7,National Museum of Fine Arts,One of the largest art museums in Africa featuring Algerian and European masterpieces.,Museum,9,36.7460178,3.0724043,80,"{  ""mon"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0],
+7,National Museum of Fine Arts,One of the largest art museums in Africa featuring Algerian and European masterpieces.,Museum,8,36.7460178,3.0724043,80,"{  ""mon"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0],
   ""tue"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0],
   ""wed"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0],
   ""thu"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0],
@@ -55,7 +55,7 @@ ID,Name,Description,Type,Rating,Latitude,Longitude,EstimatedTime (min),Hours,Ima
   ""sat"": [0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,0,0,0],
   ""sun"": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 }",.
-8,Palais des Raïs,A beautifully preserved Ottoman-era palace complex sitting right on the Mediterranean coast.,Cultural Center & Event Venue,9.2,36.7885,3.0631,50,"{  ""mon"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0],
+8,Palais des Raïs,A beautifully preserved Ottoman-era palace complex sitting right on the Mediterranean coast.,Cultural Center & Event Venue,8.4,36.7885,3.0631,50,"{  ""mon"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0],
   ""tue"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0],
   ""wed"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0],
   ""thu"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0],
@@ -63,7 +63,7 @@ ID,Name,Description,Type,Rating,Latitude,Longitude,EstimatedTime (min),Hours,Ima
   ""sat"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0],
   ""sun"": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 }",.
-9,Ketchaoua Mosque,A historic mosque blending Moorish and Byzantine architecture located at the foot of the Casbah.,Mosque,9.1,36.7850951,3.0607434,30,"{ ""mon"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+9,Ketchaoua Mosque,A historic mosque blending Moorish and Byzantine architecture located at the foot of the Casbah.,Mosque,8.5,36.7850951,3.0607434,30,"{ ""mon"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
   ""tue"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
   ""wed"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
   ""thu"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
@@ -71,7 +71,7 @@ ID,Name,Description,Type,Rating,Latitude,Longitude,EstimatedTime (min),Hours,Ima
   ""sat"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
   ""sun"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0]
 }",.
-10,La Grande Poste,A magnificent neo-Moorish post office that serves as a central landmark in downtown Algiers.,Historical Site,9.3,36.7727638,3.0588067,20,"{ ""mon"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+10,La Grande Poste,A magnificent neo-Moorish post office that serves as a central landmark in downtown Algiers.,Historical Site,8.4,36.7727638,3.0588067,20,"{ ""mon"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
   ""tue"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
   ""wed"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
   ""thu"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
@@ -119,7 +119,7 @@ ID,Name,Description,Type,Rating,Latitude,Longitude,EstimatedTime (min),Hours,Ima
   ""sat"": [0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
   ""sun"": [0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0]
 }",.
-16,Djamaa el Djedid,A 17th-century Ottoman mosque with striking white domes prominently situated near the harbor.,Mosque,8.6,36.7836,3.0625,30,"{ ""mon"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+16,Djamaa el Djedid,A 17th-century Ottoman mosque with striking white domes prominently situated near the harbor.,Mosque,6.6,36.7836,3.0625,30,"{ ""mon"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
   ""tue"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
   ""wed"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
   ""thu"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
@@ -159,7 +159,7 @@ ID,Name,Description,Type,Rating,Latitude,Longitude,EstimatedTime (min),Hours,Ima
   ""sat"": [0,0,0,0,0,0,0,0,1,1,1,1,0,1,1,1,1,0,0,0,0,0,0,0],
   ""sun"": [0,0,0,0,0,0,0,0,1,1,1,1,0,1,1,1,1,0,0,0,0,0,0,0]
 }",.
-21,Dar Aziza,One of the oldest surviving palaces in the Casbah featuring classic courtyard architecture.,Cultural Center & Event Venue,7.6,36.7850529,3.0615164,45,"{ ""mon"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0],
+21,Dar Aziza,One of the oldest surviving palaces in the Casbah featuring classic courtyard architecture.,Cultural Center & Event Venue,7,36.7850529,3.0615164,45,"{ ""mon"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0],
   ""tue"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0],
   ""wed"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0],
   ""thu"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0],
@@ -207,7 +207,7 @@ ID,Name,Description,Type,Rating,Latitude,Longitude,EstimatedTime (min),Hours,Ima
   ""sat"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
   ""sun"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
 }",.
-27,Musée Central de l'Armée,A massive military museum featuring historical artifacts tanks and aircraft located near the Martyrs' Memorial.,Museum,9,36.74266491,3.070282725,60,"{  ""mon"":[0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0],
+27,Musée Central de l'Armée,A massive military museum featuring historical artifacts tanks and aircraft located near the Martyrs' Memorial.,Museum,8.2,36.74266491,3.070282725,60,"{  ""mon"":[0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0],
   ""tue"": [0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
   ""wed"": [0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
   ""thu"": [0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
@@ -231,7 +231,7 @@ ID,Name,Description,Type,Rating,Latitude,Longitude,EstimatedTime (min),Hours,Ima
   ""sat"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
   ""sun"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0]
 }",https://lh3.googleusercontent.com/gps-cs-s/APNQkAGNwxx-_jZil1f63X-4L-4WWPAHQtivLu-moiagZvwaLLHee6Nn71Tg6XDQCRDtLiWc2p-VE8KnQNWTSd5RDYdvdkFTXOG7lw0W_L2n3dS4kFpMAjQ5-Q0Gmp9r1rWngtr-Edu7=w408-h725-k-no
-30,Palais des Expositions (SAFEX),The sprawling main venue for international trade fairs auto shows and major cultural events.,Cultural Center & Event Venue,7.3,36.73448444,3.152326222,90,"{ ""mon"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
+30,Palais des Expositions (SAFEX),The sprawling main venue for international trade fairs auto shows and major cultural events.,Cultural Center & Event Venue,7.7,36.73448444,3.152326222,90,"{ ""mon"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
   ""tue"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
   ""wed"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
   ""thu"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
@@ -287,7 +287,7 @@ ID,Name,Description,Type,Rating,Latitude,Longitude,EstimatedTime (min),Hours,Ima
   ""sat"": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
   ""sun"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0]
 }",.https://lh3.googleusercontent.com/gps-cs-s/APNQkAFa-DSouY3xGlDlJbbJLbeW0uiVAgJuBZufrzdqdiuQZqRPuFnPtGhiU8ujvbaUyD8n7vPDdKg74x72eIc4ArSeZkhj7ewe7S2raieGcqfDsmJRiwVjI1I4TM7gwXfD14s1Gz3A=w408-h255-k-no
-37,National Theatre ,A stunning performing arts venue located in a historic building.,Cultural Center & Event Venue,8.6,36.7812519,3.0600742,50,"{ ""mon"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0],
+37,National Theatre ,A stunning performing arts venue located in a historic building.,Cultural Center & Event Venue,8,36.7812519,3.0600742,50,"{ ""mon"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0],
   ""tue"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0],
   ""wed"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0],
   ""thu"": [0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0],
@@ -303,7 +303,7 @@ ID,Name,Description,Type,Rating,Latitude,Longitude,EstimatedTime (min),Hours,Ima
   ""sat"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
   ""sun"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0]
 }",.
-39,Sidi Ramadan Mosque,Believed to be one of the oldest mosques in the Casbah area.,Mosque,6.5,36.7865243,3.0584051,30,"{ ""mon"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+39,Sidi Ramadan Mosque,Believed to be one of the oldest mosques in the Casbah area.,Mosque,2.5,36.7865243,3.0584051,30,"{ ""mon"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
   ""tue"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
   ""wed"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
   ""thu"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
@@ -311,7 +311,7 @@ ID,Name,Description,Type,Rating,Latitude,Longitude,EstimatedTime (min),Hours,Ima
   ""sat"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
   ""sun"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0]
 }",.
-40,Ali Bitchin Mosque,A 17th-century mosque built by an Italian convert with a fascinating backstory.,Mosque,7.5,36.7861,3.0617,30,"{ ""mon"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+40,Ali Bitchin Mosque,A 17th-century mosque built by an Italian convert with a fascinating backstory.,Mosque,4,36.7861,3.0617,30,"{ ""mon"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
   ""tue"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
   ""wed"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
   ""thu"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
@@ -319,7 +319,7 @@ ID,Name,Description,Type,Rating,Latitude,Longitude,EstimatedTime (min),Hours,Ima
   ""sat"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
   ""sun"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0]
 }",.
-41,El Barani Mosque,A beautiful historical mosque located near the entrance of the Casbah citadel.,Mosque,6,36.7844519,3.0557747,40,"{ ""mon"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+41,El Barani Mosque,A beautiful historical mosque located near the entrance of the Casbah citadel.,Mosque,3,36.7844519,3.0557747,40,"{ ""mon"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
   ""tue"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
   ""wed"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
   ""thu"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
@@ -327,7 +327,7 @@ ID,Name,Description,Type,Rating,Latitude,Longitude,EstimatedTime (min),Hours,Ima
   ""sat"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
   ""sun"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0]
 }",.
-42,Ben Farès Mosque,Originally the Great Synagogue of Algiers before being converted into a mosque.,Historical Site,7,36.7839,3.0586,30,"{ ""mon"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+42,Ben Farès Mosque,Originally the Great Synagogue of Algiers before being converted into a mosque.,Historical Site,4,36.7839,3.0586,30,"{ ""mon"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
   ""tue"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
   ""wed"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
   ""thu"": [0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
@@ -343,7 +343,7 @@ ID,Name,Description,Type,Rating,Latitude,Longitude,EstimatedTime (min),Hours,Ima
   ""sat"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0],
   ""sun"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0]
 }",.
-45,Hydra Square,The upscale center of the Hydra district known for chic cafes and restaurants.,Public Square,8.2,36.7461,3.0289,40,"{ ""mon"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+45,Hydra Square,The upscale center of the Hydra district known for chic cafes and restaurants.,Public Square,7.8,36.7461,3.0289,40,"{ ""mon"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
   ""tue"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
   ""wed"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
   ""thu"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
@@ -359,7 +359,7 @@ ID,Name,Description,Type,Rating,Latitude,Longitude,EstimatedTime (min),Hours,Ima
   ""sat"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
   ""sun"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
 }",.
-47,Bouchaoui Forest,A dense and highly popular forest area used by locals for jogging and picnics.,Nature,8.6,36.7597514,2.9132367,110,"{ ""mon"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+47,Bouchaoui Forest,A dense and highly popular forest area used by locals for jogging and picnics.,Nature,6.2,36.7597514,2.9132367,110,"{ ""mon"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
   ""tue"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
   ""wed"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
   ""thu"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
@@ -367,7 +367,7 @@ ID,Name,Description,Type,Rating,Latitude,Longitude,EstimatedTime (min),Hours,Ima
   ""sat"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
   ""sun"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
 }",.
-48,Bainem Forest,The largest forest in the Algiers province offering excellent hiking trails.,Nature,8.8,36.7965031,2.9691428,105,"{ ""mon"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+48,Bainem Forest,The largest forest in the Algiers province offering excellent hiking trails.,Nature,7.2,36.7965031,2.9691428,105,"{ ""mon"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
   ""tue"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
   ""wed"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
   ""thu"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
@@ -423,7 +423,7 @@ ID,Name,Description,Type,Rating,Latitude,Longitude,EstimatedTime (min),Hours,Ima
   ""sat"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
   ""sun"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
 }",.
-55,City Center Mall,"A modern retail and lifestyle complex offering a variety of international and local stores, diverse dining options, and a large Carrefour hypermarket",Shopping/Mall,6.2,36.72954476,3.178308308,40,"{""mon"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
+55,City Center Mall,"A modern retail and lifestyle complex offering a variety of international and local stores, diverse dining options, and a large Carrefour hypermarket",Shopping/Mall,7.2,36.72954476,3.178308308,40,"{""mon"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
   ""tue"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
   ""wed"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0],
   ""thu"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
@@ -440,7 +440,7 @@ ID,Name,Description,Type,Rating,Latitude,Longitude,EstimatedTime (min),Hours,Ima
   ""sun"": [0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0]
 }",.
 57,Sidi Abdellah Water Park,"A family-friendly aquatic and amusement park located in the Mahelma (Sidi Abdellah) area, offering swimming pools and water slides to cool off during the hot summer months
-",Park,5,36.6668,2.8751,60,"{ ""mon"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
+",Park,6,36.6668,2.8751,60,"{ ""mon"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
   ""tue"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
   ""wed"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
   ""thu"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
@@ -478,4 +478,4 @@ ID,Name,Description,Type,Rating,Latitude,Longitude,EstimatedTime (min),Hours,Ima
 64,Reghaia Lake Nature Reserve,A vital coastal wetland and lake providing a habitat for migratory bird species.,Nature,4.5,36.77213209,3.335101541,30,"{""mon"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1], ""tue"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1], ""wed"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1], ""thu"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1], ""fri"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1], ""sat"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]}",.
 65,Balcon Saint-Raphaël,A spectacular cliffside viewing terrace in El Biar offering the best panoramas of Algiers.,Public Square,7.3,36.76781892,3.038518113,45,"{""mon"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1], ""tue"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1], ""wed"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1], ""thu"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1], ""fri"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1], ""sat"": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]}",.
 66,Kiffan Club,"A long-standing, popular amusement and water park located in Bordj El Kiffan.",Park,6,36.75865481,3.218008727,180,"{""mon"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0], ""tue"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0], ""wed"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0], ""thu"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0], ""fri"": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0], ""sat"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0], ""sun"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0]}",.
-67,Club des Pins,"A highly secure, exclusive beach and residential estate hosting diplomats and officials.",Beach,8,36.76967768,2.888413032,120,"{""mon"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0], ""tue"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0], ""wed"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0], ""thu"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0], ""fri"": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0], ""sat"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0], ""sun"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0]}",.
+67,Club des Pins,"A highly secure, exclusive beach and residential estate hosting diplomats and officials.",Beach,6,36.76967768,2.888413032,120,"{""mon"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0], ""tue"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0], ""wed"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0], ""thu"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0], ""fri"": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0], ""sat"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0], ""sun"": [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0]}",.
