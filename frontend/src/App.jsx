@@ -3,14 +3,18 @@ import Home from "./home/Home"
 import FooterSection from "./footer/Footer";
 import Navbar from "./navbar/Navbar";
 import PlanJourney from "./plan/PlanJourney";
+import Register from "./register/Register";
+import Login from "./login/Login";
 
 export default function App() {
 
   return <>
-    <Navbar />
+    {/* <Navbar />
     {/* <Home /> */}
-    <PlanJourney />
-    <FooterSection />
+    {/* <PlanJourney />
+    <FooterSection /> */}
+    {/* <Register /> */}
+    <Login />
   </>;
 }
 ;

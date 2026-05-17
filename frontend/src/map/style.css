@@ -1,21 +1,5 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
-/* ═══════════════════════════════════════════════════════
-   Algiers in 24h — Global Styles
-   ═══════════════════════════════════════════════════════ */
-
 :root {
   --sidebar-w: 360px;
-  --bg: #f7f8fc;
-  --sidebar-bg: #ffffff;
-  --text: #333;
-  --text-muted: #888;
-  --border: #e8e8ee;
-  --accent: #2563eb;
-  --accent-light: #dbeafe;
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
-  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.08);
-  --radius: 14px;
-  --font: "Inter", system-ui, sans-serif;
 }
 
 *,
@@ -138,8 +122,8 @@ body {
   background: #fafbfd;
 }
 .search-input:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px var(--accent-light);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-light);
 }
 
 /* ── Type filter chips ── */
@@ -163,13 +147,13 @@ body {
   color: var(--text-muted);
 }
 .chip:hover {
-  border-color: var(--accent);
-  color: var(--accent);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
 }
 .chip.active {
-  background: var(--accent);
+  background: var(--color-primary);
   color: #fff;
-  border-color: var(--accent);
+  border-color: var(--color-primary);
 }
 
 /* ── Hotel toggle ── */
@@ -184,7 +168,7 @@ body {
   user-select: none;
 }
 .hotel-toggle input[type="checkbox"] {
-  accent-color: var(--accent);
+  accent-color: var(--color-primary);
   width: 16px;
   height: 16px;
 }
@@ -259,7 +243,7 @@ body {
   transform: translateY(-2px);
 }
 .card-wrapper.highlighted {
-  outline: 2.5px solid var(--accent);
+  outline: 2.5px solid var(--color-primary);
   outline-offset: 3px;
   border-radius: 14px;
 }
@@ -268,7 +252,7 @@ body {
   cursor: pointer;
 }
 .landmark-card:focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--color-primary);
   outline-offset: 2px;
 }
 
@@ -351,7 +335,7 @@ body {
   width: 40px;
   height: 40px;
   border: 3px solid var(--border);
-  border-top-color: var(--accent);
+  border-top-color: var(--color-primary);
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }

@@ -3,19 +3,7 @@ import PropTypes from "prop-types";
 
 
 
-const globalStyles = `
-  @import url("https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;700&display=swap");
-  @import url("https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&display=swap");
 
-  :root {
-    --primary:      #005e97;
-    --primary-dark: #002366;
-    --neutral-bg:   #eef0f3;
-    --card-bg:      #ffffff;
-    --text-dark:    #1a1c1c;
-    --text-body:    #404751;
-  }
-`;
 
 
 
@@ -50,7 +38,6 @@ const AIHeadIcon = () => (
 
 const AIJourneySection = ({ className = "" }) => (
   <>
-    <style>{globalStyles}</style>
 
 
     <Box
@@ -59,7 +46,7 @@ const AIJourneySection = ({ className = "" }) => (
       sx={{
         width: "100%",
         minHeight: "100vh",
-        backgroundColor: "var(--neutral-bg)",
+        backgroundColor: "var(--color-neutral-100)",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -69,13 +56,13 @@ const AIJourneySection = ({ className = "" }) => (
           md: "128px 80px 160px 80px",
         },
         boxSizing: "border-box",
-        fontFamily: "Hanken Grotesk, sans-serif",
+        fontFamily: "var(--font-body)",
       }}
     >
 
       <Box
         sx={{
-          backgroundColor: "var(--card-bg)",
+          backgroundColor: "var(--color-neutral)",
           borderRadius: "36px",
           boxShadow:
             "0 4px 6px rgba(0,0,0,0.04), 0 20px 60px rgba(0,0,0,0.07)",
@@ -103,11 +90,11 @@ const AIJourneySection = ({ className = "" }) => (
           variantMapping={{ inherit: "h2" }}
           variant="inherit"
           sx={{
-            fontFamily: "EB Garamond, serif",
+            fontFamily: "var(--font-headline)",
             fontWeight: 700,
             fontSize: { xs: "1.75rem", sm: "2.75rem", md: "3.25rem" },
             lineHeight: 1.18,
-            color: "var(--text-dark)",
+            color: "var(--color-neutral-1000)",
             letterSpacing: "-0.3px",
             mb: "20px",
           }}
@@ -119,11 +106,11 @@ const AIJourneySection = ({ className = "" }) => (
         <Typography
           variant="body1"
           sx={{
-            fontFamily: "Hanken Grotesk, sans-serif",
+            fontFamily: "var(--font-body)",
             fontWeight: 400,
             fontSize: { xs: "1rem", md: "1.0625rem" },
             lineHeight: "1.8rem",
-            color: "var(--text-body)",
+            color: "var(--color-neutral-700)",
             maxWidth: "500px",
             mb: "52px",
           }}
@@ -150,7 +137,7 @@ const AIJourneySection = ({ className = "" }) => (
               right: "5%",
               height: "32px",
               borderRadius: "50%",
-              background: "rgba(0, 94, 151, 0.22)",
+              background: "rgba(0, 119, 190, 0.22)",
               filter: "blur(14px)",
               zIndex: 0,
             }}
@@ -162,9 +149,9 @@ const AIJourneySection = ({ className = "" }) => (
               position: "relative",
               zIndex: 1,
               borderRadius: "9999px",
-              backgroundColor: "var(--primary)",
-              color: "#ffffff",
-              fontFamily: "Hanken Grotesk, sans-serif",
+              backgroundColor: "var(--color-primary)",
+              color: "var(--color-neutral)",
+              fontFamily: "var(--font-body)",
               fontWeight: 700,
               fontSize: { xs: "1rem", md: "1.0625rem" },
               letterSpacing: "0.2px",
@@ -172,7 +159,7 @@ const AIJourneySection = ({ className = "" }) => (
               padding: { xs: "16px 32px", md: "20px 40px" },
               boxShadow: "none",
               "&:hover": {
-                backgroundColor: "var(--primary-dark)",
+                backgroundColor: "var(--color-tertiary)",
                 boxShadow: "none",
               },
             }}

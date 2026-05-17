@@ -18,8 +18,8 @@
   letter-spacing: normal;
   text-align: left;
   font-size: 1.25rem;
-  color: #79f5fb;
-  font-family: "Hanken Grotesk";
+  color: var(--color-secondary);
+  font-family: var(--font-body);
 }
 .ab6axuama6a4ohdfkgkjnw513zoc9yIcon {
   width: 100%;
@@ -50,7 +50,7 @@
   height: 9.5rem;
   flex-shrink: 0;
   font-size: 3rem;
-  font-family: "EB Garamond";
+  font-family: var(--font-headline);
 }
 .algiersAi {
   margin: 0;
@@ -63,8 +63,8 @@
   flex-direction: column;
   align-items: flex-start;
   font-size: 0.875rem;
-  color: rgba(121, 245, 251, 0.7);
-  font-family: "Hanken Grotesk";
+  color: rgba(125, 249, 255, 0.7); /* --color-secondary at 70% */
+  font-family: var(--font-body);
 }
 .theSpiritOf {
   align-self: stretch;
@@ -105,7 +105,7 @@ a.theSpiritOf:hover {
   align-items: flex-start;
   gap: 0.5rem;
   font-size: 0.875rem;
-  color: rgba(121, 245, 251, 0.7);
+  color: rgba(125, 249, 255, 0.7); /* --color-secondary at 70% */
 }
 .container5,
 .item,
@@ -136,7 +136,7 @@ a.theSpiritOf:hover {
   z-index: 1;
   flex-shrink: 0;
   font-size: 0.875rem;
-  color: rgba(121, 245, 251, 0.5);
+  color: rgba(125, 249, 255, 0.5); /* --color-secondary at 50% */
 }
 .container6,
 .horizontalborder,
@@ -146,7 +146,7 @@ a.theSpiritOf:hover {
 }
 .horizontalborder {
   align-self: stretch;
-  border-top: 1px solid rgba(121, 245, 251, 0.1);
+  border-top: 1px solid rgba(125, 249, 255, 0.1); /* --color-secondary at 10% */
   align-items: center;
   justify-content: center;
 }

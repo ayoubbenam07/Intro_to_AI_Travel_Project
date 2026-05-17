@@ -5,24 +5,7 @@ import casbahpic from "./casbah.png";
 import notreDamePic from "./notreDame.png";
 
 
-const globalStyles = `
-  @import url("https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,500;0,700&display=swap");
-  @import url("https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,400;0,600;0,700&display=swap");
-  @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 
-  body {
-    margin: 0;
-    line-height: normal;
-  }
-
-  :root {
-    --Second-Colour: #005e97;
-    --Back-blur:     rgba(255, 255, 255, 0.4);
-    --Back-Blure:    blur(30px);
-    --Gradient:      linear-gradient(0deg, #f9f9f9, rgba(249,249,249,0.1) 38.4%, rgba(249,249,249,0));
-    --Title-shadow:  drop-shadow(0px 3px 5px rgba(26,28,28,0.5));
-  }
-`;
 
 
 const sx = {
@@ -40,7 +23,7 @@ const sx = {
 
   mainContainer: {
     flex: 1,
-    background: "var(--Gradient)",
+    background: "linear-gradient(0deg, #f9f9f9, rgba(249,249,249,0.1) 38.4%, rgba(249,249,249,0))",
     padding: "11.593rem 5rem",
     boxSizing: "border-box",
     isolation: "isolate",
@@ -102,8 +85,8 @@ const sx = {
     flexShrink: 0,
     textAlign: "left",
     fontSize: "5rem",
-    color: "#1a1c1c",
-    fontFamily: "Hanken Grotesk",
+    color: "var(--color-neutral-1000)",
+    fontFamily: "var(--font-body)",
     "@media (max-width:900px)": { maxWidth: "100%" },
     "@media (max-width:700px)": { paddingTop: "3.25rem" },
   },
@@ -113,13 +96,13 @@ const sx = {
     display: "flex",
     flexDirection: "column",
     alignItems: "flex-start",
-    fontFamily: "EB Garamond",
+    fontFamily: "var(--font-headline)",
   },
 
   titleText: {
     margin: 0,
     position: "relative",
-    filter: "var(--Title-shadow)",
+    filter: "drop-shadow(0px 3px 5px rgba(26,28,28,0.5))",
     fontWeight: "700",
     lineHeight: "5.625rem",
     letterSpacing: "-1.6px",
@@ -127,7 +110,7 @@ const sx = {
     "@media (max-width:450px)": { fontSize: "2.5rem", lineHeight: "3rem" },
   },
 
-  infiniteAlgiers: { color: "var(--Second-Colour)" },
+  infiniteAlgiers: { color: "var(--color-primary)" },
 
   descriptionBox: {
     width: "100%",
@@ -136,7 +119,7 @@ const sx = {
     alignItems: "flex-start",
     maxWidth: "36rem",
     fontSize: "1.375rem",
-    color: "#404751",
+    color: "var(--color-neutral-700)",
     "@media (max-width:700px)": { maxWidth: "100%" },
   },
 
@@ -162,7 +145,7 @@ const sx = {
 
   primaryButton: {
     borderRadius: "9999px",
-    backgroundColor: "var(--Second-Colour)",
+    backgroundColor: "var(--color-primary)",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -198,7 +181,7 @@ const sx = {
 
   secondaryButton: {
     textTransform: "none",
-    color: "#1a1c1c",
+    color: "var(--color-neutral-1000)",
     fontSize: "16px",
     background: "rgba(255, 255, 255, 0.4)",
     border: "rgba(255, 255, 255, 0.3) solid 1px",
@@ -240,8 +223,8 @@ const sx = {
     gap: "0.5rem",
     textAlign: "left",
     fontSize: "0.75rem",
-    color: "#fff",
-    fontFamily: "Hanken Grotesk",
+    color: "var(--color-neutral)",
+    fontFamily: "var(--font-body)",
     "@media (max-width:700px)": { width: "100%" },
   },
 
@@ -324,7 +307,7 @@ const sx = {
     zIndex: 2,
     flexShrink: 0,
     fontSize: "1.25rem",
-    color: "#1a1c1c",
+    color: "var(--color-neutral-1000)",
   },
 
   cardTitle: {
@@ -344,7 +327,7 @@ const sx = {
     zIndex: 3,
     flexShrink: 0,
     fontSize: "0.875rem",
-    color: "#404751",
+    color: "var(--color-neutral-700)",
   },
 
   cardBodyText: {
@@ -468,7 +451,6 @@ const HeroContent = () => (
 
 const HeroSection = () => (
   <>
-    <style>{globalStyles}</style>
 
     <Box sx={sx.heroSection}>
       <Box component="main" sx={sx.mainContainer}>

@@ -1,27 +1,7 @@
 import { useState } from "react";
 
-// ─── Design Tokens ────────────────────────────────────────────────────────────
-// Primary:   #00778E  (teal)
-// Secondary: #7DF9FF  (cyan accent)
-// Tertiary:  #002366  (deep navy)
-// Neutral:   #FFFFFF
-// Headline:  EB Garamond
-// Body/UI:   Hanken Grotesk
 
 const styles = `
-  @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@600;700&family=Hanken+Grotesk:wght@300;400;500;600&display=swap');
-
-  :root {
-    --c-primary:    #00778E;
-    --c-secondary:  #7DF9FF;
-    --c-tertiary:   #002366;
-    --c-neutral:    #FFFFFF;
-    --c-primary-dk: #005f72;   /* hover state for primary */
-    --c-tert-10:    rgba(0, 35, 102, 0.10);
-    --c-tert-20:    rgba(0, 35, 102, 0.20);
-    --c-tert-35:    rgba(0, 35, 102, 0.35);
-  }
-
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   /* ── Outer wrapper ── */
@@ -58,10 +38,10 @@ const styles = `
 
   /* ── Brand ── */
   .brand {
-    font-family: 'EB Garamond', Georgia, serif;
-    font-size: 1.25rem;
+    font-family: var(--font-headline);
+    font-size: var(--text-xl);
     font-weight: 700;
-    color: var(--c-tertiary);
+    color: var(--color-tertiary);
     letter-spacing: -0.01em;
     white-space: nowrap;
     margin-right: 28px;
@@ -70,13 +50,13 @@ const styles = `
     flex-shrink: 0;
     transition: color 0.2s;
   }
-  .brand:hover { color: var(--c-primary); }
+  .brand:hover { color: var(--color-primary); }
 
   /* ── Divider ── */
   .divider {
     width: 1px;
     height: 26px;
-    background: linear-gradient(to bottom, transparent, var(--c-tert-20), transparent);
+    background: linear-gradient(to bottom, transparent, rgba(0, 35, 102, 0.20), transparent);
     flex-shrink: 0;
     margin-right: 20px;
   }
@@ -91,10 +71,10 @@ const styles = `
 
   .nav-link {
     position: relative;
-    font-family: 'Hanken Grotesk', sans-serif;
-    font-size: 0.875rem;
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
     font-weight: 400;
-    color: var(--c-tertiary);
+    color: var(--color-tertiary);
     opacity: 0.7;
     background: none;
     border: none;
@@ -108,14 +88,14 @@ const styles = `
     outline: none;
   }
   .nav-link:hover {
-    color: var(--c-tertiary);
+    color: var(--color-tertiary);
     opacity: 1;
-    background: var(--c-tert-10);
+    background: rgba(0, 35, 102, 0.10);
   }
 
   /* Active tab */
   .nav-link.active {
-    color: var(--c-primary);
+    color: var(--color-primary);
     opacity: 1;
     font-weight: 500;
   }
@@ -127,7 +107,7 @@ const styles = `
     transform: translateX(-50%);
     width: 60%;
     height: 2px;
-    background: var(--c-primary);
+    background: var(--color-primary);
     border-radius: 2px;
     animation: underline-in 0.25s cubic-bezier(.4,0,.2,1) both;
   }
@@ -145,7 +125,7 @@ const styles = `
     transform: translateX(-50%);
     width: 0;
     height: 2px;
-    background: var(--c-primary);
+    background: var(--color-primary);
     border-radius: 2px;
     transition: width 0.2s ease;
     opacity: 0.45;
@@ -166,9 +146,9 @@ const styles = `
     display: flex;
     align-items: center;
     gap: 7px;
-    background: var(--c-primary);
-    color: var(--c-neutral);
-    font-family: 'Hanken Grotesk', sans-serif;
+    background: var(--color-primary);
+    color: var(--color-neutral);
+    font-family: var(--font-body);
     font-size: 0.82rem;
     font-weight: 500;
     letter-spacing: 0.02em;
@@ -177,7 +157,7 @@ const styles = `
     padding: 8px 17px 8px 13px;
     cursor: pointer;
     white-space: nowrap;
-    box-shadow: 0 2px 14px rgba(0, 119, 142, 0.38);
+    box-shadow: 0 2px 14px rgba(0, 119, 190, 0.38);
     transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
     outline: none;
     position: relative;
@@ -193,13 +173,13 @@ const styles = `
     pointer-events: none;
   }
   .btn-ai:hover {
-    background: var(--c-primary-dk);
-    box-shadow: 0 4px 22px rgba(0, 119, 142, 0.48);
+    background: var(--color-primary-hover);
+    box-shadow: 0 4px 22px rgba(0, 119, 190, 0.48);
     transform: translateY(-1px);
   }
   .btn-ai:active {
     transform: translateY(0);
-    box-shadow: 0 2px 8px rgba(0, 119, 142, 0.3);
+    box-shadow: 0 2px 8px rgba(0, 119, 190, 0.3);
   }
 
   .btn-ai-icon {
@@ -214,20 +194,20 @@ const styles = `
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    background: var(--c-tert-10);
-    border: 1.5px solid var(--c-tert-20);
+    background: rgba(0, 35, 102, 0.10);
+    border: 1.5px solid rgba(0, 35, 102, 0.20);
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     transition: background 0.2s, border-color 0.2s, transform 0.15s;
     outline: none;
-    color: var(--c-tertiary);
+    color: var(--color-tertiary);
     flex-shrink: 0;
   }
   .avatar-btn:hover {
-    background: var(--c-tert-20);
-    border-color: var(--c-tert-35);
+    background: rgba(0, 35, 102, 0.20);
+    border-color: rgba(0, 35, 102, 0.35);
     transform: scale(1.06);
   }
 

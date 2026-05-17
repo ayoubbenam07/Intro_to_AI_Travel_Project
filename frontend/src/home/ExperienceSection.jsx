@@ -8,25 +8,7 @@ import yachtMarinasPic from "./yacht_marinas.png";
 import ancientRuinsPic from "./ancient_ruins.png";
 
 
-const globalStyles = `
-  @import url("https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,500;0,700&display=swap");
-  @import url("https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,400;0,600;0,700&display=swap");
-  @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 
-  body {
-    margin: 0;
-    line-height: normal;
-  }
-
-  :root {
-    --Second-Colour: #005e97;
-    --Second-Colour1: #005e97;
-    --Gradient: linear-gradient(0deg, #f9f9f9, rgba(249,249,249,0.1) 38.4%, rgba(249,249,249,0));
-    --Gradient1: linear-gradient(0deg, #f9f9f9, rgba(249,249,249,0.1) 38.4%, rgba(249,249,249,0));
-    --Title-shadow: drop-shadow(0px 3px 5px rgba(26,28,28,0.5));
-    --Title-shadow1: drop-shadow(0px 3px 5px rgba(26,28,28,0.5));
-  }
-`;
 
 
 
@@ -51,8 +33,8 @@ const gradientFullSx = (variant = "large") => ({
   left: 0,
   background:
     variant === "large"
-      ? "linear-gradient(0deg, var(--Second-Colour), rgba(0,94,151,0) 50%, rgba(0,79,82,0))"
-      : "linear-gradient(0deg, var(--Second-Colour), rgba(0,94,151,0) 50%, rgba(0,94,151,0))",
+      ? "linear-gradient(0deg, var(--color-primary), rgba(0,119,190,0) 50%, rgba(0,79,82,0))"
+      : "linear-gradient(0deg, var(--color-primary), rgba(0,119,190,0) 50%, rgba(0,119,190,0))",
   opacity: 0.8,
 });
 
@@ -78,8 +60,8 @@ const cardBaseSx = {
   isolation: "isolate",
   textAlign: "left",
   fontSize: "12px",
-  color: "#fff",
-  fontFamily: "Hanken Grotesk",
+  color: "var(--color-neutral)",
+  fontFamily: "var(--font-body)",
 };
 
 
@@ -136,7 +118,7 @@ const LargeCard = ({ src }) => (
           alignItems: "flex-start",
           padding: "3px 0 0",
           fontSize: "48px",
-          fontFamily: "EB Garamond",
+          fontFamily: "var(--font-headline)",
           "@media (max-width:1050px)": { fontSize: "38px" },
           "@media (max-width:450px)": { fontSize: "29px" },
         }}
@@ -282,7 +264,7 @@ const MediumCard = ({ src }) => (
           fontSize: "48px",
           lineHeight: "56px",
           fontWeight: "500",
-          fontFamily: "EB Garamond",
+          fontFamily: "var(--font-headline)",
         }}
       >
         The Artisans of the Old City
@@ -295,14 +277,13 @@ const MediumCard = ({ src }) => (
 
 const ExperienceSection = ({ className = "" }) => (
   <>
-    <style>{globalStyles}</style>
 
     <Box
       className={className}
       sx={{
         width: "100%",
         position: "relative",
-        backgroundColor: "#f3f3f4",
+        backgroundColor: "var(--color-neutral-100)",
         padding: "128px 80px",
         boxSizing: "border-box",
         lineHeight: "normal",
@@ -343,8 +324,8 @@ const ExperienceSection = ({ className = "" }) => (
             maxWidth: "100%",
             textAlign: "left",
             fontSize: "12px",
-            color: "var(--Second-Colour1)",
-            fontFamily: "Hanken Grotesk",
+            color: "var(--color-primary)",
+            fontFamily: "var(--font-body)",
             "@media (max-width:1200px)": { flexWrap: "wrap" },
           }}
         >
@@ -378,8 +359,8 @@ const ExperienceSection = ({ className = "" }) => (
                 fontSize: "48px",
                 lineHeight: "60px",
                 fontWeight: "500",
-                fontFamily: "EB Garamond",
-                color: "#1a1c1c",
+                fontFamily: "var(--font-headline)",
+                color: "var(--color-neutral-1000)",
                 "@media (max-width: 900px)": { fontSize: "40px", lineHeight: "50px" },
                 "@media (max-width: 480px)": { fontSize: "26px", lineHeight: "34px", wordBreak: "keep-all" },
               }}
@@ -398,7 +379,7 @@ const ExperienceSection = ({ className = "" }) => (
               boxSizing: "border-box",
               maxWidth: "384px",
               fontSize: "18px",
-              color: "#404751",
+              color: "var(--color-neutral-700)",
               "@media (max-width:450px)": { maxWidth: "100%" },
             }}
           >
