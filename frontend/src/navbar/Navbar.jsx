@@ -262,12 +262,19 @@ const UserIcon = () => (
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
-const NAV_ITEMS = ["Heritage", "Itineraries"];
+const NAV_ITEMS = [
+  { label: "Home", path: "/" },
+  { label: "Map", path: "/map" },
+  { label: "Plan Journey", path: "/plan" }
+];
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
+import { Link, useLocation } from "react-router-dom";
+
 export default function Navbar() {
-  const [active, setActive] = useState("Heritage");
+  const location = useLocation();
+  const activePath = location.pathname;
 
   return (
     <>
@@ -276,9 +283,9 @@ export default function Navbar() {
       <nav className="navbar-wrap" role="navigation" aria-label="Main navigation">
 
         {/* Brand */}
-        <span className="brand" onClick={() => setActive("Heritage")} role="link" tabIndex={0}>
+        <Link to="/" className="brand" role="link" tabIndex={0} style={{ textDecoration: 'none' }}>
           Algiers AI
-        </span>
+        </Link>
 
         {/* Vertical divider */}
         <div className="divider" aria-hidden="true" />
@@ -286,15 +293,16 @@ export default function Navbar() {
         {/* Nav Links */}
         <div className="nav-links" role="menubar">
           {NAV_ITEMS.map((item) => (
-            <button
-              key={item}
-              className={`nav-link${active === item ? " active" : ""}`}
-              onClick={() => setActive(item)}
+            <Link
+              to={item.path}
+              key={item.label}
+              className={`nav-link${activePath === item.path ? " active" : ""}`}
               role="menuitem"
-              aria-current={active === item ? "page" : undefined}
+              aria-current={activePath === item.path ? "page" : undefined}
+              style={{ textDecoration: 'none' }}
             >
-              {item}
-            </button>
+              {item.label}
+            </Link>
           ))}
         </div>
 
@@ -304,9 +312,9 @@ export default function Navbar() {
             <SparkleIcon />
             <span className="btn-ai-text">AI Assistant</span>
           </button>
-          <button className="avatar-btn" aria-label="User profile">
+          <Link to="/login" className="avatar-btn" aria-label="User profile" style={{ textDecoration: 'none' }}>
             <UserIcon />
-          </button>
+          </Link>
         </div>
 
       </nav>

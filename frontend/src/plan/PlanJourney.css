@@ -5,13 +5,13 @@
 /* ── Full-screen background ── */
 .plan-page {
   position: relative;
-  height: 100vh;
+  min-height: 100vh;
   width: 100%;
   display: flex;
   align-items: stretch;
   justify-content: flex-start;
   padding: 0;
-  overflow: hidden;
+  /* overflow: hidden; Removed so we can scroll to the footer */
 }
 
 .plan-page__bg {
@@ -45,11 +45,11 @@
   z-index: 2;
   width: 100%;
   max-width: 540px;
-  height: 100vh;
+  min-height: 100vh;
   background: var(--bg);
   border: none;
   border-radius: 0;
-  padding: 48px 44px 36px;
+  padding: 100px 44px 128px; /* High bottom padding to absorb the footer overlap without hiding buttons */
   box-shadow: none;
   animation: plan-panel-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
   display: flex;
@@ -62,7 +62,7 @@
   position: relative;
   z-index: 2;
   width: 80px;
-  height: 100vh;
+  min-height: 100vh;
   flex-shrink: 0;
   background: linear-gradient(90deg, var(--bg) 0%, rgba(247, 248, 252, 0) 40%);
   pointer-events: none;
@@ -87,9 +87,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 60px 48px;
-  height: 100vh;
-  overflow: hidden;
+  padding: 100px 48px 128px; /* High bottom padding to absorb footer overlap */
+  min-height: 100vh;
+  /* overflow: hidden; Removed so card can scroll if screen is small */
 }
 
 .companion-card {
@@ -1499,10 +1499,9 @@
 
   .plan-panel {
     max-width: 100%;
-    min-height: auto;
-    padding: 28px 20px 24px;
+    min-height: 100vh;
+    padding: 110px 20px 128px; /* Restored necessary padding to clear mobile nav/footer */
     border-right: none;
-    border-bottom: 1px solid var(--color-neutral-200);
   }
 
   .plan-panel__title {

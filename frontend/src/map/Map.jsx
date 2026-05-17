@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback, useMemo } from "react";
 import MapComponent from "./MapComponent.jsx";
 import Card from "./Card.jsx";
 import { loadLandmarks, loadHotels, getTypeColor, getTypeIcon } from "./data.js";
+import "./style.css";
 
 /* ── Unique types for filter chips ── */
 function getUniqueTypes(landmarks) {

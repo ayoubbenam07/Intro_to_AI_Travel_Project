@@ -2,6 +2,7 @@
   height: 24.563rem;
   border-radius: 64px 64px 0 0;
   background-color: var(--Second-Colour);
+  width: 100%;
   max-width: 100%;
   position: relative;
   margin-top: -64px;
