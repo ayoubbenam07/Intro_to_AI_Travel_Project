@@ -1,5 +1,305 @@
-*{
+/* ═══════════════════════════════════════════════════════
+   Global Styles
+   ═══════════════════════════════════════════════════════ */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700;800&family=Hanken+Grotesk:wght@300;400;500;600;700;800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --sidebar-w: 340px;
+  --bg: #f7f8fc;
+  --sidebar-bg: #ffffff;
+  --text: #333;
+  --text-muted: #888;
+  --border: #e8e8ee;
+  --accent: #2563eb;
+  --accent-light: #dbeafe;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.08);
+  --radius: 12px;
+  --font: "Inter", system-ui, sans-serif;
+
+  /* ── Design System Colors ── */
+  --color-primary: #0077be;
+  --color-primary-hover: #006aab;
+  --color-primary-active: #005d97;
+  --color-primary-light: rgba(0, 119, 190, 0.1);
+
+  --color-secondary: #7df9ff;
+  --color-secondary-hover: #64f0f6;
+  --color-secondary-active: #4be7ed;
+
+  --color-tertiary: #002366;
+  --color-tertiary-hover: #001c52;
+  --color-tertiary-active: #001540;
+
+  --color-neutral: #ffffff;
+  --color-neutral-100: #f5f7fa;
+  --color-neutral-200: #e4e7eb;
+  --color-neutral-300: #cbd2d9;
+  --color-neutral-400: #9aa5b1;
+  --color-neutral-500: #7b8794;
+  --color-neutral-600: #616e7c;
+  --color-neutral-700: #52606d;
+  --color-neutral-800: #3e4c59;
+  --color-neutral-900: #323f4b;
+  --color-neutral-1000: #1f2933;
+
+  /* ── Font Families ── */
+  --font-headline: "EB Garamond", Georgia, serif;
+  --font-body: "Hanken Grotesk", "Inter", system-ui, sans-serif;
+  --font-label: "Hanken Grotesk", "Inter", system-ui, sans-serif;
+
+  /* ── Font Sizes ── */
+  --text-xs: 0.75rem; /* 12px */
+  --text-sm: 0.875rem; /* 14px */
+  --text-base: 1rem; /* 16px */
+  --text-lg: 1.125rem; /* 18px */
+  --text-xl: 1.25rem; /* 20px */
+  --text-2xl: 1.5rem; /* 24px */
+  --text-3xl: 1.875rem; /* 30px */
+  --text-4xl: 2.25rem; /* 36px */
+  --text-5xl: 3rem; /* 48px */
+  --text-6xl: 3.75rem; /* 60px */
+
+  /* ── Line Heights ── */
+  --leading-tight: 1.1;
+  --leading-snug: 1.3;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.65;
+
+  /* ── Button tokens ── */
+  --btn-radius: 24px;
+  --btn-font-weight: 600;
+  --btn-transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+html,
+body {
+  height: 100%;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ═══════════════════════════════════════════════════════
+   BUTTON COMPONENT
+   Variants: primary | secondary | inverted | outlined
+   ═══════════════════════════════════════════════════════ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 24px;
+  border-radius: var(--btn-radius);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--btn-font-weight);
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: var(--btn-transition);
+  text-decoration: none;
+  white-space: nowrap;
+  user-select: none;
+  position: relative;
+  overflow: hidden;
+}
+.btn:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+/* — Sizes — */
+.btn-sm {
+  padding: 6px 16px;
+  font-size: var(--text-xs);
+  border-radius: 18px;
+}
+.btn-lg {
+  padding: 14px 32px;
+  font-size: var(--text-base);
+  border-radius: 28px;
+}
+/* — Primary variant — */
+.btn-primary {
+  background: var(--color-primary);
+  color: var(--color-neutral);
+  border-color: var(--color-primary);
+  box-shadow: 0 4px 14px rgba(0, 119, 190, 0.3);
+}
+.btn-primary:hover {
+  background: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(0, 119, 190, 0.4);
+}
+.btn-primary:active {
+  background: var(--color-primary-active);
+  border-color: var(--color-primary-active);
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(0, 119, 190, 0.3);
+}
+/* — Secondary variant — */
+.btn-secondary {
+  background: var(--color-neutral);
+  color: var(--color-neutral-800);
+  border-color: var(--color-neutral-300);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+.btn-secondary:hover {
+  background: var(--color-neutral-100);
+  border-color: var(--color-neutral-400);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+.btn-secondary:active {
+  background: var(--color-neutral-200);
+  border-color: var(--color-neutral-400);
+  transform: translateY(0);
+}
+/* — Inverted variant — */
+.btn-inverted {
+  background: var(--color-tertiary);
+  color: var(--color-neutral);
+  border-color: var(--color-tertiary);
+  box-shadow: 0 4px 14px rgba(0, 35, 102, 0.35);
+}
+.btn-inverted:hover {
+  background: var(--color-tertiary-hover);
+  border-color: var(--color-tertiary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(0, 35, 102, 0.45);
+}
+.btn-inverted:active {
+  background: var(--color-tertiary-active);
+  border-color: var(--color-tertiary-active);
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(0, 35, 102, 0.3);
+}
+/* — Outlined variant — */
+.btn-outlined {
+  background: transparent;
+  color: var(--color-neutral-800);
+  border-color: var(--color-neutral-300);
+}
+.btn-outlined:hover {
+  background: var(--color-neutral-100);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  transform: translateY(-1px);
+}
+.btn-outlined:active {
+  background: var(--color-primary-light);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  transform: translateY(0);
+}
+/* ═══════════════════════════════════════════════════════
+   INPUT COMPONENT
+   ═══════════════════════════════════════════════════════ */
+.input {
+  display: block;
+  width: 100%;
+  padding: 10px 16px;
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--color-neutral-900);
+  background: var(--color-neutral);
+  border: 1.5px solid var(--color-neutral-300);
+  border-radius: var(--radius);
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+  appearance: none;
+  -webkit-appearance: none;
+}
+.input::placeholder {
+  color: var(--color-neutral-400);
+  font-weight: 400;
+}
+.input:hover {
+  border-color: var(--color-neutral-400);
+}
+.input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-light);
+}
+.input:disabled {
+  background: var(--color-neutral-100);
+  color: var(--color-neutral-400);
+  cursor: not-allowed;
+}
+/* — Input sizes — */
+.input-sm {
+  padding: 8px 12px;
+  font-size: var(--text-xs);
+  border-radius: 8px;
+}
+.input-lg {
+  padding: 14px 20px;
+  font-size: var(--text-base);
+  border-radius: 14px;
+}
+/* — Input with icon — */
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.input-wrapper .input {
+  padding-left: 42px;
+}
+.input-wrapper .input-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-neutral-400);
+  font-size: 16px;
+  pointer-events: none;
+  transition: color 0.2s ease;
+}
+.input-wrapper .input:focus ~ .input-icon,
+.input-wrapper .input:focus + .input-icon {
+  color: var(--color-primary);
+}
+/* — Input label — */
+.input-label {
+  display: block;
+  font-family: var(--font-label);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-neutral-800);
+  margin-bottom: 6px;
+}
+/* — Input helper / error text — */
+.input-helper {
+  margin-top: 4px;
+  font-size: var(--text-xs);
+  color: var(--color-neutral-500);
+  font-family: var(--font-body);
+}
+.input-error .input {
+  border-color: #dc2626;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+}
+.input-error .input-helper {
+  color: #dc2626;
 }
