@@ -11,6 +11,7 @@ import Home from "./home/Home";
 import FooterSection from "./footer/Footer";
 import Navbar from "./navbar/Navbar";
 import PlanJourney from "./plan/PlanJourney";
+import Itinerary from "./itinerary/Itinerary";
 import Login from "./login/Login";
 import Register from "./register/Register";
 import Profile from "./profile/Profile";
@@ -46,6 +47,7 @@ export default function App() {
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/plan" element={<PlanJourney />} />
+          <Route path="/itinerary" element={<Itinerary startingHotel={1} destinationHotel={1} landmarkIDs={[1, 24, 31, 51, 10, 8, 23, 42, 37, 16, 12, 40, 21, 9, 45]} />} />
           <Route path="/profile" element={<Profile />} />
         </Route>
         <Route path="/map" element={<Map />} />

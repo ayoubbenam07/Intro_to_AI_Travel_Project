@@ -1,0 +1,871 @@
+/* ═══════════════════════════════════════════════════════
+   ITINERARY PAGE
+   ═══════════════════════════════════════════════════════ */
+
+/* ── Page layout ── */
+.itin-page {
+  min-height: 100vh;
+  padding: 120px 5vw 60px;
+  background:
+    radial-gradient(ellipse at 20% 10%, rgba(0, 119, 190, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 80%, rgba(125, 249, 255, 0.05) 0%, transparent 50%),
+    var(--bg);
+  font-family: var(--font-body);
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* ── Loader ── */
+.itin-loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  gap: 18px;
+  color: var(--color-neutral-500);
+  font-family: var(--font-body);
+  font-size: 15px;
+}
+
+.itin-loader__spinner {
+  width: 42px;
+  height: 42px;
+  border: 3px solid var(--color-neutral-200);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: itin-spin 0.8s linear infinite;
+}
+
+@keyframes itin-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ═══ HEADER ═══ */
+.itin-header {
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto 32px;
+  animation: itin-fadeUp 0.6s cubic-bezier(.22,1,.36,1) both;
+}
+
+.itin-eyebrow {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin-bottom: 14px;
+  background: var(--color-primary-light);
+  padding: 6px 18px;
+  border-radius: 999px;
+}
+
+.itin-title {
+  margin: 0;
+  font-family: var(--font-headline);
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 500;
+  line-height: 1.15;
+  color: var(--color-tertiary);
+}
+
+.itin-subtitle {
+  margin: 14px 0 0;
+  font-size: var(--text-sm);
+  color: var(--color-neutral-500);
+  line-height: 1.6;
+}
+
+/* ═══ PROGRESS BAR ═══ */
+.itin-progress-wrap {
+  max-width: 840px;
+  margin: 0 auto 28px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  animation: itin-fadeUp 0.7s cubic-bezier(.22,1,.36,1) 0.1s both;
+}
+
+.itin-progress-bar {
+  flex: 1;
+  height: 5px;
+  border-radius: 999px;
+  background: var(--color-neutral-200);
+  overflow: hidden;
+}
+
+.itin-progress-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+  transition: width 0.5s cubic-bezier(.22,1,.36,1);
+}
+
+.itin-progress-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-neutral-500);
+  white-space: nowrap;
+}
+
+/* ═══ SLIDER SECTION ═══ */
+.itin-slider-section {
+  max-width: 900px;
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: stretch;
+  gap: 16px;
+  animation: itin-fadeUp 0.8s cubic-bezier(.22,1,.36,1) 0.15s both;
+}
+
+/* ── Arrow buttons ── */
+.itin-arrow {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1.5px solid var(--color-neutral-200);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  color: var(--color-tertiary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(.22,1,.36,1);
+  box-shadow: 0 4px 16px rgba(0, 35, 102, 0.06);
+  align-self: center;
+}
+
+.itin-arrow:hover:not(:disabled) {
+  background: var(--color-primary);
+  color: #fff;
+  border-color: var(--color-primary);
+  transform: scale(1.08);
+  box-shadow: 0 8px 24px rgba(0, 119, 190, 0.25);
+}
+
+.itin-arrow:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* ── Slider track ── */
+.itin-slider-track {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+  min-height: 0;
+}
+
+/* ═══ LANDMARK CARD ═══ */
+.itin-card {
+  position: relative;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.92);
+  border-radius: 22px;
+  padding: 22px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(.22,1,.36,1);
+  box-shadow:
+    0 8px 32px rgba(0, 35, 102, 0.06),
+    0 1.5px 0 rgba(255, 255, 255, 0.9) inset;
+  overflow: hidden;
+}
+
+.itin-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 22px;
+  background: linear-gradient(135deg, rgba(0, 119, 190, 0.03) 0%, transparent 60%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.itin-card:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 16px 48px rgba(0, 35, 102, 0.1),
+    0 1.5px 0 rgba(255, 255, 255, 0.9) inset;
+  border-color: rgba(0, 119, 190, 0.15);
+}
+
+.itin-card:hover::before {
+  opacity: 1;
+}
+
+.itin-card--active {
+  border-color: var(--color-primary);
+  box-shadow:
+    0 16px 48px rgba(0, 119, 190, 0.14),
+    0 0 0 3px var(--color-primary-light),
+    0 1.5px 0 rgba(255, 255, 255, 0.9) inset;
+}
+
+/* ── Step badge ── */
+.itin-card__step {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+}
+
+.itin-card__step-num {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 119, 190, 0.25);
+}
+
+/* ── Icon ── */
+.itin-card__icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  color: #fff;
+  flex-shrink: 0;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+}
+
+/* ── Body ── */
+.itin-card__body {
+  flex: 1;
+}
+
+.itin-card__name {
+  margin: 0 0 8px;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-tertiary);
+  line-height: 1.25;
+  padding-right: 36px;
+}
+
+.itin-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.itin-card__chip {
+  display: inline-flex;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.06);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-neutral-700);
+}
+
+.itin-card__rating {
+  font-size: 12px;
+  font-weight: 600;
+  color: #f59e0b;
+}
+
+.itin-card__desc {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--color-neutral-500);
+}
+
+/* ── Time block ── */
+.itin-card__time-block {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(0, 35, 102, 0.06);
+  font-size: 12px;
+}
+
+.itin-card__time-icon {
+  font-size: 14px;
+}
+
+.itin-card__time-val {
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.itin-card__time-cum {
+  color: var(--color-neutral-400);
+  margin-left: auto;
+  font-size: 11px;
+}
+
+/* ── More Details button ── */
+.itin-card__details-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  padding: 9px 16px;
+  border: 1.5px solid var(--color-neutral-200);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.7);
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-primary);
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(.22,1,.36,1);
+}
+
+.itin-card__details-btn:hover {
+  background: var(--color-primary);
+  color: #fff;
+  border-color: var(--color-primary);
+  box-shadow: 0 4px 14px rgba(0, 119, 190, 0.25);
+  transform: translateY(-1px);
+}
+
+/* ═══ DETAIL MODAL ═══ */
+.itin-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: rgba(0, 15, 40, 0.45);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  animation: itin-overlayIn 0.25s ease both;
+}
+
+@keyframes itin-overlayIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.itin-modal {
+  position: relative;
+  width: 100%;
+  max-width: 560px;
+  max-height: 85vh;
+  overflow-y: auto;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: 24px;
+  box-shadow:
+    0 32px 80px rgba(0, 35, 102, 0.18),
+    0 1.5px 0 rgba(255, 255, 255, 0.95) inset;
+  animation: itin-modalIn 0.35s cubic-bezier(.22,1,.36,1) both;
+}
+
+@keyframes itin-modalIn {
+  from { opacity: 0; transform: translateY(24px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.itin-modal::-webkit-scrollbar { width: 6px; }
+.itin-modal::-webkit-scrollbar-thumb {
+  background: rgba(0, 35, 102, 0.12);
+  border-radius: 6px;
+}
+
+/* ── Close button ── */
+.itin-modal__close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 10;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(8px);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.itin-modal__close:hover {
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--color-tertiary);
+  transform: scale(1.1);
+}
+
+/* ── Modal header ── */
+.itin-modal__header {
+  padding: 28px 24px 22px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border-radius: 24px 24px 0 0;
+}
+
+.itin-modal__header-icon {
+  font-size: 36px;
+  flex-shrink: 0;
+}
+
+.itin-modal__title {
+  margin: 0;
+  font-family: var(--font-headline);
+  font-size: 22px;
+  font-weight: 600;
+  color: #fff;
+  line-height: 1.2;
+}
+
+.itin-modal__type-badge {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 3px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.22);
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.9);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* ── Modal body ── */
+.itin-modal__body {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.itin-modal__section-title {
+  margin: 0 0 10px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+}
+
+.itin-modal__desc {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--color-neutral-700);
+}
+
+/* ── Stats grid ── */
+.itin-modal__stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.itin-modal__stat {
+  padding: 14px;
+  border-radius: 16px;
+  background: var(--color-neutral-100);
+  border: 1px solid rgba(0, 35, 102, 0.04);
+}
+
+.itin-modal__stat-label {
+  display: block;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-neutral-500);
+  margin-bottom: 8px;
+}
+
+.itin-modal__stat-val {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-tertiary);
+}
+
+.itin-modal__stat-val--big {
+  font-size: 15px;
+}
+
+.itin-modal__stat-val--mono {
+  font-size: 11px;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  letter-spacing: 0.02em;
+}
+
+.itin-modal__stat-rating {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.itin-modal__rating-bar {
+  height: 5px;
+  border-radius: 5px;
+  background: rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+}
+
+.itin-modal__rating-fill {
+  height: 100%;
+  border-radius: 5px;
+  transition: width 0.6s ease;
+}
+
+/* ── Hours grid ── */
+.itin-modal__hours-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.itin-modal__hours-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: var(--color-neutral-100);
+  transition: background 0.2s ease;
+}
+
+.itin-modal__hours-row:hover {
+  background: rgba(0, 119, 190, 0.06);
+}
+
+.itin-modal__hours-row--closed {
+  opacity: 0.5;
+}
+
+.itin-modal__hours-day {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-tertiary);
+  min-width: 40px;
+}
+
+.itin-modal__hours-range {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-neutral-600);
+}
+
+.itin-modal__hours-row:not(.itin-modal__hours-row--closed) .itin-modal__hours-range {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.itin-modal__no-data {
+  margin: 0;
+  font-size: 13px;
+  color: var(--color-neutral-400);
+  font-style: italic;
+}
+
+/* ── Modal responsive ── */
+@media (max-width: 600px) {
+  .itin-modal-overlay {
+    padding: 12px;
+    align-items: flex-end;
+  }
+
+  .itin-modal {
+    max-height: 90vh;
+    border-radius: 22px 22px 0 0;
+  }
+
+  .itin-modal__stats {
+    grid-template-columns: 1fr;
+  }
+
+  .itin-modal__header {
+    padding: 22px 18px 18px;
+  }
+
+  .itin-modal__body {
+    padding: 18px;
+  }
+}
+
+/* ═══ DOT INDICATORS ═══ */
+.itin-dots {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 36px;
+  animation: itin-fadeUp 0.85s cubic-bezier(.22,1,.36,1) 0.2s both;
+}
+
+.itin-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  background: var(--color-neutral-300);
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.3s ease;
+}
+
+.itin-dot:hover {
+  background: var(--color-primary);
+  transform: scale(1.3);
+}
+
+.itin-dot--active {
+  background: var(--color-primary);
+  transform: scale(1.25);
+  box-shadow: 0 0 0 3px var(--color-primary-light);
+}
+
+/* ═══ MAP SECTION ═══ */
+.itin-map-section {
+  max-width: 900px;
+  margin: 0 auto;
+  margin-bottom: 100px;
+  border-radius: 22px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.92);
+  box-shadow:
+    0 8px 32px rgba(0, 35, 102, 0.06),
+    0 1.5px 0 rgba(255, 255, 255, 0.9) inset;
+  transition:
+    border-radius 0.4s cubic-bezier(.22,1,.36,1),
+    box-shadow 0.4s cubic-bezier(.22,1,.36,1),
+    border-color 0.4s ease;
+  animation: itin-fadeUp 0.9s cubic-bezier(.22,1,.36,1) 0.25s both;
+}
+
+.itin-map-section--fullscreen {
+  position: fixed;
+  inset: 0;
+  max-width: 100%;
+  margin: 0;
+  border-radius: 0;
+  z-index: 9999;
+  box-shadow: none;
+  border: none;
+  animation: itin-mapFullscreenIn 0.4s cubic-bezier(.22,1,.36,1) both;
+}
+
+@keyframes itin-mapFullscreenIn {
+  from {
+    opacity: 0.85;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ── Map toolbar ── */
+.itin-map-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  border-bottom: 1px solid rgba(0, 35, 102, 0.06);
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.itin-map-toolbar__left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.itin-map-toolbar__icon {
+  font-size: 18px;
+}
+
+.itin-map-toolbar__label {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--color-tertiary);
+  text-transform: uppercase;
+}
+
+.itin-map-toolbar__expand {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border: 1.5px solid var(--color-neutral-200);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(8px);
+  border-radius: 999px;
+  padding: 7px 16px;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-tertiary);
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.itin-map-toolbar__expand:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  background: var(--color-primary-light);
+}
+
+/* ── Map container ── */
+.itin-map-container {
+  height: 500px;
+  transition: height 0.45s cubic-bezier(.22,1,.36,1);
+  position: relative;
+}
+
+.itin-map-section--fullscreen .itin-map-container {
+  height: calc(100vh - 56px);
+  height: calc(100dvh - 56px);
+}
+
+/* Override leaflet styles inside the itinerary */
+.itin-map-container .main-map {
+  border-radius: 0 !important;
+  min-height: 100% !important;
+}
+
+.itin-map-container .leaflet-container {
+  border-radius: 0 !important;
+}
+
+.itin-map-container .map-wrapper {
+  height: 100%;
+}
+
+/* Hide map elements that don't apply here */
+.itin-map-container .map-badges,
+.itin-map-container .map-ui-overlay {
+  display: none;
+}
+
+/* Reposition map controls for the compact container */
+.itin-map-container .map-controls {
+  top: 12px;
+  right: 12px;
+  flex-direction: row;
+  gap: 8px;
+}
+
+.itin-map-container .map-control-button {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  font-size: 15px;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.1);
+}
+
+/* Fullscreen mode: restore larger controls */
+.itin-map-section--fullscreen .map-controls {
+  top: auto;
+  bottom: 24px;
+  right: 24px;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.itin-map-section--fullscreen .map-control-button {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  font-size: 18px;
+}
+
+/* ═══ ANIMATIONS ═══ */
+@keyframes itin-fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ═══ RESPONSIVE ═══ */
+@media (max-width: 768px) {
+  .itin-page {
+    padding: 100px 4vw 40px;
+  }
+
+  .itin-slider-section {
+    gap: 10px;
+  }
+
+  .itin-slider-track {
+    grid-template-columns: 1fr;
+  }
+
+  .itin-arrow {
+    width: 40px;
+    height: 40px;
+  }
+
+  .itin-card {
+    padding: 18px 16px;
+  }
+
+  .itin-map-container {
+    height: 280px;
+  }
+
+  .itin-header {
+    margin-bottom: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .itin-page {
+    padding: 90px 3vw 30px;
+  }
+
+  .itin-title {
+    font-size: 1.5rem;
+  }
+
+  .itin-arrow {
+    width: 36px;
+    height: 36px;
+  }
+
+  .itin-card__name {
+    font-size: 14px;
+  }
+
+  .itin-map-container {
+    height: 240px;
+  }
+}

@@ -64,8 +64,18 @@ export default function Card({ landmark, compact, onClick }) {
 
   if (compact) {
     return (
-      <div style={Object.assign({}, card, { width: 220, cursor: "default" })} id={"card-" + id}>
-        <div style={{ background: "linear-gradient(135deg, " + color + ", " + color + "cc)", padding: "10px 14px", display: "flex", alignItems: "center", gap: 8 }}>
+      <div
+        style={Object.assign({}, card, {
+          width: 220,
+          cursor: "default",
+          background: "transparent",
+          boxShadow: "none",
+          borderRadius: 0,
+          overflow: "visible",
+        })}
+        id={"card-" + id}
+      >
+        <div style={{ background: "linear-gradient(135deg, " + color + ", " + color + "cc)", padding: "10px 14px", display: "flex", alignItems: "center", gap: 8, borderRadius: 12 }}>
           <span style={{ fontSize: 20 }}>{icon}</span>
           <span style={{ fontSize: 13, fontWeight: 700, color: "#fff", lineHeight: 1.25 }}>{name}</span>
         </div>
