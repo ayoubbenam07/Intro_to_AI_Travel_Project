@@ -383,13 +383,12 @@ const NAV_ITEMS = [
 export default function Navbar() {
   const location = useLocation();
   const activePath = location.pathname;
-  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userEmail, setUserEmail] = useState("");
 
   // Close menu when route changes
   const handleNavClick = () => setMenuOpen(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userEmail, setUserEmail] = useState("");
 
   useEffect(() => {
     const token = localStorage.getItem("token") || localStorage.getItem("isLoggedIn") === "true";
