@@ -129,13 +129,13 @@ async def solve_travel(
                             user_id=user_uuid,
                             name=f"Trip from {inputs.Hotel_Name}",
                             itinerary_type="day_trip",
-                            algorithm_used=algo_enum,
-                            fitness_score=result.get("evaluation_score", 0.0),
-                            time_budget_h=inputs.Travel_Time,
+                            algorithm=algo_enum,
+                            evaluation_score=result.get("evaluation_score", 0.0),
+                            time_budget_hours=inputs.Travel_Time,
                             travel_day=travel_day_val,
-                            start_time=start_time_obj,
+                            start_time_hour=start_time_obj,
                             is_saved=True,
-                           created_at=datetime.datetime.now(datetime.timezone.utc)
+                            created_at=datetime.datetime.now(datetime.timezone.utc)
                         )
                         db.add(itinerary)
                         db.flush()  # Allocate session resources before child relations

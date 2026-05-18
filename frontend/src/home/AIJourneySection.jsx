@@ -78,7 +78,7 @@ const AIJourneySection = ({ className = "" }) => {
             sx={{
               fontFamily: "var(--font-headline)",
               fontWeight: 700,
-              fontSize: { xs: "1.75rem", sm: "2.75rem", md: "3.25rem" },
+              fontSize: { xs: "var(--text-3xl)", sm: "var(--text-4xl)", md: "var(--text-5xl)" },
               lineHeight: 1.18,
               color: "var(--color-neutral-1000)",
               letterSpacing: "-0.3px",
@@ -93,7 +93,7 @@ const AIJourneySection = ({ className = "" }) => {
             sx={{
               fontFamily: "var(--font-body)",
               fontWeight: 400,
-              fontSize: { xs: "1rem", md: "1.0625rem" },
+              fontSize: { xs: "var(--text-base)", md: "var(--text-lg)" },
               lineHeight: "1.8rem",
               color: "var(--color-neutral-700)",
               maxWidth: "500px",
@@ -120,7 +120,7 @@ const AIJourneySection = ({ className = "" }) => {
                 right: "5%",
                 height: "32px",
                 borderRadius: "50%",
-                background: "rgba(0, 119, 190, 0.22)",
+                background: "var(--color-primary-light)",
                 filter: "blur(14px)",
                 zIndex: 0,
               }}
@@ -137,7 +137,7 @@ const AIJourneySection = ({ className = "" }) => {
                 color: "var(--color-neutral)",
                 fontFamily: "var(--font-body)",
                 fontWeight: 700,
-                fontSize: { xs: "1rem", md: "1.0625rem" },
+                fontSize: { xs: "var(--text-base)", md: "var(--text-lg)" },
                 letterSpacing: "0.2px",
                 textTransform: "none",
                 padding: { xs: "16px 32px", md: "20px 40px" },

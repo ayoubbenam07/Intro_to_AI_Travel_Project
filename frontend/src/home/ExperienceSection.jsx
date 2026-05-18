@@ -59,7 +59,7 @@ const cardBaseSx = {
   position: "relative",
   isolation: "isolate",
   textAlign: "left",
-  fontSize: "12px",
+  fontSize: "var(--text-xs)",
   color: "var(--color-neutral)",
   fontFamily: "var(--font-body)",
 };
@@ -117,7 +117,7 @@ const LargeCard = ({ src }) => (
           flexDirection: "column",
           alignItems: "flex-start",
           padding: "3px 0 0",
-          fontSize: "48px",
+          fontSize: "var(--text-5xl)",
           fontFamily: "var(--font-headline)",
           "@media (max-width:1050px)": { fontSize: "38px" },
           "@media (max-width:450px)": { fontSize: "29px" },
@@ -143,7 +143,7 @@ const LargeCard = ({ src }) => (
           flexDirection: "column",
           alignItems: "flex-start",
           maxWidth: "449px",
-          fontSize: "16px",
+          fontSize: "var(--text-base)",
           color: "rgba(255,255,255,0.8)",
           "@media (max-width:450px)": { maxWidth: "100%" },
         }}
@@ -187,10 +187,10 @@ const SmallCard1 = ({ src }) => (
           margin: 0,
           position: "relative",
           fontWeight: "600",
-          fontSize: "20px",
+          fontSize: "var(--text-xl)",
           lineHeight: "28px",
           letterSpacing: "1px",
-          "@media (max-width:450px)": { fontSize: "16px", lineHeight: "22px" },
+          "@media (max-width:450px)": { fontSize: "var(--text-base)", lineHeight: "22px" },
         }}
       >
         Coastal Yacht Tour
@@ -224,7 +224,7 @@ const SmallCard2 = ({ src }) => (
       <div
         style={{
           position: "relative",
-          fontSize: "20px",
+          fontSize: "var(--text-xl)",
           letterSpacing: "1px",
           lineHeight: "28px",
           fontWeight: "600",
@@ -261,7 +261,7 @@ const MediumCard = ({ src }) => (
       <div
         style={{
           position: "relative",
-          fontSize: "48px",
+          fontSize: "var(--text-5xl)",
           lineHeight: "56px",
           fontWeight: "500",
           fontFamily: "var(--font-headline)",
@@ -323,7 +323,7 @@ const ExperienceSection = ({ className = "" }) => (
             gap: "20px",
             maxWidth: "100%",
             textAlign: "left",
-            fontSize: "12px",
+            fontSize: "var(--text-xs)",
             color: "var(--color-primary)",
             fontFamily: "var(--font-body)",
             "@media (max-width:1200px)": { flexWrap: "wrap" },
@@ -356,7 +356,7 @@ const ExperienceSection = ({ className = "" }) => (
             <Box
               sx={{
                 position: "relative",
-                fontSize: "48px",
+                fontSize: "var(--text-5xl)",
                 lineHeight: "60px",
                 fontWeight: "500",
                 fontFamily: "var(--font-headline)",
@@ -378,12 +378,12 @@ const ExperienceSection = ({ className = "" }) => (
               padding: "0 24px 0 0",
               boxSizing: "border-box",
               maxWidth: "384px",
-              fontSize: "18px",
+              fontSize: "var(--text-lg)",
               color: "var(--color-neutral-700)",
               "@media (max-width:450px)": { maxWidth: "100%" },
             }}
           >
-            <Box sx={{ position: "relative", lineHeight: "32px", "@media (max-width:480px)": { fontSize: "16px", lineHeight: "26px" } }}>
+            <Box sx={{ position: "relative", lineHeight: "32px", "@media (max-width:480px)": { fontSize: "var(--text-base)", lineHeight: "26px" } }}>
               From the bustling markets to the silent yacht
               <br />
               marinas, our AI designs a day that flows with

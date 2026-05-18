@@ -127,7 +127,7 @@ const sx = {
     flexDirection: "column",
     alignItems: "flex-start",
     maxWidth: "36rem",
-    fontSize: "1.375rem",
+    fontSize: "var(--text-xl)",
     color: "var(--color-neutral-700)",
     animation: "heroSpawn 0.7s 0.15s cubic-bezier(0.22, 1, 0.36, 1) both",
     "@media (max-width:700px)": { maxWidth: "100%" },
@@ -138,7 +138,7 @@ const sx = {
     position: "relative",
     lineHeight: "2rem",
     fontWeight: 600,
-    "@media (max-width:450px)": { fontSize: "1.125rem", lineHeight: "1.625rem" },
+    "@media (max-width:450px)": { fontSize: "var(--text-lg)", lineHeight: "1.625rem" },
   },
 
   buttonRow: {
@@ -148,7 +148,7 @@ const sx = {
     padding: "1rem 0 0",
     gap: "1.5rem",
     textAlign: "center",
-    fontSize: "1rem",
+    fontSize: "var(--text-base)",
     color: "var(--color-neutral)",
     animation: "heroSpawn 0.7s 0.3s cubic-bezier(0.22, 1, 0.36, 1) both",
     "@media (max-width:700px)": { flexDirection: "column", alignItems: "stretch" },
@@ -193,7 +193,7 @@ const sx = {
   secondaryButton: {
     textTransform: "none",
     color: "var(--color-neutral-1000)",
-    fontSize: "16px",
+    fontSize: "var(--text-base)",
     background: "rgba(255, 255, 255, 0.4)",
     border: "rgba(255, 255, 255, 0.3) solid 1px",
     borderRadius: "9999px",
@@ -234,7 +234,7 @@ const sx = {
     isolation: "isolate",
     gap: "0.5rem",
     textAlign: "left",
-    fontSize: "0.75rem",
+    fontSize: "var(--text-xs)",
     color: "var(--color-neutral)",
     fontFamily: "var(--font-body)",
     "@media (max-width:700px)": { width: "100%" },
@@ -318,7 +318,7 @@ const sx = {
     padding: "0.5rem 0 0",
     zIndex: 2,
     flexShrink: 0,
-    fontSize: "1.25rem",
+    fontSize: "var(--text-xl)",
     color: "var(--color-neutral-1000)",
   },
 
@@ -338,7 +338,7 @@ const sx = {
     alignItems: "flex-start",
     zIndex: 3,
     flexShrink: 0,
-    fontSize: "0.875rem",
+    fontSize: "var(--text-sm)",
     color: "var(--color-neutral-700)",
   },
 

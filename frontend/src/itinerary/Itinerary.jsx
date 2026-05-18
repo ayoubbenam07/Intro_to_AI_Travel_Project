@@ -28,14 +28,70 @@ export default function Itinerary({
 
   /* ── Load data ── */
   useEffect(() => {
-    Promise.all([loadLandmarks(), loadHotels()])
-      .then(([lm, ht]) => {
+    const fetchData = async () => {
+      try {
+        // Load base context data
+        const [lm, ht] = await Promise.all([loadLandmarks(), loadHotels()]);
         setLandmarks(lm);
         setHotels(ht);
-      })
-      .catch(console.error)
-      .finally(() => setLoading(false));
-  }, []);
+
+        // If we are viewing a historical itinerary, fetch its detailed path
+        if (state.itineraryId) {
+          const token = localStorage.getItem("token");
+          const res = await fetch(`http://localhost:8000/api/itineraries/${state.itineraryId}`, {
+            headers: {
+              "Authorization": `Bearer ${token}`
+            }
+          });
+          if (res.ok) {
+            const data = await res.json();
+            // Map the backend format to the expected frontend schema
+            const mappedPath = data.map(item => ({
+              id: item.landmark_id,
+              name: item.name,
+              type: item.landmark_type,
+              latitude: item.lat,
+              longitude: item.lon,
+              estimatedTime: item.visit_duration || 45,
+              images: item.image_url,
+              description: item.description,
+              rating: item.interest_score || 0,
+              icon: getTypeIcon(item.landmark_type),
+              color: getTypeColor(item.landmark_type)
+            }));
+            
+            // Attach it directly to the state reference so the useMemo picks it up
+            state.historicalPath = mappedPath;
+          } else {
+            console.error("Failed to load historical itinerary details:", res.status);
+          }
+        }
+        // If we received a newly generated plan, extract the path and attach it
+        else if (state.itinerary && state.itinerary.path) {
+          state.historicalPath = state.itinerary.path.map(item => ({
+            id: item.landmark_id || item.id,
+            name: item.name,
+            type: item.landmark_type || item.type,
+            latitude: item.lat || item.latitude,
+            longitude: item.lon || item.longitude,
+            estimatedTime: item.visit_duration || item.estimatedTime || 45,
+            images: item.image_url || item.images,
+            description: item.description,
+            rating: item.interest_score || item.rating || 0,
+            icon: getTypeIcon(item.landmark_type || item.type),
+            color: getTypeColor(item.landmark_type || item.type)
+          }));
+        }
+
+      } catch (err) {
+        console.error("Error loading itinerary data:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchData();
+  }, [state.itineraryId]); // Run once when route loads
 
   /* ── Dynamic Planning Engine ── */
   const { orderedLandmarks, totalTime } = useMemo(() => {
@@ -48,7 +104,13 @@ export default function Itinerary({
       return { orderedLandmarks: ordered, totalTime: total };
     }
 
-    // 2. Dynamic client-side greedy travel algorithm
+    // 2. Load historical itinerary if fetched
+    if (state.historicalPath) {
+      const total = state.historicalPath.reduce((sum, lm) => sum + (lm.estimatedTime || 0), 0);
+      return { orderedLandmarks: state.historicalPath, totalTime: total };
+    }
+
+    // 3. Dynamic client-side greedy travel algorithm (Fallback for legacy routes)
     let filtered = landmarks;
     if (landmarkTypes && landmarkTypes.length > 0) {
       filtered = landmarks.filter(lm => landmarkTypes.includes(lm.type));
@@ -78,7 +140,7 @@ export default function Itinerary({
     }
 
     return { orderedLandmarks: selected, totalTime: accumulatedTime };
-  }, [landmarks, propLandmarkIDs, landmarkTypes, budget]);
+  }, [landmarks, propLandmarkIDs, landmarkTypes, budget, state.historicalPath]);
 
   const startingHotel = propStartingHotel ?? selectedHotel;
   const destinationHotel = propDestinationHotel ?? selectedHotel;
@@ -260,7 +322,7 @@ export default function Itinerary({
                   <div className="itin-card__meta">
                     <span className="itin-card__chip">{lm.type}</span>
                     <span className="itin-card__rating">
-                      ★ {lm.rating.toFixed(1)}
+                      ★ {typeof lm.rating === 'number' ? lm.rating.toFixed(1) : (parseFloat(lm.rating) || 0).toFixed(1)}
                     </span>
                   </div>
                   <p className="itin-card__desc">

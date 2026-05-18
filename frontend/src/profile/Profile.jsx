@@ -707,19 +707,19 @@ export default function Profile() {
   };
 
   const handleCardClick = (itinerary) => {
-    const formatted = {
-      success: true,
-      algorithm: itinerary.algorithm_used,
-      hotel: itinerary.hotel,
-      travel_day: itinerary.travel_day,
-      path: itinerary.path || [],
-      path_names: (itinerary.path || []).map(p => p.name),
-      runtime_seconds: itinerary.runtime_seconds || 0.05,
-      evaluation_score: itinerary.fitness_score || 0,
-      time_plan: itinerary.time_plan || {},
-      metadata: itinerary.metadata_info || {}
-    };
-    navigate("/map", { state: { itinerary: formatted } });
+    // Navigate to /itinerary passing the itinerary_id so Itinerary.jsx can fetch the path
+    navigate("/itinerary", { 
+      state: { 
+        itineraryId: itinerary.itinerary_id,
+        metadata: {
+          name: itinerary.name,
+          algorithm: itinerary.algorithm,
+          evaluation_score: itinerary.evaluation_score,
+          time_budget_hours: itinerary.time_budget_hours,
+          travel_day: itinerary.travel_day
+        }
+      } 
+    });
   };
 
   // Calculations for dynamic digital footprint
@@ -893,7 +893,7 @@ export default function Profile() {
                     <div className="itinerary-overlay" />
                     <div className="itinerary-info">
                       <p className="itinerary-duration">
-                        {item.time_budget_h ? `${item.time_budget_h} Hours` : "24h"} • {item.algorithm_used.toUpperCase()}
+                        {item.time_budget_hours ? `${item.time_budget_hours} Hours` : "24h"} • {(item.algorithm || "AI").toUpperCase()}
                       </p>
                       <h3 className="itinerary-title garamond">{item.name}</h3>
                       <div className="itinerary-tags">
