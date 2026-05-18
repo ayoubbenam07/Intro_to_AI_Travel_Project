@@ -211,9 +211,9 @@ const routeWaypoints = useMemo(() => {
           <button className="map-control-button" type="button" onClick={() => map.setView(center, 13)} aria-label="Center map">
             ⊙
           </button>
-          <button className="map-control-button" type="button" onClick={onToggleSidebar} aria-label="Toggle sidebar">
+          {/* <button className="map-control-button" type="button" onClick={onToggleSidebar} aria-label="Toggle sidebar">
             ☰
-          </button>
+          </button> */}
         </div>
         <div className="map-badges">
           <div className="map-badge">Live Weather: 24°C • Sunny</div>

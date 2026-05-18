@@ -57,6 +57,16 @@ function fetchCSV(url) {
  * ID, Name, Description, Type, Rating, Latitude, Longitude, EstimatedTime (min), Hours, Images
  */
 function parseLandmark(row) {
+  let hours = null;
+  try {
+    const rawHours = (row["Hours"] || "").trim();
+    if (rawHours && rawHours !== ".") {
+      hours = JSON.parse(rawHours);
+    }
+  } catch {
+    hours = null;
+  }
+
   return {
     id:             parseInt(row["ID"], 10),
     name:           (row["Name"] || "").trim(),
@@ -66,6 +76,8 @@ function parseLandmark(row) {
     latitude:       parseFloat(row["Latitude"]),
     longitude:      parseFloat(row["Longitude"]),
     estimatedTime:  parseInt(row["EstimatedTime (min)"], 10) || 0,
+    hours,
+    images:         (row["Images"] || "").trim(),
     icon:           getTypeIcon((row["Type"] || "").trim()),
     color:          getTypeColor((row["Type"] || "").trim()),
   };

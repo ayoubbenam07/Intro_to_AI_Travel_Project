@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useCallback, useMemo } from "react";
 import MapComponent from "./MapComponent.jsx";
-import Card from "./Card.jsx";
 import { loadLandmarks, loadHotels, getTypeColor, getTypeIcon } from "./data.js";
 import "./style.css";
 
@@ -16,10 +15,10 @@ export default function Map() {
   const [loading, setLoading] = useState(true);
   const [showHotels, setShowHotels] = useState(false);
   const [highlightId, setHighlightId] = useState(null);
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   /** Landmark IDs in visit order — path and list follow this sequence (not sorted by id). */
-  const targetIds = useMemo(() => [1, 24, 31, 51, 10, 8, 23, 42, 37, 16, 12, 40, 21, 9], []);
+  const targetIds = useMemo(() => [1, 39, 64, 4, 23, 3, 21, 28, 18, 11, 16, 13, 51, 24, 5, 2, 31, 62, 40, 38, 48, 57, 15, 44, 63, 58, 34, 42, 66, 45, 19, 14, 9, 59, 68], []);
 
   /* ── Load data ── */
   useEffect(() => {

@@ -292,7 +292,7 @@ const UserIcon = () => (
 
 const NAV_ITEMS = [
   { label: "Home", path: "/" },
-  { label: "Map", path: "/map" },
+  { label: "Itinerary", path: "/itinerary" },
   { label: "Plan Journey", path: "/plan" }
 ];
 

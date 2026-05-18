@@ -545,6 +545,30 @@ body {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
+/* Compact card inside Leaflet popup: remove nested card shadow and match app visuals */
+.card-popup .landmark-card {
+  background: transparent !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+}
+.card-popup .landmark-card > div:first-child {
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+.card-popup .landmark-card p {
+  margin: 0 0 8px !important;
+  color: #374151 !important;
+  font-size: 13px !important;
+}
+.card-popup .landmark-card .route-card-chip,
+.card-popup .landmark-card .badge {
+  background: rgba(255,255,255,0.18) !important;
+  color: #fff !important;
+  padding: 4px 8px !important;
+  font-size: 11px !important;
+  border-radius: 999px !important;
+}
+
 /* ── Loading screen ── */
 .loader-screen {
   display: flex;
