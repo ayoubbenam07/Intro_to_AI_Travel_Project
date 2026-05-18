@@ -9,6 +9,8 @@ from contextlib import asynccontextmanager
 import logging
 
 from app.routes.solve import router as solve_router
+from app.routes.auth import router as auth_router
+from app.routes.itinerary import router as itinerary_router
 from app.database.database import init_db
 
 # Configure logging
@@ -20,6 +22,7 @@ logger = logging.getLogger(__name__)
 async def lifespan(app: FastAPI):
     """Manage app lifecycle"""
     logger.info("Starting application...")
+    print("📄 API Documentation (Swagger UI): http://127.0.0.1:8000/docs")
     try:
         init_db()
         logger.info("Database initialized")
@@ -42,7 +45,12 @@ app = FastAPI(
 # CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -50,7 +58,8 @@ app.add_middleware(
 
 # Include routers
 app.include_router(solve_router)
-
+app.include_router(auth_router)
+app.include_router(itinerary_router)
 
 @app.get("/")
 async def root():
@@ -74,9 +83,11 @@ async def docs_redirect():
 
 if __name__ == "__main__":
     import uvicorn
+    print("api docuementation in  http://127.0.0.1:8000/docs ")
     uvicorn.run(
         "main:app",
         host="0.0.0.0",
         port=8000,
         reload=True
     )
+    

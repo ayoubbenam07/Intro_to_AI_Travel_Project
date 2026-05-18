@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import casbahRegister from "./casbahRegister.png";
 
 function useIsDesktop() {
@@ -16,6 +17,64 @@ function useIsDesktop() {
 
 export default function Register() {
   const isDesktop = useIsDesktop();
+  const navigate = useNavigate();
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleRegister = async (e) => {
+    if (e) e.preventDefault();
+    setError("");
+
+    if (!email || !password) {
+      setError("Please fill in email and password.");
+      return;
+    }
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters.");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      // 1. Hit the SignUp API
+      const res = await fetch("http://localhost:8000/api/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (!res.ok) {
+        const errData = await res.json();
+        throw new Error(errData.detail || "Account creation failed.");
+      }
+
+      // 2. Perform Auto-Login
+      const loginRes = await fetch("http://localhost:8000/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (loginRes.ok) {
+        const data = await loginRes.json();
+        localStorage.setItem("token", data.access_token);
+        localStorage.setItem("user_email", email);
+        localStorage.setItem("isLoggedIn", "true");
+        localStorage.setItem("userEmail", email);
+      }
+
+      alert("🎉 Account created successfully! Welcome to Algiers AI.");
+      navigate("/plan");
+    } catch (err) {
+      setError(err.message || "Something went wrong.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div
@@ -206,25 +265,28 @@ export default function Register() {
           </div>
 
           <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
-            <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            <form onSubmit={handleRegister} style={{ display: "flex", flexDirection: "column", gap: 24 }}>
               <Field label="Full Name">
-                <UnderlineInput type="text" placeholder="Meghabber Mohammed Al Ghazali" />
+                <UnderlineInput type="text" placeholder="Meghabber Mohammed Al Ghazali" value={name} onChange={setName} />
               </Field>
               <Field label="Email Address">
-                <UnderlineInput type="email" placeholder="contact@algiersai.dz" />
+                <UnderlineInput type="email" placeholder="contact@algiersai.dz" value={email} onChange={setEmail} />
               </Field>
               <Field label="Secure Password">
-                <UnderlineInput type="password" placeholder="••••••••" />
+                <UnderlineInput type="password" placeholder="••••••••" value={password} onChange={setPassword} />
               </Field>
-            </div>
+            </form>
+
+            {error && (
+              <p style={{ color: "#c0392b", fontSize: 13, margin: "-12px 0 0", fontFamily: "var(--font-body)" }}>
+                {error}
+              </p>
+            )}
 
             <button
               type="submit"
-              onClick={() => {
-                localStorage.setItem("isLoggedIn", "true");
-                localStorage.setItem("userEmail", "meghabber@algiers.ai");
-                window.location.href = "/profile";
-              }}
+              onClick={handleRegister}
+              disabled={loading}
               style={{
                 width: "100%",
                 display: "flex",
@@ -232,7 +294,7 @@ export default function Register() {
                 justifyContent: "center",
                 gap: 12,
                 borderRadius: 9999,
-                background: "var(--color-primary)",
+                background: loading ? "var(--color-neutral-400)" : "var(--color-primary)",
                 color: "var(--color-neutral)",
                 padding: "18px 0",
                 fontSize: isDesktop ? 20 : 17,
@@ -240,20 +302,20 @@ export default function Register() {
                 letterSpacing: "1px",
                 fontFamily: "var(--font-body)",
                 border: "none",
-                cursor: "pointer",
+                cursor: loading ? "not-allowed" : "pointer",
                 boxShadow:
                   "0 20px 25px -5px rgba(0,0,0,0.10), 0 8px 10px -6px rgba(0,0,0,0.10)",
                 transition: "background 0.2s",
                 WebkitTapHighlightColor: "transparent",
               }}
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.background = "var(--color-primary-hover)")
-              }
-              onMouseLeave={(e) =>
-                (e.currentTarget.style.background = "var(--color-primary)")
-              }
+              onMouseEnter={(e) => {
+                if (!loading) e.currentTarget.style.background = "var(--color-primary-hover)";
+              }}
+              onMouseLeave={(e) => {
+                if (!loading) e.currentTarget.style.background = "var(--color-primary)";
+              }}
             >
-              Begin My Journey
+              {loading ? "Creating Profile…" : "Begin My Journey"}
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                 <path
                   d="M12.175 9H0V7H12.175L6.575 1.4L8 0L16 8L8 16L6.575 14.6L12.175 9Z"
@@ -272,14 +334,13 @@ export default function Register() {
                 fontFamily: "var(--font-body)",
               }}
             >
-              By continuing, you agree to our{" "}
+              Already have an account?{" "}
               <a
-                href="#"
-                style={{ color: "var(--color-primary)", textDecoration: "none" }}
+                href="/login"
+                style={{ color: "var(--color-primary)", textDecoration: "none", fontWeight: "600" }}
               >
-                Terms of Intelligence
+                Log In
               </a>
-              .
             </p>
           </div>
         </div>
@@ -306,12 +367,14 @@ function Field({ label, children }) {
   );
 }
 
-function UnderlineInput({ type, placeholder }) {
+function UnderlineInput({ type, placeholder, value, onChange }) {
   const [focused, setFocused] = useState(false);
   return (
     <input
       type={type}
       placeholder={placeholder}
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
       onFocus={() => setFocused(true)}
       onBlur={() => setFocused(false)}
       style={{
