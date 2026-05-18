@@ -10,8 +10,8 @@ from sqlalchemy.orm import Session
 from pydantic import BaseModel
 
 from app.database.database import get_db
-from app.database.models import Itinerary, User
-from app.models.schemas import SavedItineraryResponse
+from app.database.models import User, Itinerary, ItineraryLandmark, Landmark
+from app.models.schemas import SavedItineraryResponse , ItineraryPathItemResponse
 from app.utils.auth import get_current_user
 
 router = APIRouter(prefix="/api", tags=["itineraries"])
@@ -63,13 +63,18 @@ async def list_itineraries(
     return itineraries
 
 
-@router.delete("/itineraries/{itinerary_id}", status_code=status.HTTP_204_NO_CONTENT)
-async def delete_itinerary(
+
+@router.get("/itineraries/{itinerary_id}", response_model=List[ItineraryPathItemResponse])
+async def get_itinerary_path(
     itinerary_id: str,
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
-    """Delete a specific saved itinerary"""
+    """
+    Get the full path (ordered list of landmarks) for a specific saved itinerary.
+    """
+    
+    # 1. Security Check: Verify the itinerary exists and belongs to the current user
     itinerary = db.query(Itinerary).filter(
         Itinerary.itinerary_id == itinerary_id,
         Itinerary.user_id == current_user.user_id
@@ -78,9 +83,39 @@ async def delete_itinerary(
     if not itinerary:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail="Itinerary not found or unauthorized to delete"
+            detail="Itinerary not found or you do not have permission to access it."
         )
+
+    # 2. Query the Path
+    # We join ItineraryLandmark with Landmark to get both positioning info and landmark details
+    # We order by 'position' to ensure the path sequence is correct
+    path_items = db.query(ItineraryLandmark).join(
+        Landmark, ItineraryLandmark.landmark_id == Landmark.landmark_id
+    ).filter(
+        ItineraryLandmark.itinerary_id == itinerary_id
+    ).order_by(
+        ItineraryLandmark.position.asc()
+    ).all()
+
+    # 3. Format the Response
+    result = []
+    for item in path_items:
+        landmark = item.landmark
         
-    db.delete(itinerary)
-    db.commit()
-    return None
+        # Convert UUIDs to strings if necessary for JSON serialization
+        result.append({
+            "landmark_id": str(landmark.landmark_id),
+            "name": landmark.name,
+            "landmark_type": landmark.landmark_type,
+            "lat": landmark.lat,
+            "lon": landmark.lon,
+            "interest_score": landmark.interest_score,
+            "visit_duration": landmark.visit_duration,
+            "description": landmark.description,
+            "image_url": landmark.image_url,
+            "position": item.position,
+            "arrival_time": item.arrival_time,
+            "departure_time": item.departure_time
+        })
+
+    return result

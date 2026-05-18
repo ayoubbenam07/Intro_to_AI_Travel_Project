@@ -49,11 +49,11 @@ class Itinerary(Base):
     user_id = Column(UUID(as_uuid=True), ForeignKey("users.user_id", ondelete="CASCADE"), nullable=False)
     name = Column(String, nullable=False)
     itinerary_type = Column(String, nullable=False)  # 'day_trip', 'weekend', 'week', 'custom'
-    algorithm_used = Column(String, nullable=False)  # enums: 'greedy', 'SA', 'GA', etc.
-    fitness_score = Column(Float, nullable=True)
-    time_budget_h = Column(Float, nullable=True)
+    algorithm = Column(String, nullable=False)  # enums: 'greedy', 'SA', 'GA', etc.
+    evaluation_score = Column(Float, nullable=True)
+    time_budget_hours = Column(Float, nullable=True)
     travel_day = Column(String, nullable=True)
-    start_time = Column(Time, nullable=True)
+    start_time_hour = Column(Time, nullable=True)
     is_saved = Column(Boolean, default=False, nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
     

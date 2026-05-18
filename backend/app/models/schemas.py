@@ -5,7 +5,7 @@ Pydantic Models for API
 
 from pydantic import BaseModel, Field
 from typing import List, Dict, Any, Optional
-
+from datetime import time # Assuming you use standard python time or sqlalchemy Time
 
 class Inputs(BaseModel):
     """Request model for /api/solve endpoint"""
@@ -87,13 +87,36 @@ class SavedItineraryResponse(BaseModel):
     user_id: Any
     name: str
     itinerary_type: str
-    algorithm_used: str
-    fitness_score: Optional[float] = None
-    time_budget_h: Optional[float] = None
+    algorithm: str
+    evaluation_score: Optional[float] = None
+    time_budget_hours: Optional[float] = None
     travel_day: Optional[str] = None
-    start_time: Optional[Any] = None
+    start_time_hour: Optional[Any] = None
     is_saved: bool
     created_at: datetime
+
+    class Config:
+        from_attributes = True
+
+
+
+
+class ItineraryPathItemResponse(BaseModel):
+    """Represents a single landmark in the itinerary path"""
+    landmark_id: str
+    name: str
+    landmark_type: str
+    lat: float
+    lon: float
+    interest_score: Optional[float] = None
+    visit_duration: Optional[int] = None
+    description: Optional[str] = None
+    image_url: Optional[str] = None
+    
+    # Specifics from the itinerary planning
+    position: int
+    arrival_time: Optional[time] = None
+    departure_time: Optional[time] = None
 
     class Config:
         from_attributes = True
