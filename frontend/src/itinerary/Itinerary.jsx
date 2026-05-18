@@ -155,26 +155,42 @@ export default function Itinerary({
     currentSlide + slidesPerView
   );
 
-  if (loading) {
-    return (
-      <div className="itin-loader">
-        <div className="itin-loader__spinner" />
-        <p>Preparing your itinerary…</p>
-      </div>
-    );
-  }
-
   return (
     <div className="itin-page">
-      {/* ═══ HEADER ═══ */}
-      <header className="itin-header">
-        <span className="itin-eyebrow">Your Itinerary</span>
-        <h1 className="itin-title">Explore Algiers, step by step.</h1>
-        <p className="itin-subtitle">
-          {orderedLandmarks.length} landmarks · ~{totalTime} min total ·
-          AI-optimised route
-        </p>
-      </header>
+
+      {/* ═══ HERO BANNER (Profile/Plan-style fade) ═══ */}
+      <section className="itin-hero">
+        <img
+          src="/images/background_image1.jpg"
+          alt="Algiers panorama"
+          className="itin-hero__img"
+          loading="eager"
+        />
+        <div className="itin-hero__gradient" />
+        <div className="itin-hero__content">
+          <div className="itin-hero__inner">
+            <span className="itin-eyebrow">Your Itinerary</span>
+            <h1 className="itin-title">Explore Algiers, step by step.</h1>
+            {!loading && (
+              <p className="itin-subtitle">
+                {orderedLandmarks.length} landmarks · ~{totalTime} min total ·
+                AI-optimised route
+              </p>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ MAIN CONTENT ═══ */}
+      <div className="itin-content">
+
+      {loading ? (
+        <div className="itin-loader">
+          <div className="itin-loader__spinner" />
+          <p>Preparing your itinerary…</p>
+        </div>
+      ) : (
+      <>
 
       {/* ═══ PROGRESS BAR ═══ */}
       <div className="itin-progress-wrap">
@@ -358,6 +374,10 @@ export default function Itinerary({
           />
         </div>
       </section>
+
+      </>
+      )}
+      </div>{/* end .itin-content */}
 
       {/* ═══ DETAIL MODAL ═══ */}
       {detailLandmark && (

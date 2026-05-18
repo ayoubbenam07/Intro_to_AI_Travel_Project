@@ -20,16 +20,14 @@ const IMAGES = [
 ];
 
 const styles = `
-  @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500&family=Hanken+Grotesk:wght@400;600;700&display=swap');
-
   .profile-root {
     min-height: 100vh;
     background: #F9F9F9;
-    font-family: 'Hanken Grotesk', sans-serif;
+    font-family: var(--font-body);
     overflow-x: hidden;
   }
 
-  .garamond { font-family: 'EB Garamond', Georgia, serif; }
+  .garamond { font-family: var(--font-headline); }
 
   /* ── Hero ── */
   .hero {
@@ -54,7 +52,7 @@ const styles = `
     inset: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, #002366 0%, #005E97 50%, #7DF9FF 100%);
+    background: linear-gradient(135deg, var(--color-tertiary) 0%, var(--color-primary) 50%, var(--color-secondary) 100%);
     opacity: 0.15;
   }
 
@@ -98,7 +96,7 @@ const styles = `
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #0077be 0%, #002366 100%);
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-tertiary) 100%);
     color: #ffffff;
     font-size: 32px;
     font-weight: 700;
@@ -112,10 +110,10 @@ const styles = `
   @media (min-width: 768px) { .hero-name-block { padding-bottom: 40px; } }
 
   .hero-name {
-    font-family: 'EB Garamond', Georgia, serif;
+    font-family: var(--font-headline);
     font-size: 28px;
     font-weight: 500;
-    color: #1A1C1C;
+    color: var(--color-neutral-1000);
     line-height: 1.2;
   }
   @media (min-width: 640px) { .hero-name { font-size: 36px; } }
@@ -142,10 +140,10 @@ const styles = `
   }
 
   .section-title {
-    font-family: 'EB Garamond', Georgia, serif;
+    font-family: var(--font-headline);
     font-size: 28px;
     font-weight: 500;
-    color: #1A1C1C;
+    color: var(--color-neutral-1000);
     line-height: 1.2;
   }
   @media (min-width: 640px) { .section-title { font-size: 36px; } }
@@ -154,7 +152,7 @@ const styles = `
   .ai-badge {
     font-size: 11px;
     font-weight: 700;
-    color: #005E97;
+    color: var(--color-primary);
     letter-spacing: 1.2px;
     text-transform: uppercase;
     white-space: nowrap;
@@ -207,31 +205,31 @@ const styles = `
   }
 
   .stat-number {
-    font-family: 'EB Garamond', Georgia, serif;
+    font-family: var(--font-headline);
     font-size: 48px;
     font-weight: 400;
-    color: #1A1C1C;
+    color: var(--color-neutral-1000);
     line-height: 1;
   }
   @media (min-width: 1024px) { .stat-number { font-size: 60px; } }
 
   .stat-number-sm {
-    font-family: 'EB Garamond', Georgia, serif;
+    font-family: var(--font-headline);
     font-size: 36px;
     font-weight: 400;
-    color: #1A1C1C;
+    color: var(--color-neutral-1000);
     line-height: 1.1;
   }
 
   .stat-unit {
     font-size: 18px;
-    color: #707882;
+    color: var(--color-neutral-500);
   }
 
   .stat-label {
     font-size: 12px;
     font-weight: 700;
-    color: #404751;
+    color: var(--color-neutral-800);
     letter-spacing: 1.2px;
     text-transform: uppercase;
     margin-top: 8px;
@@ -240,7 +238,7 @@ const styles = `
   .stat-label-lg {
     font-size: 16px;
     font-weight: 600;
-    color: #404751;
+    color: var(--color-neutral-800);
     letter-spacing: 1px;
     margin-top: 8px;
   }
@@ -333,7 +331,7 @@ const styles = `
   }
 
   .itinerary-title {
-    font-family: 'EB Garamond', Georgia, serif;
+    font-family: var(--font-headline);
     font-size: 26px;
     font-weight: 400;
     color: white;
@@ -360,7 +358,7 @@ const styles = `
     display: flex;
     align-items: center;
     gap: 8px;
-    color: #005E97;
+    color: var(--color-primary);
     font-size: 16px;
     font-weight: 600;
     letter-spacing: 1px;
@@ -398,7 +396,7 @@ const styles = `
 
   .pref-subtitle {
     font-size: 15px;
-    color: #404751;
+    color: var(--color-neutral-800);
     max-width: 440px;
     line-height: 1.65;
   }
@@ -426,7 +424,7 @@ const styles = `
   .pref-col-title {
     font-size: 18px;
     font-weight: 600;
-    color: #005E97;
+    color: var(--color-primary);
     letter-spacing: 1px;
   }
 
@@ -446,18 +444,18 @@ const styles = `
     text-align: left;
   }
   .budget-btn.active {
-    border-color: #005E97;
+    border-color: var(--color-primary);
     background: rgba(0,94,151,0.08);
     box-shadow: 0 4px 14px rgba(0,105,109,0.08);
   }
 
   .budget-label {
     font-size: 15px;
-    color: #404751;
+    color: var(--color-neutral-800);
   }
   .budget-label.active {
     font-weight: 700;
-    color: #005E97;
+    color: var(--color-primary);
   }
 
   .radio-dot {
@@ -472,8 +470,8 @@ const styles = `
     transition: all 0.2s;
   }
   .radio-dot.active {
-    background: #005E97;
-    border-color: #005E97;
+    background: var(--color-primary);
+    border-color: var(--color-primary);
   }
   .radio-inner {
     width: 7px; height: 7px;
@@ -489,7 +487,7 @@ const styles = `
     width: 100%;
     height: 4px;
     border-radius: 2px;
-    background: linear-gradient(to right, #005E97 0%, #005E97 var(--pct, 50%), #D1D8E2 var(--pct, 50%), #D1D8E2 100%);
+    background: linear-gradient(to right, var(--color-primary) 0%, var(--color-primary) var(--pct, 50%), #D1D8E2 var(--pct, 50%), #D1D8E2 100%);
     outline: none;
     cursor: pointer;
   }
@@ -497,7 +495,7 @@ const styles = `
     -webkit-appearance: none;
     width: 20px; height: 20px;
     border-radius: 50%;
-    background: #005E97;
+    background: var(--color-primary);
     box-shadow: 0 2px 8px rgba(0,94,151,0.30);
     cursor: pointer;
     transition: transform 0.15s;
@@ -506,7 +504,7 @@ const styles = `
   .range-input::-moz-range-thumb {
     width: 20px; height: 20px;
     border-radius: 50%;
-    background: #005E97;
+    background: var(--color-primary);
     border: none;
     box-shadow: 0 2px 8px rgba(0,94,151,0.30);
     cursor: pointer;
@@ -520,17 +518,17 @@ const styles = `
     font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 0.6px;
-    color: #707882;
+    color: var(--color-neutral-500);
     transition: color 0.2s;
   }
   .slider-label.active {
-    color: #005E97;
+    color: var(--color-primary);
     font-weight: 700;
   }
 
   .slider-desc {
     font-size: 13px;
-    color: #404751;
+    color: var(--color-neutral-800);
     line-height: 1.65;
   }
 
@@ -544,15 +542,15 @@ const styles = `
     font-weight: 700;
     letter-spacing: 1.2px;
     border: 1.5px solid #C0C7D2;
-    color: #404751;
+    color: var(--color-neutral-800);
     background: transparent;
     cursor: pointer;
     transition: all 0.2s;
   }
   .chip.active {
-    border-color: #005E97;
+    border-color: var(--color-primary);
     background: rgba(0,94,151,0.06);
-    color: #005E97;
+    color: var(--color-primary);
   }
 
   /* Divider between pref cols on mobile */
@@ -588,14 +586,14 @@ const styles = `
   .time-budget-title {
     font-size: 20px;
     font-weight: 600;
-    color: #005E97;
+    color: var(--color-primary);
     letter-spacing: 1px;
   }
 
   .time-budget-display {
     font-size: 64px;
     font-weight: 700;
-    color: #1A1C1C;
+    color: var(--color-neutral-1000);
     line-height: 1;
     display: flex;
     align-items: baseline;
@@ -604,7 +602,7 @@ const styles = `
 
   .time-budget-unit {
     font-size: 24px;
-    color: #707882;
+    color: var(--color-neutral-500);
     font-weight: 400;
   }
 
@@ -842,10 +840,10 @@ export default function Profile() {
             </div>
           </section>
 
-          {/* ── Saved Itineraries ── */}
+          {/* ── Journey History ── */}
           <section style={{ display: "flex", flexDirection: "column", gap: 32 }}>
             <div className="section-header">
-              <h2 className="section-title garamond">Saved Itineraries</h2>
+              <h2 className="section-title garamond">Journey History</h2>
             </div>
 
             <div className="itineraries-scroll">
@@ -864,15 +862,15 @@ export default function Profile() {
                   gap: "16px",
                   width: "100%"
                 }}>
-                  <p className="garamond" style={{ fontSize: "24px", color: "#404751", margin: 0 }}>No saved itineraries yet</p>
-                  <p style={{ fontSize: "14px", color: "#707882", margin: 0, maxWidth: "400px" }}>
-                    Your custom travels in Algiers are waiting. Use the AI Planner to craft your perfect itinerary!
+                  <p className="garamond" style={{ fontSize: "24px", color: "var(--color-neutral-800)", margin: 0 }}>No journeys yet</p>
+                  <p style={{ fontSize: "14px", color: "var(--color-neutral-500)", margin: 0, maxWidth: "400px" }}>
+                    Your travel history in Algiers will appear here. Start planning to see your past itineraries!
                   </p>
                   <a href="/plan" style={{
                     textDecoration: "none",
                     padding: "12px 28px",
                     borderRadius: "999px",
-                    background: "#005E97",
+                    background: "var(--color-primary)",
                     color: "white",
                     fontWeight: 600,
                     fontSize: "14px",

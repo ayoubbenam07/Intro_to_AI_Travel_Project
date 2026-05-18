@@ -5,14 +5,63 @@
 /* ── Page layout ── */
 .itin-page {
   min-height: 100vh;
-  padding: 120px 5vw 60px;
-  background:
-    radial-gradient(ellipse at 20% 10%, rgba(0, 119, 190, 0.06) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 80%, rgba(125, 249, 255, 0.05) 0%, transparent 50%),
-    var(--bg);
+  background: var(--bg);
   font-family: var(--font-body);
   position: relative;
   overflow-x: hidden;
+}
+
+/* ═══ HERO BANNER ═══ */
+.itin-hero {
+  position: relative;
+  height: 40vh;
+  min-height: 280px;
+  overflow: hidden;
+}
+@media (min-width: 1024px) { .itin-hero { height: 380px; } }
+
+.itin-hero__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 35%;
+  opacity: 0.6;
+}
+
+.itin-hero__gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    0deg,
+    var(--bg) 0%,
+    rgba(249, 249, 249, 0.10) 38.4%,
+    rgba(249, 249, 249, 0.00) 100%
+  );
+}
+
+.itin-hero__content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 0 20px 36px;
+}
+@media (min-width: 768px) { .itin-hero__content { padding: 0 80px 44px; } }
+
+.itin-hero__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+  animation: itin-fadeUp 0.7s cubic-bezier(.22,1,.36,1) both;
+}
+
+/* ── Content wrapper ── */
+.itin-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 5vw 60px;
 }
 
 /* ── Loader ── */
@@ -21,7 +70,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  min-height: 300px;
+  padding: 80px 0;
   gap: 18px;
   color: var(--color-neutral-500);
   font-family: var(--font-body);
@@ -41,12 +91,11 @@
   to { transform: rotate(360deg); }
 }
 
-/* ═══ HEADER ═══ */
+/* ═══ HEADER (inside hero) ═══ */
 .itin-header {
   text-align: center;
   max-width: 640px;
   margin: 0 auto 32px;
-  animation: itin-fadeUp 0.6s cubic-bezier(.22,1,.36,1) both;
 }
 
 .itin-eyebrow {
@@ -57,7 +106,7 @@
   text-transform: uppercase;
   color: var(--color-primary);
   margin-bottom: 14px;
-  background: var(--color-primary-light);
+  background: rgba(0, 119, 190, 0.1);
   padding: 6px 18px;
   border-radius: 999px;
 }
@@ -868,4 +917,21 @@
   .itin-map-container {
     height: 240px;
   }
+}
+
+/* ═══ SHARED KEYFRAMES ═══ */
+@keyframes itin-fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Hero responsive ── */
+@media (max-width: 768px) {
+  .itin-hero { min-height: 240px; }
+  .itin-hero__content { padding: 0 20px 28px; }
+  .itin-content { padding: 0 16px 60px; }
+}
+
+@media (max-width: 480px) {
+  .itin-hero { min-height: 200px; height: 32vh; }
 }

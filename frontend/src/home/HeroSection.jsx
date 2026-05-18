@@ -31,7 +31,7 @@ const sx = {
 
   mainContainer: {
     flex: 1,
-    background: "linear-gradient(0deg, #f9f9f9, rgba(249,249,249,0.1) 38.4%, rgba(249,249,249,0))",
+    background: "linear-gradient(0deg, var(--bg), rgba(249,249,249,0.1) 38.4%, rgba(249,249,249,0))",
     padding: "11.593rem 5rem",
     boxSizing: "border-box",
     isolation: "isolate",
@@ -74,7 +74,7 @@ const sx = {
     left: 0,
     right: 0,
     height: "12rem",
-    background: "linear-gradient(to bottom, transparent, #f3f3f4)",
+    background: "linear-gradient(to bottom, transparent, var(--bg))",
     zIndex: 1,
     pointerEvents: "none",
   },
@@ -149,7 +149,7 @@ const sx = {
     gap: "1.5rem",
     textAlign: "center",
     fontSize: "1rem",
-    color: "#fff",
+    color: "var(--color-neutral)",
     animation: "heroSpawn 0.7s 0.3s cubic-bezier(0.22, 1, 0.36, 1) both",
     "@media (max-width:700px)": { flexDirection: "column", alignItems: "stretch" },
   },
