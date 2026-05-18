@@ -634,13 +634,16 @@ const styles = `
 `;
 
 export default function Profile() {
+
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [dbItineraries, setDbItineraries] = useState([]);
   const [timeBudget, setTimeBudget] = useState(12);
   const [loading, setLoading] = useState(true);
 
+
   const sliderPct = `${((timeBudget - 2) / 22) * 100}%`;
+  const userEmail = user?.email || localStorage.getItem("user_email") || localStorage.getItem("userEmail") || "guest@algiers.ai";
 
   useEffect(() => {
     const fetchData = async () => {
@@ -768,8 +771,12 @@ export default function Profile() {
                 <div className="avatar avatar-placeholder">
                   <span>{userInitials}</span>
                 </div>
-                <div className="hero-name-block" style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                  <h1 className="hero-name garamond">{displayName}</h1>
+
+                <div className="hero-name-block" style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                  <h1 className="hero-name garamond">Meghabber mohammed Al Ghazali</h1>
+                  <span style={{ color: "rgba(0, 35, 102, 0.65)", fontFamily: "var(--font-body)", fontSize: "14.5px", fontWeight: 500 }}>{userEmail}</span>
+
+
                   <button 
                     onClick={handleLogout}
                     style={{
@@ -782,6 +789,7 @@ export default function Profile() {
                       fontWeight: 600,
                       cursor: "pointer",
                       padding: 0,
+                      marginTop: 4,
                       textTransform: "uppercase",
                       letterSpacing: "1px",
                       transition: "opacity 0.2s"
@@ -926,7 +934,11 @@ export default function Profile() {
                   type="range"
                   min="2" max="24"
                   value={timeBudget}
-                  onChange={(e) => setTimeBudget(Number(e.target.value))}
+                  onChange={(e) => {
+                    const val = Number(e.target.value);
+                    setTimeBudget(val);
+                    localStorage.setItem("selectedBudget", val.toString());
+                  }}
                   className="range-input"
                   style={{ "--pct": sliderPct }}
                 />

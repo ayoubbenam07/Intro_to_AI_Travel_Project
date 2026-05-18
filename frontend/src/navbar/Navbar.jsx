@@ -245,22 +245,101 @@ const styles = `
     to   { opacity: 1; transform: translateY(0) scale(1); }
   }
 
-  /* ── Responsive ── */
+
+  /* ── Hamburger button ── */
+  .hamburger {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    border-radius: 10px;
+    width: 38px;
+    height: 38px;
+    cursor: pointer;
+    margin-left: auto;
+    color: var(--color-tertiary);
+    transition: background 0.2s;
+    flex-shrink: 0;
+  }
+  .hamburger:hover { background: rgba(0, 35, 102, 0.08); }
+
+  /* ── Mobile overlay menu ── */
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    background: rgba(255, 255, 255, 0.97);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 80px 32px 40px;
+    animation: mobile-menu-in 0.28s cubic-bezier(.22,1,.36,1) both;
+  }
+  .mobile-menu.open { display: flex; }
+
+  @keyframes mobile-menu-in {
+    from { opacity: 0; transform: scale(0.97); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+
+  .mobile-menu .nav-link {
+    font-size: 1.3rem;
+    font-weight: 500;
+    padding: 14px 32px;
+    width: 100%;
+    text-align: center;
+    border-radius: 16px;
+    opacity: 1;
+  }
+
+  .mobile-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: 1.5px solid rgba(0, 35, 102, 0.15);
+    border-radius: 10px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--color-tertiary);
+    transition: background 0.2s;
+  }
+  .mobile-close:hover { background: rgba(0, 35, 102, 0.08); }
+
+  .mobile-menu .btn-ai {
+    width: 100%;
+    justify-content: center;
+    padding: 14px 32px;
+    font-size: 1rem;
+    border-radius: 16px;
+    margin-top: 8px;
+  }
+  .mobile-menu .btn-signin {
+    width: 100%;
+    justify-content: center;
+    padding: 14px 32px;
+    font-size: 1rem;
+    border-radius: 16px;
+    margin-top: 4px;
+  }
+  
+  /* ── Responsive overrides ── */
   @media (max-width: 680px) {
     .navbar-wrap { padding: 0 8px 0 14px; height: 50px; margin: 12px auto 0 auto; }
     .brand { font-size: 1.05rem; margin-right: 14px; }
     .divider { display: none; }
-    .nav-link { padding: 5px 9px; font-size: 0.8rem; }
-    .btn-ai { padding: 7px 13px 7px 10px; font-size: 0.78rem; }
-    .btn-signin { padding: 6px 12px; font-size: 0.76rem; }
-  }
-  @media (max-width: 480px) {
-    .nav-links .nav-link:nth-child(n+3) { display: none; }
-    .btn-ai-text { display: none; }
-    .btn-ai { padding: 8px; }
-    .nav-right { gap: 8px; }
-    .nav-links { gap: 4px; }
-    .brand { margin-right: 8px; font-size: 0.95rem; }
+    .nav-links { display: none; }
+    .nav-right { display: none; }
+    .hamburger { display: flex; }
   }
 `;
 
@@ -304,8 +383,12 @@ const NAV_ITEMS = [
 export default function Navbar() {
   const location = useLocation();
   const activePath = location.pathname;
+  const [menuOpen, setMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userEmail, setUserEmail] = useState("");
+
+  // Close menu when route changes
+  const handleNavClick = () => setMenuOpen(false);
 
   useEffect(() => {
     const token = localStorage.getItem("token") || localStorage.getItem("isLoggedIn") === "true";
@@ -336,14 +419,14 @@ export default function Navbar() {
       <nav className="navbar-wrap" role="navigation" aria-label="Main navigation">
 
         {/* Brand */}
-        <Link to="/" className="brand" role="link" tabIndex={0} style={{ textDecoration: 'none' }}>
+        <Link to="/" className="brand" role="link" tabIndex={0} style={{ textDecoration: 'none' }} onClick={handleNavClick}>
           Algiers AI
         </Link>
 
         {/* Vertical divider */}
         <div className="divider" aria-hidden="true" />
 
-        {/* Nav Links */}
+        {/* Nav Links (desktop) */}
         <div className="nav-links" role="menubar">
           {NAV_ITEMS.map((item) => (
             <Link
@@ -359,11 +442,11 @@ export default function Navbar() {
           ))}
         </div>
 
-        {/* Right controls */}
+        {/* Right controls (desktop) */}
         <div className="nav-right">
-          <Link to="/plan" className="btn-ai" aria-label="Open AI Planner" style={{ textDecoration: 'none' }}>
+          <Link to="/plan" className="btn-ai" aria-label="Start Your Journey" style={{ textDecoration: 'none' }}>
             <SparkleIcon />
-            <span className="btn-ai-text">AI Planner</span>
+            <span className="btn-ai-text">Start Your Journey</span>
           </Link>
           
           {isLoggedIn ? (
@@ -377,7 +460,60 @@ export default function Navbar() {
           )}
         </div>
 
+        {/* Hamburger button (mobile only) */}
+        <button
+          className="hamburger"
+          aria-label={menuOpen ? "Close menu" : "Open menu"}
+          aria-expanded={menuOpen}
+          onClick={() => setMenuOpen((v) => !v)}
+        >
+          {menuOpen ? (
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          ) : (
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
+              <line x1="4" y1="7" x2="20" y2="7" />
+              <line x1="4" y1="12" x2="20" y2="12" />
+              <line x1="4" y1="17" x2="20" y2="17" />
+            </svg>
+          )}
+        </button>
+
       </nav>
+
+      {/* Mobile fullscreen overlay menu */}
+      <div className={`mobile-menu${menuOpen ? " open" : ""}`} role="dialog" aria-modal="true" aria-label="Mobile navigation">
+
+
+        {NAV_ITEMS.map((item) => (
+          <Link
+            to={item.path}
+            key={item.label}
+            className={`nav-link${activePath === item.path ? " active" : ""}`}
+            style={{ textDecoration: 'none', width: '100%' }}
+            onClick={handleNavClick}
+          >
+            {item.label}
+          </Link>
+        ))}
+
+        <Link to="/plan" className="btn-ai" style={{ textDecoration: 'none' }} onClick={handleNavClick}>
+          <SparkleIcon />
+          <span>Start Your Journey</span>
+        </Link>
+
+        {isLoggedIn ? (
+          <Link to="/profile" className="btn-signin" style={{ textDecoration: 'none' }} onClick={handleNavClick}>
+            My Profile
+          </Link>
+        ) : (
+          <Link to="/login" className="btn-signin" style={{ textDecoration: 'none' }} onClick={handleNavClick}>
+            Sign In
+          </Link>
+        )}
+      </div>
     </>
   );
 }

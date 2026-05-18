@@ -9,6 +9,13 @@ import notreDamePic from "./notreDame.png";
 
 
 
+const spawnKeyframes = `
+  @keyframes heroSpawn {
+    from { opacity: 0; transform: translateY(28px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+`;
+
 const sx = {
 
 
@@ -98,6 +105,7 @@ const sx = {
     flexDirection: "column",
     alignItems: "flex-start",
     fontFamily: "var(--font-headline)",
+    animation: "heroSpawn 0.7s cubic-bezier(0.22, 1, 0.36, 1) both",
   },
 
   titleText: {
@@ -121,6 +129,7 @@ const sx = {
     maxWidth: "36rem",
     fontSize: "1.375rem",
     color: "var(--color-neutral-700)",
+    animation: "heroSpawn 0.7s 0.15s cubic-bezier(0.22, 1, 0.36, 1) both",
     "@media (max-width:700px)": { maxWidth: "100%" },
   },
 
@@ -141,6 +150,7 @@ const sx = {
     textAlign: "center",
     fontSize: "1rem",
     color: "#fff",
+    animation: "heroSpawn 0.7s 0.3s cubic-bezier(0.22, 1, 0.36, 1) both",
     "@media (max-width:700px)": { flexDirection: "column", alignItems: "stretch" },
   },
 
@@ -204,6 +214,7 @@ const sx = {
     paddingTop: "2rem",
     lineHeight: "normal",
     letterSpacing: "normal",
+    animation: "heroSpawn 0.8s 0.4s cubic-bezier(0.22, 1, 0.36, 1) both",
     "@media (max-width:700px)": { width: "100%" },
   },
 
@@ -448,32 +459,24 @@ const HeroContent = () => {
             Start Your Journey
           </Typography>
         </Box>
-        <Button 
-          variant="contained" 
-          sx={sx.secondaryButton}
-          onClick={() => navigate("/map")}
-        >
-          Explore Experiences
-        </Button>
       </Box>
     </Box>
   );
 };
 
 
-const HeroSection = () => {
-  return (
-    <>
-      <Box sx={sx.heroSection}>
-        <Box component="main" sx={sx.mainContainer}>
-          <Box component="img" sx={sx.bgImage} alt="" src={heropic} />
-          <Box sx={sx.gradient} />
-          <HeroContent />
-          <FloatingCards />
-        </Box>
+const HeroSection = () => (
+  <>
+    <style>{spawnKeyframes}</style>
+    <Box sx={sx.heroSection}>
+      <Box component="main" sx={sx.mainContainer}>
+        <Box component="img" sx={sx.bgImage} alt="" src={heropic} />
+        <Box sx={sx.gradient} />
+        <HeroContent />
+        <FloatingCards />
       </Box>
-    </>
-  );
-};
+    </Box>
+  </>
+);
 
 export default HeroSection;
