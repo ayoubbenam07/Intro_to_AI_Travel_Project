@@ -211,6 +211,33 @@ const styles = `
     transform: scale(1.06);
   }
 
+  /* ── Sign in button ── */
+  .btn-signin {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    color: var(--color-primary);
+    border: 1.5px solid var(--color-primary);
+    border-radius: 999px;
+    font-family: var(--font-body);
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    padding: 8px 18px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+    outline: none;
+    line-height: 1;
+    text-decoration: none;
+  }
+  .btn-signin:hover {
+    background: var(--color-primary);
+    color: var(--color-neutral);
+    box-shadow: 0 4px 14px rgba(0, 119, 190, 0.25);
+  }
+
   /* ── Entry animation ── */
   @keyframes navbar-in {
     from { opacity: 0; transform: translateY(-14px) scale(0.98); }
@@ -224,6 +251,7 @@ const styles = `
     .divider { display: none; }
     .nav-link { padding: 5px 9px; font-size: 0.8rem; }
     .btn-ai { padding: 7px 13px 7px 10px; font-size: 0.78rem; }
+    .btn-signin { padding: 6px 12px; font-size: 0.76rem; }
   }
   @media (max-width: 480px) {
     .nav-links .nav-link:nth-child(n+3) { display: none; }
@@ -275,6 +303,7 @@ import { Link, useLocation } from "react-router-dom";
 export default function Navbar() {
   const location = useLocation();
   const activePath = location.pathname;
+  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
 
   return (
     <>
@@ -308,13 +337,19 @@ export default function Navbar() {
 
         {/* Right controls */}
         <div className="nav-right">
-          <button className="btn-ai" aria-label="Open AI Assistant">
+          <Link to="/plan" className="btn-ai" aria-label="Open AI Planner" style={{ textDecoration: 'none' }}>
             <SparkleIcon />
-            <span className="btn-ai-text">AI Assistant</span>
-          </button>
-          <Link to="/login" className="avatar-btn" aria-label="User profile" style={{ textDecoration: 'none' }}>
-            <UserIcon />
+            <span className="btn-ai-text">AI Planner</span>
           </Link>
+          {isLoggedIn ? (
+            <Link to="/profile" className="avatar-btn" aria-label="User profile" style={{ textDecoration: 'none' }}>
+              <UserIcon />
+            </Link>
+          ) : (
+            <Link to="/login" className="btn-signin" style={{ textDecoration: 'none' }}>
+              Sign In
+            </Link>
+          )}
         </div>
 
       </nav>

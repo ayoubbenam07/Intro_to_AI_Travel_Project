@@ -42,6 +42,9 @@ export default function Login() {
     try {
       const { token, user } = await API.loginWithEmail(email, password);
       console.log("Logged in:", user, token);
+      localStorage.setItem("isLoggedIn", "true");
+      localStorage.setItem("userEmail", email);
+      window.location.href = "/profile";
     } catch (err) {
       setError(err.message || "Something went wrong.");
     } finally {
@@ -219,6 +222,10 @@ export default function Login() {
               <div style={{ display: "flex", justifyContent: "center" }}>
                 <a
                   href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    window.location.href = "/";
+                  }}
                   style={{
                     color: "var(--color-primary)",
                     fontFamily: "var(--font-body)",

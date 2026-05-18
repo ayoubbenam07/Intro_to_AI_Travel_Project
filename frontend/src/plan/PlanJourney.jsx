@@ -13,6 +13,8 @@ import Companion from "./Companion";
 
 import { loadHotels } from "../map/data";
 
+import { useNavigate } from "react-router-dom";
+
 const STEPS = [
   { label: "Budget" },
   { label: "Hotel" },
@@ -22,6 +24,7 @@ const STEPS = [
 ];
 
 export default function PlanJourney() {
+  const navigate = useNavigate();
   const [phase, setPhase] = useState(0);
   const [hotels, setHotels] = useState([]);
 
@@ -62,8 +65,7 @@ export default function PlanJourney() {
       algorithm,
     };
     console.log("🚀 Generate itinerary:", formData);
-    // Future: navigate to results / call API
-    alert("Itinerary configuration ready! Check the console for details.");
+    navigate("/map");
   }
 
   return (

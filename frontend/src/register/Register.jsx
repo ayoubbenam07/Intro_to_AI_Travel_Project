@@ -220,6 +220,11 @@ export default function Register() {
 
             <button
               type="submit"
+              onClick={() => {
+                localStorage.setItem("isLoggedIn", "true");
+                localStorage.setItem("userEmail", "meghabber@algiers.ai");
+                window.location.href = "/profile";
+              }}
               style={{
                 width: "100%",
                 display: "flex",
