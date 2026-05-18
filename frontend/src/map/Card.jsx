@@ -6,8 +6,8 @@ const card = {
   overflow: "hidden",
   background: "#ffffff",
   boxShadow: "0 8px 30px rgba(0,0,0,.12)",
-  fontFamily: "'Inter', system-ui, sans-serif",
-  color: "#1e1e2f",
+  fontFamily: "var(--font-body)",
+  color: "var(--color-neutral-900)",
   transition: "transform .25s ease, box-shadow .25s ease",
 };
 
@@ -46,7 +46,7 @@ const metaRowStyle = {
   alignItems: "center",
   gap: 6,
   fontSize: 12,
-  color: "#888",
+  color: "var(--color-neutral-500)",
 };
 
 export default function Card({ landmark, compact, onClick }) {
@@ -128,7 +128,7 @@ export default function Card({ landmark, compact, onClick }) {
         </div>
       </div>
       <div style={{ padding: "14px 20px 18px" }}>
-        <p style={{ margin: "0 0 12px", fontSize: 12.5, lineHeight: 1.55, color: "#555" }}>
+        <p style={{ margin: "0 0 12px", fontSize: 12.5, lineHeight: 1.55, color: "var(--color-neutral-600)" }}>
           {description}
         </p>
         <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
@@ -144,7 +144,7 @@ export default function Card({ landmark, compact, onClick }) {
           </div>
         )}
         <div style={Object.assign({}, metaRowStyle, { marginTop: 6, justifyContent: "flex-end" })}>
-          <span style={{ fontSize: 10, background: "#f0f0f5", borderRadius: 4, padding: "2px 6px", color: "#aaa" }}>
+          <span style={{ fontSize: 10, background: "var(--color-neutral-100)", borderRadius: 4, padding: "2px 6px", color: "var(--color-neutral-400)" }}>
             {"ID: " + id}
           </span>
         </div>

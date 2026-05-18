@@ -133,8 +133,8 @@ export default function PlanJourney() {
       const result = await response.json();
       console.log("✨ Generated itinerary successfully:", result);
 
-      // Navigate to /map and pass the generated itinerary
-      navigate("/map", { state: { itinerary: result } });
+      // Navigate to /itinerary and pass the generated itinerary
+      navigate("/itinerary", { state: { itinerary: result } });
     } catch (err) {
       console.error(err);
       alert(`Error generating itinerary: ${err.message}`);

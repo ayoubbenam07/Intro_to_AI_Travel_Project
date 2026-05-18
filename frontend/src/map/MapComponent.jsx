@@ -51,6 +51,39 @@ function createColoredIcon(color, emoji) {
   });
 }
 
+/* ── Create a numbered SVG marker for itinerary order ── */
+function createNumberedIcon(color, number) {
+  const label = number > 99 ? "99+" : String(number);
+  const fontSize = label.length > 1 ? "11" : "13";
+  const svg = `
+    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="52" viewBox="0 0 40 52">
+      <defs>
+        <filter id="shadow-num-${number}" x="-20%" y="-20%" width="140%" height="140%">
+          <feDropShadow dx="0" dy="4" stdDeviation="3" flood-color="#002366" flood-opacity="0.22"/>
+        </filter>
+      </defs>
+      <g filter="url(#shadow-num-${number})">
+        <!-- Tear drop pin -->
+        <path d="M20 2C10.06 2 2 10.06 2 20c0 12.6 16.5 23.3 17.2 23.7a1.94 1.94 0 0 0 1.6 0c.7-.4 17.2-11.1 17.2-23.7 0-9.94-8.06-18-18-18z" fill="${color}" />
+        <!-- White circle core -->
+        <circle cx="20" cy="19" r="11" fill="#ffffff" />
+        <!-- Order number -->
+        <text x="20" y="24" text-anchor="middle" font-size="${fontSize}" font-weight="bold" font-family="Inter, system-ui, sans-serif" fill="${color}">${label}</text>
+      </g>
+      <!-- Small order badge at top-right corner -->
+      <circle cx="33" cy="7" r="7" fill="#0f172a" />
+      <text x="33" y="11" text-anchor="middle" font-size="8" font-weight="bold" font-family="Inter, system-ui, sans-serif" fill="#ffffff">${label}</text>
+    </svg>`;
+
+  return L.divIcon({
+    html: svg,
+    className: "custom-marker-icon numbered-marker-icon",
+    iconSize: [40, 52],
+    iconAnchor: [20, 50],
+    popupAnchor: [0, -48],
+  });
+}
+
 /* ── Hotel marker ── */
 const HOTEL_ICON = createColoredIcon("#f39c12", "🏨");
 
@@ -141,7 +174,7 @@ const MapComponent = ({
   onToggleSidebar,
   style = {},
 }) => {
-  /* ── Icon cache ── */
+  /* ── Icon cache (type-based, for non-itinerary use) ── */
   const iconCache = useMemo(() => {
     const cache = {};
     landmarks.forEach((lm) => {
@@ -151,6 +184,13 @@ const MapComponent = ({
       }
     });
     return cache;
+  }, [landmarks]);
+
+  /* ── Numbered icon cache (one per landmark position in itinerary) ── */
+  const numberedIconCache = useMemo(() => {
+    return landmarks.map((lm, index) =>
+      createNumberedIcon(getTypeColor(lm.type), index + 1)
+    );
   }, [landmarks]);
 
   /* ── Highlighted landmark ── */
@@ -238,12 +278,12 @@ const routeWaypoints = useMemo(() => {
         attribution='&copy; <a href="https://carto.com/">CARTO</a>'
       />
 
-      {/* ── Landmark markers ── */}
-      {landmarks.map((lm) => (
+      {/* ── Landmark markers (numbered in itinerary order) ── */}
+      {landmarks.map((lm, index) => (
         <Marker
           key={`landmark-${lm.id}`}
           position={[lm.latitude, lm.longitude]}
-          icon={iconCache[lm.type] || iconCache[Object.keys(iconCache)[0]]}
+          icon={numberedIconCache[index]}
           eventHandlers={{
             click: () => onMarkerClick?.(lm),
           }}

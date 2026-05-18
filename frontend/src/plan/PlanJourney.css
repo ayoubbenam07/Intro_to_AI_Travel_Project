@@ -5,7 +5,7 @@
 /* ── Page root ── */
 .plan-page-v2 {
   min-height: 100vh;
-  background: #F9F9F9;
+  background: var(--bg);
   font-family: var(--font-body);
   overflow-x: hidden;
 }
@@ -36,7 +36,7 @@
   inset: 0;
   background: linear-gradient(
     0deg,
-    #F9F9F9 0%,
+    var(--bg) 0%,
     rgba(249, 249, 249, 0.10) 38.4%,
     rgba(249, 249, 249, 0.00) 100%
   );
