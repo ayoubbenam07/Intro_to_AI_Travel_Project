@@ -643,6 +643,7 @@ export default function Profile() {
 
 
   const sliderPct = `${((timeBudget - 2) / 22) * 100}%`;
+  const userEmail = user?.email || localStorage.getItem("user_email") || localStorage.getItem("userEmail") || "guest@algiers.ai";
 
   useEffect(() => {
     const fetchData = async () => {
