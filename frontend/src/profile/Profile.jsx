@@ -842,7 +842,7 @@ export default function Profile() {
                     <div key={item.itinerary_id} className="itinerary-card" onClick={() => handleCardClick(item)}>
                       <div className="itinerary-info" style={{ flex: 1 }}>
                         <p className="itinerary-duration">
-                          {numLandmarks} Landmarks • {algoName}
+                          Score: {item.evaluation_score ? Number(item.evaluation_score).toFixed(1) : 'N/A'} • {algoName}
                         </p>
                         <h3 className="itinerary-title garamond">Start from {hotelName}</h3>
                         <div className="itinerary-tags">

@@ -145,6 +145,17 @@ export default function PlanJourney() {
 
   return (
     <div className="plan-page-v2">
+      {/* ── Generating Modal ── */}
+      {isGenerating && (
+        <div className="generating-modal-overlay">
+          <div className="generating-modal">
+            <div className="generating-modal__spinner"></div>
+            <h2 className="generating-modal__title">AI is optimizing your route...</h2>
+            <p className="generating-modal__desc">Please wait while we calculate the perfect itinerary for your Algiers adventure.</p>
+          </div>
+        </div>
+      )}
+
       {/* ── Hero Banner (Profile-style fade) ── */}
       <section className="plan-hero">
         <img
