@@ -1,3 +1,5 @@
+import Input from "../components/Input";
+
 /**
  * DatePhase — Journey date + starting time.
  */
@@ -16,33 +18,34 @@ export default function DatePhase({
 
       <div className="plan-row" style={{ marginBottom: 20 }}>
         <div>
-          <label className="plan-label">Journey Date</label>
-          <input
+          <Input
+            label="Journey Date"
             type="date"
-            className="input"
-            style={{ background: "#fff", color: "var(--color-neutral-900)" }}
             value={date}
             min={today}
             onChange={(e) => onDateChange(e.target.value)}
+            inputClassName="plan-input-white"
           />
         </div>
         <div>
-          <label className="plan-label">Starting Time</label>
+          <label className="input-label">Starting Time</label>
           <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-            <input
-              type="number" className="input"
-              style={{ background: "#fff", color: "var(--color-neutral-900)", textAlign: "center", flex: 1 }}
+            <Input
+              type="number"
               min={0} max={23} value={startHour}
               onChange={(e) => onHourChange(Math.max(0, Math.min(23, Number(e.target.value))))}
               placeholder="HH"
+              inputClassName="plan-input-white"
+              style={{ textAlign: "center" }}
             />
             <span style={{ fontSize: "var(--text-2xl)", color: "var(--color-neutral-400)", fontWeight: 700 }}>:</span>
-            <input
-              type="number" className="input"
-              style={{ background: "#fff", color: "var(--color-neutral-900)", textAlign: "center", flex: 1 }}
+            <Input
+              type="number"
               min={0} max={59} value={startMinute}
               onChange={(e) => onMinuteChange(Math.max(0, Math.min(59, Number(e.target.value))))}
               placeholder="MM"
+              inputClassName="plan-input-white"
+              style={{ textAlign: "center" }}
             />
           </div>
         </div>

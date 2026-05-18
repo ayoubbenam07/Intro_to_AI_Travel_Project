@@ -69,26 +69,32 @@ export default function PlanJourney() {
   }
 
   return (
-    <div className="plan-page">
-      {/* Background */}
-      <div className="plan-page__bg">
+    <div className="plan-page-v2">
+
+      {/* ── Hero Banner (Profile-style fade) ── */}
+      <section className="plan-hero">
         <img
           src="/images/background_image2.jpg"
           alt="Algiers cityscape"
+          className="plan-hero__img"
           loading="eager"
         />
-      </div>
+        <div className="plan-hero__gradient" />
+        <div className="plan-hero__content">
+          <div className="plan-hero__inner">
+            <h1 className="plan-hero__title">Plan your Algiers adventure.</h1>
+            <p className="plan-hero__subtitle">
+              Configure your itinerary in a few steps — our AI will handle the rest.
+            </p>
+          </div>
+        </div>
+      </section>
 
-      {/* Glass panel */}
-      <div className="plan-panel">
-        <div className="plan-panel__header">
-          <p className="plan-panel__eyebrow">Custom Journey</p>
-          <h1 className="plan-panel__title">Plan your Algiers adventure.</h1>
-          <p className="plan-panel__subtitle">
-            Configure your itinerary in a few steps — our AI will handle the rest.
-          </p>
+      {/* ── Main Content ── */}
+      <main className="plan-main">
 
-          {/* Stepper */}
+        {/* Stepper bar */}
+        <div className="plan-stepper-bar">
           <Stepper
             steps={STEPS}
             currentStep={phase}
@@ -96,74 +102,79 @@ export default function PlanJourney() {
           />
         </div>
 
-        <div className="plan-panel__content">
-          {/* Phase content */}
-        {phase === 0 && (
-          <BudgetPhase budget={budget} onChange={setBudget} />
-        )}
-        {phase === 1 && (
-          <HotelPhase hotels={hotels} selected={hotel} onChange={setHotel} />
-        )}
-        {phase === 2 && (
-          <DatePhase
-            date={date}
-            startHour={startHour}
-            startMinute={startMinute}
-            onDateChange={setDate}
-            onHourChange={setStartHour}
-            onMinuteChange={setStartMinute}
-          />
-        )}
-        {phase === 3 && (
-          <LandmarksPhase
-            selectedTypes={landmarkTypes}
-            onChange={setLandmarkTypes}
-          />
-        )}
-          {phase === 4 && (
-            <AlgoPhase selected={algorithm} onChange={setAlgorithm} />
-          )}
+        {/* Two-column grid: Form + Companion */}
+        <div className="plan-grid">
+
+          {/* Left — Form card */}
+          <div className="plan-form-card">
+            <div className="plan-form-card__body">
+              {phase === 0 && (
+                <BudgetPhase budget={budget} onChange={setBudget} />
+              )}
+              {phase === 1 && (
+                <HotelPhase hotels={hotels} selected={hotel} onChange={setHotel} />
+              )}
+              {phase === 2 && (
+                <DatePhase
+                  date={date}
+                  startHour={startHour}
+                  startMinute={startMinute}
+                  onDateChange={setDate}
+                  onHourChange={setStartHour}
+                  onMinuteChange={setStartMinute}
+                />
+              )}
+              {phase === 3 && (
+                <LandmarksPhase
+                  selectedTypes={landmarkTypes}
+                  onChange={setLandmarkTypes}
+                />
+              )}
+              {phase === 4 && (
+                <AlgoPhase selected={algorithm} onChange={setAlgorithm} />
+              )}
+            </div>
+
+            {/* Navigation */}
+            <div className="plan-nav">
+              {phase > 0 ? (
+                <Button variant="secondary" onClick={() => setPhase(phase - 1)}>
+                  ← Back
+                </Button>
+              ) : (
+                <div />
+              )}
+
+              {phase < STEPS.length - 1 ? (
+                <Button
+                  variant="primary"
+                  disabled={!canNext()}
+                  onClick={() => setPhase(phase + 1)}
+                >
+                  Next →
+                </Button>
+              ) : (
+                <Button
+                  variant="primary"
+                  size="lg"
+                  disabled={!canNext()}
+                  onClick={handleGenerate}
+                >
+                  ✨ Generate Itinerary
+                </Button>
+              )}
+            </div>
+          </div>
+
+          {/* Right — Companion card */}
+          <div className="plan-companion-wrap">
+            <Companion
+              phase={phase}
+              formData={{ budget, hotel, date, startHour, startMinute, landmarkTypes, algorithm }}
+            />
+          </div>
         </div>
-
-        {/* Navigation */}
-        <div className="plan-nav">
-          {phase > 0 ? (
-            <Button variant="secondary" onClick={() => setPhase(phase - 1)}>
-              ← Back
-            </Button>
-          ) : (
-            <div />
-          )}
-
-          {phase < STEPS.length - 1 ? (
-            <Button
-              variant="primary"
-              disabled={!canNext()}
-              onClick={() => setPhase(phase + 1)}
-            >
-              Next →
-            </Button>
-          ) : (
-            <Button
-              variant="primary"
-              size="lg"
-              disabled={!canNext()}
-              onClick={handleGenerate}
-            >
-              ✨ Generate Itinerary
-            </Button>
-          )}
-        </div>
-      </div>
-
-      {/* White gradient fade from panel to background */}
-      <div className="plan-fade" />
-
-      {/* Right-side contextual companion */}
-      <Companion
-        phase={phase}
-        formData={{ budget, hotel, date, startHour, startMinute, landmarkTypes, algorithm }}
-      />
+      </main>
     </div>
   );
 }
