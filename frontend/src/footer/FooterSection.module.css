@@ -119,9 +119,10 @@ a.theSpiritOf:hover {
   align-items: flex-start;
 }
 .container5 {
-  align-items: center;
-  justify-content: center;
-  padding: 0 0 3.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0 0 1.25rem;
   gap: 1rem;
   grid-column: 3;
   grid-row: 1;

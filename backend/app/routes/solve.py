@@ -126,7 +126,7 @@ async def solve_travel(
                         itinerary = Itinerary(
                             itinerary_id=itinerary_uuid,
                             user_id=user_uuid,
-                            name=f"Trip to {inputs.Hotel_Name}",
+                            name=f"Trip from {inputs.Hotel_Name}",
                             itinerary_type="day_trip",
                             algorithm_used=algo_enum,
                             fitness_score=result.get("evaluation_score", 0.0),

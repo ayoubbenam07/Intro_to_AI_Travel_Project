@@ -68,6 +68,8 @@ class UserResponse(BaseModel):
     """Pydantic model for user detail response"""
     user_id: Any
     email: str
+    full_name: Optional[str] = None
+    budget_profile: Optional[str] = None
 
     class Config:
         from_attributes = True

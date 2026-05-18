@@ -2,8 +2,18 @@ import { Typography, Box } from "@mui/material";
 import PropTypes from "prop-types";
 import styles from "./FooterSection.module.css";
 import backgroundImage from "./image.png";
+import { Link } from "react-router-dom";
 
 const FooterSection = ({ className = "" }) => {
+  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+
+  const handleSignOut = (e) => {
+    e.preventDefault();
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("userEmail");
+    window.location.href = "/";
+  };
+
   return (
     <div className={[styles.footerSection, className].join(" ")}>
       <img
@@ -49,13 +59,13 @@ const FooterSection = ({ className = "" }) => {
         </Box>
         <Box className={styles.list}>
           <Box className={styles.item}>
-            <a href="#" className={styles.theSpiritOf}>The Casbah</a>
+            <Link to="/" className={styles.theSpiritOf} style={{ textDecoration: 'none', color: 'inherit' }}>Home</Link>
           </Box>
           <Box className={styles.item}>
-            <a href="#" className={styles.theSpiritOf}>Notre Dame d'Afrique</a>
+            <Link to="/map" className={styles.theSpiritOf} style={{ textDecoration: 'none', color: 'inherit' }}>Interactive Map</Link>
           </Box>
           <Box className={styles.item}>
-            <a href="#" className={styles.theSpiritOf}>Martyrs' Memorial</a>
+            <Link to="/plan" className={styles.theSpiritOf} style={{ textDecoration: 'none', color: 'inherit' }}>Plan Journey</Link>
           </Box>
         </Box>
       </Box>
@@ -71,16 +81,29 @@ const FooterSection = ({ className = "" }) => {
               letterSpacing: "1px",
             }}
           >
-            Legal
+            Explorer
           </Typography>
         </Box>
         <Box className={styles.list}>
-          <Box className={styles.item}>
-            <a href="#" className={styles.theSpiritOf}>Privacy</a>
-          </Box>
-          <Box className={styles.item}>
-            <a href="#" className={styles.theSpiritOf}>Terms</a>
-          </Box>
+          {isLoggedIn ? (
+            <>
+              <Box className={styles.item}>
+                <Link to="/profile" className={styles.theSpiritOf} style={{ textDecoration: 'none', color: 'inherit' }}>My Profile</Link>
+              </Box>
+              <Box className={styles.item}>
+                <a href="#" onClick={handleSignOut} className={styles.theSpiritOf} style={{ textDecoration: 'none', color: 'inherit' }}>Sign Out</a>
+              </Box>
+            </>
+          ) : (
+            <>
+              <Box className={styles.item}>
+                <Link to="/login" className={styles.theSpiritOf} style={{ textDecoration: 'none', color: 'inherit' }}>Sign In</Link>
+              </Box>
+              <Box className={styles.item}>
+                <Link to="/register" className={styles.theSpiritOf} style={{ textDecoration: 'none', color: 'inherit' }}>Create Account</Link>
+              </Box>
+            </>
+          )}
         </Box>
       </Box>
       <Box className={styles.margin}>

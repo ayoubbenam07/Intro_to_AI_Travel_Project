@@ -63,6 +63,8 @@ export default function Register() {
         const data = await loginRes.json();
         localStorage.setItem("token", data.access_token);
         localStorage.setItem("user_email", email);
+        localStorage.setItem("isLoggedIn", "true");
+        localStorage.setItem("userEmail", email);
       }
 
       alert("🎉 Account created successfully! Welcome to Algiers AI.");

@@ -3,7 +3,9 @@ import {
   Routes,
   Route,
   Outlet,
+  useLocation,
 } from "react-router-dom";
+import { useEffect } from "react";
 import Map from "./map/Map";
 import Home from "./home/Home";
 import FooterSection from "./footer/Footer";
@@ -11,6 +13,17 @@ import Navbar from "./navbar/Navbar";
 import PlanJourney from "./plan/PlanJourney";
 import Login from "./login/Login";
 import Register from "./register/Register";
+import Profile from "./profile/Profile";
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+}
 
 function MainLayout() {
   return (
@@ -27,11 +40,13 @@ function MainLayout() {
 export default function App() {
   return (
     <Router>
+      <ScrollToTop />
       <Routes>
         {/* Pages with Navbar and Footer */}
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/plan" element={<PlanJourney />} />
+          <Route path="/profile" element={<Profile />} />
         </Route>
         <Route path="/map" element={<Map />} />
         {/* Pages without Navbar and Footer */}

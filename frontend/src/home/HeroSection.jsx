@@ -401,64 +401,74 @@ const FloatingCards = () => (
 );
 
 
-const HeroContent = ({ navigate }) => (
-  <Box component="section" sx={sx.container}>
-    <Box sx={sx.heading1}>
-      <Typography
-        variant="inherit"
-        variantMapping={{ inherit: "h1" }}
-        sx={sx.titleText}
-      >
-        <Typography variant="inherit" variantMapping={{ inherit: "span" }}>
-          One Day.
-          <br />
-        </Typography>
+const HeroContent = () => {
+  const navigate = useNavigate();
+  return (
+    <Box component="section" sx={sx.container}>
+      <Box sx={sx.heading1}>
         <Typography
           variant="inherit"
-          variantMapping={{ inherit: "span" }}
-          sx={sx.infiniteAlgiers}
+          variantMapping={{ inherit: "h1" }}
+          sx={sx.titleText}
         >
-          Infinite Algiers.
-        </Typography>
-      </Typography>
-    </Box>
-
-    <Box sx={sx.descriptionBox}>
-      <Box sx={sx.descriptionText}>
-        Your AI-powered guide to discovering the perfect 24 hours in Algeria's
-        capital. Experience the blend of long lasting history and Mediterranean
-        elegance through a refractive lens.
-      </Box>
-    </Box>
-
-    <Box sx={sx.buttonRow}>
-      <Box sx={sx.primaryButton} onClick={() => navigate("/plan")}>
-        <Box sx={sx.buttonShadow} />
-        <Typography
-          variant="inherit"
-          variantMapping={{ inherit: "b" }}
-          sx={sx.primaryButtonLabel}
-        >
-          Start Your Journey
+          <Typography variant="inherit" variantMapping={{ inherit: "span" }}>
+            One Day.
+            <br />
+          </Typography>
+          <Typography
+            variant="inherit"
+            variantMapping={{ inherit: "span" }}
+            sx={sx.infiniteAlgiers}
+          >
+            Infinite Algiers.
+          </Typography>
         </Typography>
       </Box>
-      <Button variant="contained" sx={sx.secondaryButton} onClick={() => navigate("/plan")}>
-        Explore Experiences
-      </Button>
+
+      <Box sx={sx.descriptionBox}>
+        <Box sx={sx.descriptionText}>
+          Your AI-powered guide to discovering the perfect 24 hours in Algeria's
+          capital. Experience the blend of long lasting history and Mediterranean
+          elegance through a refractive lens.
+        </Box>
+      </Box>
+
+      <Box sx={sx.buttonRow}>
+        <Box 
+          sx={sx.primaryButton} 
+          onClick={() => navigate("/plan")}
+          style={{ cursor: "pointer" }}
+        >
+          <Box sx={sx.buttonShadow} />
+          <Typography
+            variant="inherit"
+            variantMapping={{ inherit: "b" }}
+            sx={sx.primaryButtonLabel}
+          >
+            Start Your Journey
+          </Typography>
+        </Box>
+        <Button 
+          variant="contained" 
+          sx={sx.secondaryButton}
+          onClick={() => navigate("/map")}
+        >
+          Explore Experiences
+        </Button>
+      </Box>
     </Box>
-  </Box>
-);
+  );
+};
 
 
 const HeroSection = () => {
-  const navigate = useNavigate();
   return (
     <>
       <Box sx={sx.heroSection}>
         <Box component="main" sx={sx.mainContainer}>
           <Box component="img" sx={sx.bgImage} alt="" src={heropic} />
           <Box sx={sx.gradient} />
-          <HeroContent navigate={navigate} />
+          <HeroContent />
           <FloatingCards />
         </Box>
       </Box>

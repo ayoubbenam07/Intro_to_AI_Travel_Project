@@ -68,7 +68,6 @@ export default function PlanJourney() {
       csp: "CSP",
       acs_hybrid: "ACS_Hybrid",
     };
-
     const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     let dayOfWeekName = "Monday";
     if (date) {
@@ -87,11 +86,11 @@ export default function PlanJourney() {
 
     console.log("🚀 Calling solve API with payload:", payload);
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("token") || localStorage.getItem("isLoggedIn") === "true";
       const headers = {
         "Content-Type": "application/json",
       };
-      if (token) {
+      if (token && typeof token === "string" && token !== "true") {
         headers["Authorization"] = `Bearer ${token}`;
       }
 

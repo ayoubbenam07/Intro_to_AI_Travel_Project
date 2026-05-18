@@ -212,6 +212,33 @@ const styles = `
     transform: scale(1.06);
   }
 
+  /* ── Sign in button ── */
+  .btn-signin {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    color: var(--color-primary);
+    border: 1.5px solid var(--color-primary);
+    border-radius: 999px;
+    font-family: var(--font-body);
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    padding: 8px 18px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+    outline: none;
+    line-height: 1;
+    text-decoration: none;
+  }
+  .btn-signin:hover {
+    background: var(--color-primary);
+    color: var(--color-neutral);
+    box-shadow: 0 4px 14px rgba(0, 119, 190, 0.25);
+  }
+
   /* ── Entry animation ── */
   @keyframes navbar-in {
     from { opacity: 0; transform: translateY(-14px) scale(0.98); }
@@ -225,6 +252,7 @@ const styles = `
     .divider { display: none; }
     .nav-link { padding: 5px 9px; font-size: 0.8rem; }
     .btn-ai { padding: 7px 13px 7px 10px; font-size: 0.78rem; }
+    .btn-signin { padding: 6px 12px; font-size: 0.76rem; }
   }
   @media (max-width: 480px) {
     .nav-links .nav-link:nth-child(n+3) { display: none; }
@@ -280,17 +308,22 @@ export default function Navbar() {
   const [userEmail, setUserEmail] = useState("");
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const email = localStorage.getItem("user_email");
+    const token = localStorage.getItem("token") || localStorage.getItem("isLoggedIn") === "true";
+    const email = localStorage.getItem("user_email") || localStorage.getItem("userEmail");
     if (token) {
       setIsLoggedIn(true);
       setUserEmail(email || "");
+    } else {
+      setIsLoggedIn(false);
+      setUserEmail("");
     }
   }, [location]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user_email");
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("userEmail");
     setIsLoggedIn(false);
     setUserEmail("");
     window.location.href = "/";
@@ -328,49 +361,18 @@ export default function Navbar() {
 
         {/* Right controls */}
         <div className="nav-right">
-          <button className="btn-ai" aria-label="Open AI Assistant">
+          <Link to="/plan" className="btn-ai" aria-label="Open AI Planner" style={{ textDecoration: 'none' }}>
             <SparkleIcon />
-            <span className="btn-ai-text">AI Assistant</span>
-          </button>
+            <span className="btn-ai-text">AI Planner</span>
+          </Link>
           
           {isLoggedIn ? (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <span style={{ 
-                fontFamily: 'var(--font-body)', 
-                fontSize: '13px', 
-                color: 'var(--color-tertiary)', 
-                fontWeight: '600',
-                background: 'rgba(0, 35, 102, 0.05)',
-                padding: '4px 10px',
-                borderRadius: '12px',
-                border: '1px solid rgba(0, 35, 102, 0.1)',
-                textOverflow: 'ellipsis',
-                overflow: 'hidden',
-                maxWidth: '120px',
-                whiteSpace: 'nowrap'
-              }} title={userEmail}>
-                👤 {userEmail.split('@')[0]}
-              </span>
-              <button 
-                onClick={handleLogout} 
-                className="avatar-btn" 
-                title="Log Out"
-                style={{ 
-                  background: 'rgba(192, 57, 43, 0.08)', 
-                  borderColor: 'rgba(192, 57, 43, 0.2)', 
-                  color: '#c0392b',
-                  fontSize: '14px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center'
-                }}
-              >
-                🚪
-              </button>
-            </div>
-          ) : (
-            <Link to="/login" className="avatar-btn" aria-label="User profile" style={{ textDecoration: 'none' }}>
+            <Link to="/profile" className="avatar-btn" aria-label="User profile" style={{ textDecoration: 'none' }}>
               <UserIcon />
+            </Link>
+          ) : (
+            <Link to="/login" className="btn-signin" style={{ textDecoration: 'none' }}>
+              Sign In
             </Link>
           )}
         </div>

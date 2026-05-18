@@ -45,7 +45,9 @@ export default function Login() {
       const data = await res.json();
       localStorage.setItem("token", data.access_token);
       localStorage.setItem("user_email", email);
-      
+      localStorage.setItem("isLoggedIn", "true");
+      localStorage.setItem("userEmail", email);
+
       console.log("Logged in successfully:", email);
       navigate("/plan");
     } catch (err) {
@@ -224,7 +226,11 @@ export default function Login() {
 
               <div style={{ display: "flex", justifyContent: "center" }}>
                 <a
-                  href="/plan"
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    window.location.href = "/";
+                  }}
                   style={{
                     color: "var(--color-primary)",
                     fontFamily: "var(--font-body)",
@@ -389,9 +395,8 @@ function UnderlineField({ label, labelRight, type, value, onChange, placeholder 
       </div>
       <div
         style={{
-          borderBottom: `1px solid ${
-            focused ? "var(--color-primary)" : "var(--color-neutral-300)"
-          }`,
+          borderBottom: `1px solid ${focused ? "var(--color-primary)" : "var(--color-neutral-300)"
+            }`,
           paddingBottom: 17,
           paddingTop: 16,
           transition: "border-color 0.18s",
@@ -441,8 +446,8 @@ function PillButton({ label, icon, onClick, disabled }) {
         background: disabled
           ? "var(--color-neutral-400)"
           : hovered
-          ? "var(--color-primary-hover)"
-          : "var(--color-primary)",
+            ? "var(--color-primary-hover)"
+            : "var(--color-primary)",
         color: "var(--color-neutral)",
         fontFamily: "var(--font-body)",
         fontSize: 20,

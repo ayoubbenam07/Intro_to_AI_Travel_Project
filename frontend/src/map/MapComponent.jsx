@@ -26,25 +26,28 @@ L.Icon.Default.mergeOptions({
 /* ── Create a colored SVG marker for each type ── */
 function createColoredIcon(color, emoji) {
   const svg = `
-    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36">
+    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="46" viewBox="0 0 40 46">
       <defs>
-        <filter id="s" x="-20%" y="-20%" width="140%" height="140%">
-          <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000" flood-opacity="0.18"/>
+        <filter id="shadow-${emoji}" x="-20%" y="-20%" width="140%" height="140%">
+          <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#002366" flood-opacity="0.16"/>
         </filter>
       </defs>
-      <g filter="url(#s)">
-        <circle cx="18" cy="12" r="11" fill="#ffffff" stroke="${color}" stroke-width="3" />
-        <circle cx="18" cy="12" r="6" fill="#ffffff" />
-        <text x="18" y="15" text-anchor="middle" font-size="12">${emoji}</text>
+      <g filter="url(#shadow-${emoji})">
+        <!-- Tear drop map pin path -->
+        <path d="M20 2C10.06 2 2 10.06 2 20c0 12.6 16.5 23.3 17.2 23.7a1.94 1.94 0 0 0 1.6 0c.7-.4 17.2-11.1 17.2-23.7 0-9.94-8.06-18-18-18z" fill="${color}" />
+        <!-- Pristine core -->
+        <circle cx="20" cy="18" r="10" fill="#ffffff" />
+        <!-- Emoji identifier -->
+        <text x="20" y="22" text-anchor="middle" font-size="11" font-family="Apple Color Emoji, Segoe UI Emoji, sans-serif">${emoji}</text>
       </g>
     </svg>`;
 
   return L.divIcon({
     html: svg,
     className: "custom-marker-icon",
-    iconSize: [36, 36],
-    iconAnchor: [18, 18],
-    popupAnchor: [0, -26],
+    iconSize: [40, 46],
+    iconAnchor: [20, 44],
+    popupAnchor: [0, -42],
   });
 }
 
@@ -53,14 +56,12 @@ const HOTEL_ICON = createColoredIcon("#f39c12", "🏨");
 
 /* ── Route legs: one color per segment (library default was red-only) ── */
 const SEGMENT_LINE_COLORS = [
-  "#2563eb",
-  "#059669",
-  "#7c3aed",
-  "#d97706",
-  "#0891b2",
-  "#4f46e5",
-  "#0d9488",
-  "#9333ea",
+  "#0077be", // Primary Blue
+  "#002366", // Tertiary Navy
+  "#009688", // Ocean Teal
+  "#3f51b5", // Mediterranean Indigo
+  "#006aab", // Darker primary
+  "#20b2aa", // Light ocean teal
 ];
 
 function lineStylesForSegment(segmentIndex) {
@@ -216,7 +217,7 @@ const routeWaypoints = useMemo(() => {
         </div>
         <div className="map-badges">
           <div className="map-badge">Live Weather: 24°C • Sunny</div>
-          <div className="map-badge">© 2024 Mediterranean AI</div>
+          <div className="map-badge">© 2026 Algiers AI</div>
         </div>
       </>
     );
@@ -233,7 +234,7 @@ const routeWaypoints = useMemo(() => {
       >
         <Controls />
       <TileLayer
-        url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
+        url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
         attribution='&copy; <a href="https://carto.com/">CARTO</a>'
       />
 
@@ -262,7 +263,7 @@ const routeWaypoints = useMemo(() => {
             icon={HOTEL_ICON}
           >
             <Popup>
-              <div style={{ fontFamily: "'Inter', sans-serif", padding: 4 }}>
+              <div style={{ fontFamily: "var(--font-body)", padding: 4 }}>
                 <strong style={{ fontSize: 13 }}>🏨 {h.name}</strong>
               </div>
             </Popup>
@@ -277,7 +278,7 @@ const routeWaypoints = useMemo(() => {
             icon={HOTEL_ICON}
           >
             <Popup>
-              <div style={{ fontFamily: "'Inter', sans-serif", padding: 4 }}>
+              <div style={{ fontFamily: "var(--font-body)", padding: 4 }}>
                 <strong style={{ fontSize: 13 }}>🏨 {startHotel.name}</strong>
               </div>
             </Popup>
@@ -288,7 +289,7 @@ const routeWaypoints = useMemo(() => {
             icon={HOTEL_ICON}
           >
             <Popup>
-              <div style={{ fontFamily: "'Inter', sans-serif", padding: 4 }}>
+              <div style={{ fontFamily: "var(--font-body)", padding: 4 }}>
                 <strong style={{ fontSize: 13 }}>🏨 {destHotel.name}</strong>
               </div>
             </Popup>

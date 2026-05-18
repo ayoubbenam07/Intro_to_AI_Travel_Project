@@ -37,7 +37,7 @@ async def save_itinerary(
 ):
     """Save an itinerary for the currently logged-in user"""
     itinerary = Itinerary(
-        user_id=current_user.id,
+        user_id=current_user.user_id,
         algorithm=payload.algorithm,
         hotel=payload.hotel,
         travel_day=payload.travel_day,
@@ -59,20 +59,20 @@ async def list_itineraries(
     db: Session = Depends(get_db)
 ):
     """List all saved itineraries for the logged-in user"""
-    itineraries = db.query(Itinerary).filter(Itinerary.user_id == current_user.id).order_by(Itinerary.created_at.desc()).all()
+    itineraries = db.query(Itinerary).filter(Itinerary.user_id == current_user.user_id).order_by(Itinerary.created_at.desc()).all()
     return itineraries
 
 
 @router.delete("/itineraries/{itinerary_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_itinerary(
-    itinerary_id: int,
+    itinerary_id: str,
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
     """Delete a specific saved itinerary"""
     itinerary = db.query(Itinerary).filter(
-        Itinerary.id == itinerary_id,
-        Itinerary.user_id == current_user.id
+        Itinerary.itinerary_id == itinerary_id,
+        Itinerary.user_id == current_user.user_id
     ).first()
     
     if not itinerary:
