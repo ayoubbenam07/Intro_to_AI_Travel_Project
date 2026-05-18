@@ -1,27 +1,22 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-const itineraries = [
-  {
-    id: 1,
-    image: "https://api.builder.io/api/v1/image/assets/TEMP/1a2835182e9c5f47fc2056524b3010564a5232a4?width=811",
-    duration: "3 DAYS • HISTORICAL",
-    title: "Shadows of the Casbah",
-    tags: ["Architecture", "Gastronomy"],
-  },
-  {
-    id: 2,
-    image: "https://api.builder.io/api/v1/image/assets/TEMP/4ea494965d51475b61a4b628991996174c7cf46a?width=811",
-    duration: "1 DAY • MARITIME",
-    title: "Azure Horizon Escape",
-    tags: ["Yachting", "Private Deck"],
-  },
-  {
-    id: 3,
-    image: "https://api.builder.io/api/v1/image/assets/TEMP/b6147795f09fa6752c2077308893ed00dbf6f55b?width=811",
-    duration: "EVENING • CULINARY",
-    title: "The Algiers Table",
-    tags: ["Fine Dining", "Fusion"],
-  },
+function calculateDistance(lat1, lon1, lat2, lon2) {
+  const R = 6371; // km
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+            Math.sin(dLon/2) * Math.sin(dLon/2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  return R * c;
+}
+
+const IMAGES = [
+  "https://images.unsplash.com/photo-1566847438233-97be722885c5?auto=format&fit=crop&w=800&q=80",
+  "https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=800&q=80",
+  "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=800&q=80",
+  "https://images.unsplash.com/photo-1582298538104-fc2c0a5a0028?auto=format&fit=crop&w=800&q=80"
 ];
 
 const styles = `
@@ -325,6 +320,7 @@ const styles = `
     display: flex;
     flex-direction: column;
     gap: 6px;
+    z-index: 2;
   }
   @media (min-width: 768px) { .itinerary-info { padding: 32px; } }
 
@@ -611,12 +607,147 @@ const styles = `
     color: #707882;
     font-weight: 400;
   }
+
+  .delete-itinerary-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 5;
+    background: rgba(192, 57, 43, 0.9);
+    border: none;
+    color: white;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.2s, transform 0.2s;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  }
+  .delete-itinerary-btn:hover {
+    background: #c0392b;
+    transform: scale(1.1);
+  }
 `;
 
 export default function Profile() {
+  const navigate = useNavigate();
+  const [user, setUser] = useState(null);
+  const [dbItineraries, setDbItineraries] = useState([]);
   const [timeBudget, setTimeBudget] = useState(12);
+  const [loading, setLoading] = useState(true);
 
   const sliderPct = `${((timeBudget - 2) / 22) * 100}%`;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        setLoading(false);
+        return;
+      }
+      try {
+        // Fetch real user info
+        const userRes = await fetch("http://localhost:8000/api/me", {
+          headers: { "Authorization": `Bearer ${token}` }
+        });
+        if (userRes.ok) {
+          const userData = await userRes.json();
+          setUser(userData);
+        }
+
+        // Fetch real itineraries
+        const itinerariesRes = await fetch("http://localhost:8000/api/itineraries", {
+          headers: { "Authorization": `Bearer ${token}` }
+        });
+        if (itinerariesRes.ok) {
+          const itinerariesData = await itinerariesRes.json();
+          setDbItineraries(itinerariesData);
+        }
+      } catch (err) {
+        console.error("Error loading user profile:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user_email");
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("userEmail");
+    window.location.href = "/";
+  };
+
+  const handleDelete = async (id, e) => {
+    e.stopPropagation();
+    if (!window.confirm("Are you sure you want to delete this itinerary?")) return;
+    const token = localStorage.getItem("token");
+    try {
+      const res = await fetch(`http://localhost:8000/api/itineraries/${id}`, {
+        method: "DELETE",
+        headers: { "Authorization": `Bearer ${token}` }
+      });
+      if (res.ok) {
+        setDbItineraries(prev => prev.filter(it => it.itinerary_id !== id));
+      } else {
+        alert("Failed to delete itinerary.");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Error deleting itinerary.");
+    }
+  };
+
+  const handleCardClick = (itinerary) => {
+    const formatted = {
+      success: true,
+      algorithm: itinerary.algorithm_used,
+      hotel: itinerary.hotel,
+      travel_day: itinerary.travel_day,
+      path: itinerary.path || [],
+      path_names: (itinerary.path || []).map(p => p.name),
+      runtime_seconds: itinerary.runtime_seconds || 0.05,
+      evaluation_score: itinerary.fitness_score || 0,
+      time_plan: itinerary.time_plan || {},
+      metadata: itinerary.metadata_info || {}
+    };
+    navigate("/map", { state: { itinerary: formatted } });
+  };
+
+  // Calculations for dynamic digital footprint
+  const totalKm = dbItineraries.reduce((sum, itinerary) => {
+    let dist = 0;
+    const path = itinerary.path || [];
+    for (let i = 0; i < path.length - 1; i++) {
+      const p1 = path[i];
+      const p2 = path[i + 1];
+      if (p1.lat && p1.lon && p2.lat && p2.lon) {
+        dist += calculateDistance(p1.lat, p1.lon, p2.lat, p2.lon);
+      }
+    }
+    return sum + dist;
+  }, 0);
+
+  const uniqueGems = new Set();
+  dbItineraries.forEach(itinerary => {
+    const path = itinerary.path || [];
+    path.forEach(landmark => {
+      if (landmark.name) {
+        uniqueGems.add(landmark.name);
+      }
+    });
+  });
+
+  const rawName = user?.full_name || (localStorage.getItem("user_email") || localStorage.getItem("userEmail") || "Meghabber Mohammed Al Ghazali").split("@")[0];
+  const displayName = rawName.split(/[\s._-]+/).map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
+  const userInitials = displayName.split(" ").map(n => n[0] || "").join("").substring(0, 2).toUpperCase() || "ME";
 
   return (
     <>
@@ -635,16 +766,12 @@ export default function Profile() {
             <div className="hero-profile-inner-wrap">
               <div className="hero-profile-inner">
                 <div className="avatar avatar-placeholder">
-                  <span>MG</span>
+                  <span>{userInitials}</span>
                 </div>
                 <div className="hero-name-block" style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                  <h1 className="hero-name garamond">Meghabber mohammed Al Ghazali</h1>
+                  <h1 className="hero-name garamond">{displayName}</h1>
                   <button 
-                    onClick={() => {
-                      localStorage.removeItem("isLoggedIn");
-                      localStorage.removeItem("userEmail");
-                      window.location.href = "/";
-                    }}
+                    onClick={handleLogout}
                     style={{
                       alignSelf: "flex-start",
                       background: "transparent",
@@ -687,7 +814,7 @@ export default function Profile() {
                 </svg>
                 <div>
                   <div style={{ display: "flex", alignItems: "baseline", gap: 4 }}>
-                    <span className="stat-number garamond">1,240</span>
+                    <span className="stat-number garamond">{totalKm.toFixed(1)}</span>
                     <span className="stat-unit">km</span>
                   </div>
                   <p className="stat-label-lg">Kilometers Explored</p>
@@ -700,7 +827,7 @@ export default function Profile() {
                   <path d="M0 31.5V15H3V18H6L10.4625 3.1875V0H13.4625V3H16.5V0H19.5V3L24 18H27V15H30V31.5H16.5V24H13.5V31.5H0ZM10.05 15H19.95L19.05 12H10.95L10.05 15ZM11.85 9H18.15L17.25 6H12.75L11.85 9ZM3 28.5H10.5V21H19.5V28.5H27V21H21.75L20.85 18H9.15L8.25 21H3V28.5Z" fill="#005E97"/>
                 </svg>
                 <div>
-                  <p className="stat-number-sm garamond">42</p>
+                  <p className="stat-number-sm garamond">{uniqueGems.size}</p>
                   <p className="stat-label">Cultural Gems Discovered</p>
                 </div>
               </div>
@@ -711,30 +838,66 @@ export default function Profile() {
           <section style={{ display: "flex", flexDirection: "column", gap: 32 }}>
             <div className="section-header">
               <h2 className="section-title garamond">Saved Itineraries</h2>
-              <button className="view-all-btn">
-                View All
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M12.175 9H0V7H12.175L6.575 1.4L8 0L16 8L8 16L6.575 14.6L12.175 9Z" fill="#005E97"/>
-                </svg>
-              </button>
             </div>
 
             <div className="itineraries-scroll">
-              {itineraries.map((item) => (
-                <div key={item.id} className="itinerary-card">
-                  <img src={item.image} alt={item.title} />
-                  <div className="itinerary-overlay" />
-                  <div className="itinerary-info">
-                    <p className="itinerary-duration">{item.duration}</p>
-                    <h3 className="itinerary-title garamond">{item.title}</h3>
-                    <div className="itinerary-tags">
-                      {item.tags.map((tag) => (
-                        <span key={tag} className="itinerary-tag">{tag}</span>
-                      ))}
+              {dbItineraries.length === 0 ? (
+                <div style={{
+                  gridColumn: "span 3",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  padding: "48px 24px",
+                  borderRadius: "32px",
+                  background: "rgba(255,255,255,0.40)",
+                  border: "1px solid rgba(0,94,151,0.10)",
+                  textAlign: "center",
+                  gap: "16px",
+                  width: "100%"
+                }}>
+                  <p className="garamond" style={{ fontSize: "24px", color: "#404751", margin: 0 }}>No saved itineraries yet</p>
+                  <p style={{ fontSize: "14px", color: "#707882", margin: 0, maxWidth: "400px" }}>
+                    Your custom travels in Algiers are waiting. Use the AI Planner to craft your perfect itinerary!
+                  </p>
+                  <a href="/plan" style={{
+                    textDecoration: "none",
+                    padding: "12px 28px",
+                    borderRadius: "999px",
+                    background: "#005E97",
+                    color: "white",
+                    fontWeight: 600,
+                    fontSize: "14px",
+                    marginTop: "8px"
+                  }}>
+                    Plan a Journey
+                  </a>
+                </div>
+              ) : (
+                dbItineraries.map((item, idx) => (
+                  <div key={item.itinerary_id} className="itinerary-card" onClick={() => handleCardClick(item)}>
+                    <button 
+                      className="delete-itinerary-btn" 
+                      onClick={(e) => handleDelete(item.itinerary_id, e)}
+                      title="Delete Itinerary"
+                    >
+                      🗑️
+                    </button>
+                    <img src={IMAGES[idx % IMAGES.length]} alt={item.name} />
+                    <div className="itinerary-overlay" />
+                    <div className="itinerary-info">
+                      <p className="itinerary-duration">
+                        {item.time_budget_h ? `${item.time_budget_h} Hours` : "24h"} • {item.algorithm_used.toUpperCase()}
+                      </p>
+                      <h3 className="itinerary-title garamond">{item.name}</h3>
+                      <div className="itinerary-tags">
+                        <span className="itinerary-tag">{item.itinerary_type.replace('_', ' ').toUpperCase()}</span>
+                        <span className="itinerary-tag">{item.travel_day}</span>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))
+              )}
             </div>
           </section>
 
