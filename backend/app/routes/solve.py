@@ -12,6 +12,7 @@ from app.solver import solver
 from app.database.database import get_db
 from app.database.models import Itinerary, ItineraryLandmark, Landmark
 from app.utils.auth import decode_access_token
+from app.database.models import User
 
 router = APIRouter(prefix="/api", tags=["solver"])
 
@@ -134,7 +135,7 @@ async def solve_travel(
                             travel_day=travel_day_val,
                             start_time=start_time_obj,
                             is_saved=True,
-                            created_at=datetime.datetime.utcnow()
+                           created_at=datetime.datetime.now(datetime.timezone.utc)
                         )
                         db.add(itinerary)
                         db.flush()  # Allocate session resources before child relations
