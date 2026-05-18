@@ -244,114 +244,94 @@ const styles = `
   }
   @media (min-width: 1024px) { .stat-label-lg { font-size: 20px; } }
 
-  /* ── Itineraries ── */
-  .itineraries-scroll {
-    display: flex;
+  /* ── Itineraries Grid ── */
+  .itineraries-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 24px;
-    overflow-x: auto;
-    padding-bottom: 24px;
-    margin: 0 -20px;
-    padding-left: 20px;
-    padding-right: 20px;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  }
-  .itineraries-scroll::-webkit-scrollbar { display: none; }
-  @media (min-width: 768px) {
-    .itineraries-scroll {
-      gap: 32px;
-      margin: 0;
-      padding-left: 0;
-      padding-right: 0;
-    }
-  }
-  @media (min-width: 1024px) {
-    .itineraries-scroll {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 32px;
-      margin: 0;
-      padding: 0;
-      overflow-x: visible;
-    }
+    width: 100%;
   }
 
   .itinerary-card {
     position: relative;
-    flex-shrink: 0;
-    width: 280px;
-    height: 440px;
-    border-radius: 40px;
-    overflow: hidden;
-    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.10), 0 8px 10px -6px rgba(0,0,0,0.10);
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(0, 94, 151, 0.15);
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05);
     cursor: pointer;
-    transition: transform 0.3s ease;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
   }
-  .itinerary-card:hover { transform: translateY(-6px); }
-  @media (min-width: 640px) { .itinerary-card { width: 340px; height: 480px; } }
-  @media (min-width: 768px) { .itinerary-card { width: 380px; height: 500px; border-radius: 48px; } }
-  @media (min-width: 1024px) {
-    .itinerary-card {
-      width: 100%;
-      max-width: 380px;
-      margin: 0 auto;
-    }
+  .itinerary-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 20px -3px rgba(0,0,0,0.1);
+    background: rgba(255, 255, 255, 0.9);
   }
-
-  .itinerary-card img {
-    position: absolute;
-    inset: 0;
-    width: 100%; height: 100%;
-    object-fit: cover;
-  }
-
-  .itinerary-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(0deg, rgba(0,94,151,0.60) 0%, rgba(0,94,151,0.00) 100%);
+  .itinerary-card:hover .card-arrow-btn {
+    transform: translateX(4px);
   }
 
   .itinerary-info {
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    padding: 28px;
     display: flex;
     flex-direction: column;
-    gap: 6px;
-    z-index: 2;
+    gap: 12px;
   }
-  @media (min-width: 768px) { .itinerary-info { padding: 32px; } }
 
   .itinerary-duration {
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 700;
-    color: rgba(255,255,255,0.8);
-    letter-spacing: 1.2px;
+    color: var(--color-primary);
+    letter-spacing: 1px;
     text-transform: uppercase;
   }
 
   .itinerary-title {
     font-family: var(--font-headline);
-    font-size: 26px;
-    font-weight: 400;
-    color: white;
-    line-height: 1.2;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--color-tertiary);
+    line-height: 1.3;
   }
 
   .itinerary-tags {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    padding-top: 6px;
+    margin-top: auto;
+    padding-top: 12px;
   }
 
   .itinerary-tag {
-    padding: 4px 14px;
+    padding: 6px 14px;
     border-radius: 999px;
-    background: rgba(255,255,255,0.20);
-    backdrop-filter: blur(8px);
-    font-size: 11px;
-    color: white;
+    background: rgba(0, 94, 151, 0.08);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-primary);
+  }
+  
+  .profile-loader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 0;
+    gap: 20px;
+    grid-column: 1 / -1;
+  }
+  .profile-loader__spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(0, 94, 151, 0.1);
+    border-top-color: var(--color-primary);
+    border-radius: 50%;
+    animation: profile-spin 1s linear infinite;
+  }
+  @keyframes profile-spin {
+    to { transform: rotate(360deg); }
   }
 
   .view-all-btn {
@@ -746,7 +726,7 @@ export default function Profile() {
     });
   });
 
-  const rawName = user?.full_name || (localStorage.getItem("user_email") || localStorage.getItem("userEmail") || "Meghabber Mohammed Al Ghazali").split("@")[0];
+  const rawName = user?.full_name || (localStorage.getItem("user_email") || localStorage.getItem("userEmail") || "Traveler").split("@")[0];
   const displayName = rawName.split(/[\s._-]+/).map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
   const userInitials = displayName.split(" ").map(n => n[0] || "").join("").substring(0, 2).toUpperCase() || "ME";
 
@@ -771,7 +751,7 @@ export default function Profile() {
                 </div>
 
                 <div className="hero-name-block" style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-                  <h1 className="hero-name garamond">Meghabber mohammed Al Ghazali</h1>
+                  <h1 className="hero-name garamond">{displayName}</h1>
                   <span style={{ color: "rgba(0, 35, 102, 0.65)", fontFamily: "var(--font-body)", fontSize: "14.5px", fontWeight: 500 }}>{userEmail}</span>
 
 
@@ -806,39 +786,7 @@ export default function Profile() {
         {/* ── Main ── */}
         <main className="profile-content">
 
-          {/* ── Digital Footprint ── */}
-          <section style={{ display: "flex", flexDirection: "column", gap: 32 }}>
-            <div className="section-header">
-              <h2 className="section-title garamond">Digital Footprint</h2>
-            </div>
 
-            <div className="bento-grid">
-              {/* Wide card */}
-              <div className="bento-card bento-card-wide">
-                <svg width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M9 27C7.35 27 5.9375 26.4125 4.7625 25.2375C3.5875 24.0625 3 22.65 3 21V8.7375C2.125 8.4125 1.40625 7.86875 0.84375 7.10625C0.28125 6.34375 0 5.475 0 4.5C0 3.25 0.4375 2.1875 1.3125 1.3125C2.1875 0.4375 3.25 0 4.5 0C5.75 0 6.8125 0.4375 7.6875 1.3125C8.5625 2.1875 9 3.25 9 4.5C9 5.475 8.71875 6.34375 8.15625 7.10625C7.59375 7.86875 6.875 8.4125 6 8.7375V21C6 21.825 6.29375 22.5312 6.88125 23.1187C7.46875 23.7062 8.175 24 9 24C9.825 24 10.5312 23.7062 11.1187 23.1187C11.7062 22.5312 12 21.825 12 21V6C12 4.35 12.5875 2.9375 13.7625 1.7625C14.9375 0.5875 16.35 0 18 0C19.65 0 21.0625 0.5875 22.2375 1.7625C23.4125 2.9375 24 4.35 24 6V18.2625C24.875 18.5875 25.5938 19.1312 26.1562 19.8937C26.7188 20.6562 27 21.525 27 22.5C27 23.75 26.5625 24.8125 25.6875 25.6875C24.8125 26.5625 23.75 27 22.5 27C21.25 27 20.1875 26.5625 19.3125 25.6875C18.4375 24.8125 18 23.75 18 22.5C18 21.525 18.2812 20.65 18.8438 19.875C19.4062 19.1 20.125 18.5625 21 18.2625V6C21 5.175 20.7062 4.46875 20.1187 3.88125C19.5312 3.29375 18.825 3 18 3C17.175 3 16.4688 3.29375 15.8813 3.88125C15.2938 4.46875 15 5.175 15 6V21C15 22.65 14.4125 24.0625 13.2375 25.2375C12.0625 26.4125 10.65 27 9 27ZM4.5 6C4.925 6 5.28125 5.85625 5.56875 5.56875C5.85625 5.28125 6 4.925 6 4.5C6 4.075 5.85625 3.71875 5.56875 3.43125C5.28125 3.14375 4.925 3 4.5 3C4.075 3 3.71875 3.14375 3.43125 3.43125C3.14375 3.71875 3 4.075 3 4.5C3 4.925 3.14375 5.28125 3.43125 5.56875C3.71875 5.85625 4.075 6 4.5 6ZM22.5 24C22.925 24 23.2812 23.8563 23.5688 23.5688C23.8563 23.2812 24 22.925 24 22.5C24 22.075 23.8563 21.7188 23.5688 21.4312C23.2812 21.1437 22.925 21 22.5 21C22.075 21 21.7188 21.1437 21.4312 21.4312C21.1437 21.7188 21 22.075 21 22.5C21 22.925 21.1437 23.2812 21.4312 23.5688C21.7188 23.8563 22.075 24 22.5 24Z" fill="#005E97"/>
-                </svg>
-                <div>
-                  <div style={{ display: "flex", alignItems: "baseline", gap: 4 }}>
-                    <span className="stat-number garamond">{totalKm.toFixed(1)}</span>
-                    <span className="stat-unit">km</span>
-                  </div>
-                  <p className="stat-label-lg">Kilometers Explored</p>
-                </div>
-              </div>
-
-              {/* Cultural gems */}
-              <div className="bento-card bento-card-blue">
-                <svg width="30" height="32" viewBox="0 0 30 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M0 31.5V15H3V18H6L10.4625 3.1875V0H13.4625V3H16.5V0H19.5V3L24 18H27V15H30V31.5H16.5V24H13.5V31.5H0ZM10.05 15H19.95L19.05 12H10.95L10.05 15ZM11.85 9H18.15L17.25 6H12.75L11.85 9ZM3 28.5H10.5V21H19.5V28.5H27V21H21.75L20.85 18H9.15L8.25 21H3V28.5Z" fill="#005E97"/>
-                </svg>
-                <div>
-                  <p className="stat-number-sm garamond">{uniqueGems.size}</p>
-                  <p className="stat-label">Cultural Gems Discovered</p>
-                </div>
-              </div>
-            </div>
-          </section>
 
           {/* ── Journey History ── */}
           <section style={{ display: "flex", flexDirection: "column", gap: 32 }}>
@@ -846,10 +794,15 @@ export default function Profile() {
               <h2 className="section-title garamond">Journey History</h2>
             </div>
 
-            <div className="itineraries-scroll">
-              {dbItineraries.length === 0 ? (
+            <div className="itineraries-grid">
+              {loading ? (
+                <div className="profile-loader">
+                  <div className="profile-loader__spinner" />
+                  <p style={{ color: "var(--color-neutral-600)", fontWeight: 500 }}>Loading your journeys...</p>
+                </div>
+              ) : dbItineraries.length === 0 ? (
                 <div style={{
-                  gridColumn: "span 3",
+                  gridColumn: "1 / -1",
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "center",
@@ -880,29 +833,46 @@ export default function Profile() {
                   </a>
                 </div>
               ) : (
-                dbItineraries.map((item, idx) => (
-                  <div key={item.itinerary_id} className="itinerary-card" onClick={() => handleCardClick(item)}>
-                    <button 
-                      className="delete-itinerary-btn" 
-                      onClick={(e) => handleDelete(item.itinerary_id, e)}
-                      title="Delete Itinerary"
-                    >
-                      🗑️
-                    </button>
-                    <img src={IMAGES[idx % IMAGES.length]} alt={item.name} />
-                    <div className="itinerary-overlay" />
-                    <div className="itinerary-info">
-                      <p className="itinerary-duration">
-                        {item.time_budget_hours ? `${item.time_budget_hours} Hours` : "24h"} • {(item.algorithm || "AI").toUpperCase()}
-                      </p>
-                      <h3 className="itinerary-title garamond">{item.name}</h3>
-                      <div className="itinerary-tags">
-                        <span className="itinerary-tag">{item.itinerary_type.replace('_', ' ').toUpperCase()}</span>
-                        <span className="itinerary-tag">{item.travel_day}</span>
+                dbItineraries.map((item, idx) => {
+                  const numLandmarks = (item.path || []).length;
+                  const algoName = (item.algorithm || "AI").toUpperCase();
+                  const hotelName = item.hotel_name || item.hotel || item.name?.split(" - ")[0] || "Algiers";
+                  
+                  return (
+                    <div key={item.itinerary_id} className="itinerary-card" onClick={() => handleCardClick(item)}>
+                      <div className="itinerary-info" style={{ flex: 1 }}>
+                        <p className="itinerary-duration">
+                          {numLandmarks} Landmarks • {algoName}
+                        </p>
+                        <h3 className="itinerary-title garamond">Start from {hotelName}</h3>
+                        <div className="itinerary-tags">
+                          <span className="itinerary-tag">{item.time_budget_hours ? `${item.time_budget_hours} Hours` : "24h"}</span>
+                          <span className="itinerary-tag">{item.travel_day}</span>
+                        </div>
+                      </div>
+                      
+                      <div style={{
+                        position: "absolute",
+                        bottom: "24px",
+                        right: "24px",
+                        width: "40px",
+                        height: "40px",
+                        borderRadius: "50%",
+                        background: "var(--color-primary)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        color: "white",
+                        boxShadow: "0 4px 12px rgba(0, 94, 151, 0.2)",
+                        transition: "transform 0.2s"
+                      }} className="card-arrow-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: "2px" }}>
+                          <polyline points="9 18 15 12 9 6" />
+                        </svg>
                       </div>
                     </div>
-                  </div>
-                ))
+                  );
+                })
               )}
             </div>
           </section>

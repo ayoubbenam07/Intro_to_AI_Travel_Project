@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback, useMemo, useRef } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import MapComponent from "../map/MapComponent.jsx";
 import { loadLandmarks, loadHotels, getTypeColor, getTypeIcon } from "../map/data.js";
 import "./Itinerary.css";
@@ -10,6 +10,7 @@ export default function Itinerary({
   landmarkIDs: propLandmarkIDs 
 } = {}) {
   const location = useLocation();
+  const navigate = useNavigate();
   const state = location.state || {};
 
   // Extract user selections
@@ -25,6 +26,9 @@ export default function Itinerary({
   const [highlightId, setHighlightId] = useState(null);
   const [mapExpanded, setMapExpanded] = useState(false);
   const [detailLandmark, setDetailLandmark] = useState(null);
+  
+  const [historicalPath, setHistoricalPath] = useState(null);
+  const [emptyState, setEmptyState] = useState(false);
 
   /* ── Load data ── */
   useEffect(() => {
@@ -35,9 +39,10 @@ export default function Itinerary({
         setLandmarks(lm);
         setHotels(ht);
 
-        // If we are viewing a historical itinerary, fetch its detailed path
+        const token = localStorage.getItem("token");
+
+        // 1. If we are viewing a historical itinerary (explicit ID)
         if (state.itineraryId) {
-          const token = localStorage.getItem("token");
           const res = await fetch(`http://localhost:8000/api/itineraries/${state.itineraryId}`, {
             headers: {
               "Authorization": `Bearer ${token}`
@@ -59,16 +64,15 @@ export default function Itinerary({
               icon: getTypeIcon(item.landmark_type),
               color: getTypeColor(item.landmark_type)
             }));
-            
-            // Attach it directly to the state reference so the useMemo picks it up
-            state.historicalPath = mappedPath;
+            setHistoricalPath(mappedPath);
           } else {
             console.error("Failed to load historical itinerary details:", res.status);
+            setEmptyState(true);
           }
         }
-        // If we received a newly generated plan, extract the path and attach it
+        // 2. If we received a newly generated plan from PlanJourney
         else if (state.itinerary && state.itinerary.path) {
-          state.historicalPath = state.itinerary.path.map(item => ({
+          setHistoricalPath(state.itinerary.path.map(item => ({
             id: item.landmark_id || item.id,
             name: item.name,
             type: item.landmark_type || item.type,
@@ -80,18 +84,55 @@ export default function Itinerary({
             rating: item.interest_score || item.rating || 0,
             icon: getTypeIcon(item.landmark_type || item.type),
             color: getTypeColor(item.landmark_type || item.type)
-          }));
+          })));
+        }
+        // 3. We didn't explicitly request one, so let's try to load the latest
+        else if (token && !propLandmarkIDs?.length) {
+          const res = await fetch(`http://localhost:8000/api/itineraries`, {
+            headers: { "Authorization": `Bearer ${token}` }
+          });
+          if (res.ok) {
+            const list = await res.json();
+            if (list && list.length > 0) {
+              const latest = list[list.length - 1]; // Assume the last is the latest generated
+              if (latest.path && latest.path.length > 0) {
+                setHistoricalPath(latest.path.map(item => ({
+                  id: item.landmark_id || item.id,
+                  name: item.name,
+                  type: item.landmark_type || item.type,
+                  latitude: item.lat || item.latitude,
+                  longitude: item.lon || item.longitude,
+                  estimatedTime: item.visit_duration || item.estimatedTime || 45,
+                  images: item.image_url || item.images,
+                  description: item.description,
+                  rating: item.interest_score || item.rating || 0,
+                  icon: getTypeIcon(item.landmark_type || item.type),
+                  color: getTypeColor(item.landmark_type || item.type)
+                })));
+              } else {
+                setEmptyState(true);
+              }
+            } else {
+              setEmptyState(true);
+            }
+          } else {
+            setEmptyState(true);
+          }
+        } else if (!propLandmarkIDs?.length) {
+          // Not logged in, no state passed
+          setEmptyState(true);
         }
 
       } catch (err) {
         console.error("Error loading itinerary data:", err);
+        setEmptyState(true);
       } finally {
         setLoading(false);
       }
     };
     
     fetchData();
-  }, [state.itineraryId]); // Run once when route loads
+  }, [state.itineraryId, state.itinerary, propLandmarkIDs]); // Run once when route loads
 
   /* ── Dynamic Planning Engine ── */
   const { orderedLandmarks, totalTime } = useMemo(() => {
@@ -105,9 +146,13 @@ export default function Itinerary({
     }
 
     // 2. Load historical itinerary if fetched
-    if (state.historicalPath) {
-      const total = state.historicalPath.reduce((sum, lm) => sum + (lm.estimatedTime || 0), 0);
-      return { orderedLandmarks: state.historicalPath, totalTime: total };
+    if (historicalPath) {
+      const total = historicalPath.reduce((sum, lm) => sum + (lm.estimatedTime || 0), 0);
+      return { orderedLandmarks: historicalPath, totalTime: total };
+    }
+
+    if (emptyState) {
+      return { orderedLandmarks: [], totalTime: 0 };
     }
 
     // 3. Dynamic client-side greedy travel algorithm (Fallback for legacy routes)
@@ -140,7 +185,7 @@ export default function Itinerary({
     }
 
     return { orderedLandmarks: selected, totalTime: accumulatedTime };
-  }, [landmarks, propLandmarkIDs, landmarkTypes, budget, state.historicalPath]);
+  }, [landmarks, propLandmarkIDs, landmarkTypes, budget, historicalPath, emptyState]);
 
   const startingHotel = propStartingHotel ?? selectedHotel;
   const destinationHotel = propDestinationHotel ?? selectedHotel;
@@ -233,7 +278,7 @@ export default function Itinerary({
           <div className="itin-hero__inner">
             <span className="itin-eyebrow">Your Itinerary</span>
             <h1 className="itin-title">Explore Algiers, step by step.</h1>
-            {!loading && (
+            {!loading && !emptyState && (
               <p className="itin-subtitle">
                 {orderedLandmarks.length} landmarks · ~{totalTime} min total ·
                 AI-optimised route
@@ -250,6 +295,20 @@ export default function Itinerary({
         <div className="itin-loader">
           <div className="itin-loader__spinner" />
           <p>Preparing your itinerary…</p>
+        </div>
+      ) : emptyState ? (
+        <div className="itin-empty-state">
+          <div className="itin-empty-state__icon">🗺️</div>
+          <h2 className="itin-empty-state__title">No Itinerary Found</h2>
+          <p className="itin-empty-state__desc">
+            You haven't planned any trips yet. Start a new journey to discover the beauty of Algiers!
+          </p>
+          <button className="itin-empty-state__btn" onClick={() => navigate("/plan")}>
+            Start a Journey
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="9 18 15 12 9 6" />
+            </svg>
+          </button>
         </div>
       ) : (
       <>
