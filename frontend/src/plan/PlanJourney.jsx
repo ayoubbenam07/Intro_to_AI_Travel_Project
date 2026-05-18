@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "./PlanJourney.css";
 
 import Stepper from "../components/Stepper";
@@ -12,8 +13,6 @@ import AlgoPhase from "./AlgoPhase";
 import Companion from "./Companion";
 
 import { loadHotels } from "../map/data";
-
-import { useNavigate } from "react-router-dom";
 
 const STEPS = [
   { label: "Budget" },
@@ -35,7 +34,7 @@ export default function PlanJourney() {
   const [startHour, setStartHour] = useState(9);
   const [startMinute, setStartMinute] = useState(0);
   const [landmarkTypes, setLandmarkTypes] = useState(
-    LANDMARK_TYPES.map((t) => t.key)
+    LANDMARK_TYPES.map((t) => t.key),
   );
   const [algorithm, setAlgorithm] = useState("");
 
@@ -46,31 +45,97 @@ export default function PlanJourney() {
 
   const canNext = () => {
     switch (phase) {
-      case 0: return budget >= 1;
-      case 1: return hotel !== null;
-      case 2: return date !== "";
-      case 3: return landmarkTypes.length > 0;
-      case 4: return algorithm !== "";
-      default: return false;
+      case 0:
+        return budget >= 1;
+      case 1:
+        return hotel !== null;
+      case 2:
+        return date !== "";
+      case 3:
+        return landmarkTypes.length > 0;
+      case 4:
+        return algorithm !== "";
+      default:
+        return false;
     }
   };
 
-  function handleGenerate() {
-    const formData = {
-      budget,
-      hotel,
-      date,
-      startTime: `${String(startHour).padStart(2, "0")}:${String(startMinute).padStart(2, "0")}`,
-      landmarkTypes,
-      algorithm,
+  const [isGenerating, setIsGenerating] = useState(false);
+
+  async function handleGenerate() {
+    setIsGenerating(true);
+    const ALGO_MAP = {
+      greedy: "Greedy",
+      sa: "SA",
+      ga: "GA",
+      hc: "HillClimbing",
+      abc: "ABC",
+      acs: "ACS",
+      csp: "CSP",
+      acs_hybrid: "ACS_Hybrid",
     };
-    console.log("🚀 Generate itinerary:", formData);
-    navigate("/map");
+    const days = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ];
+    let dayOfWeekName = "Monday";
+    if (date) {
+      const dateObj = new Date(date + "T00:00");
+      dayOfWeekName = days[dateObj.getDay()];
+    }
+
+    const payload = {
+      Hotel_Name: hotel.name,
+      Travel_day: dayOfWeekName,
+      Travel_Time: Number(budget),
+      type_filter: landmarkTypes,
+      trip_start_time: Number(startHour) + Number(startMinute) / 60,
+      algo_name: ALGO_MAP[algorithm] || "Greedy",
+    };
+
+    console.log("🚀 Calling solve API with payload:", payload);
+    try {
+      const token =
+        localStorage.getItem("token") ||
+        localStorage.getItem("isLoggedIn") === "true";
+      const headers = {
+        "Content-Type": "application/json",
+      };
+      if (token && typeof token === "string" && token !== "true") {
+        headers["Authorization"] = `Bearer ${token}`;
+      }
+
+      const response = await fetch("http://localhost:8000/api/solve", {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.detail || "Failed to generate itinerary");
+      }
+
+      const result = await response.json();
+      console.log("✨ Generated itinerary successfully:", result);
+
+      // Navigate to /map and pass the generated itinerary
+      navigate("/map", { state: { itinerary: result } });
+    } catch (err) {
+      console.error(err);
+      alert(`Error generating itinerary: ${err.message}`);
+    } finally {
+      setIsGenerating(false);
+    }
   }
 
   return (
     <div className="plan-page-v2">
-
       {/* ── Hero Banner (Profile-style fade) ── */}
       <section className="plan-hero">
         <img
@@ -84,7 +149,8 @@ export default function PlanJourney() {
           <div className="plan-hero__inner">
             <h1 className="plan-hero__title">Plan your Algiers adventure.</h1>
             <p className="plan-hero__subtitle">
-              Configure your itinerary in a few steps — our AI will handle the rest.
+              Configure your itinerary in a few steps — our AI will handle the
+              rest.
             </p>
           </div>
         </div>
@@ -92,7 +158,6 @@ export default function PlanJourney() {
 
       {/* ── Main Content ── */}
       <main className="plan-main">
-
         {/* Stepper bar */}
         <div className="plan-stepper-bar">
           <Stepper
@@ -104,7 +169,6 @@ export default function PlanJourney() {
 
         {/* Two-column grid: Form + Companion */}
         <div className="plan-grid">
-
           {/* Left — Form card */}
           <div className="plan-form-card">
             <div className="plan-form-card__body">
@@ -112,7 +176,11 @@ export default function PlanJourney() {
                 <BudgetPhase budget={budget} onChange={setBudget} />
               )}
               {phase === 1 && (
-                <HotelPhase hotels={hotels} selected={hotel} onChange={setHotel} />
+                <HotelPhase
+                  hotels={hotels}
+                  selected={hotel}
+                  onChange={setHotel}
+                />
               )}
               {phase === 2 && (
                 <DatePhase
@@ -170,7 +238,15 @@ export default function PlanJourney() {
           <div className="plan-companion-wrap">
             <Companion
               phase={phase}
-              formData={{ budget, hotel, date, startHour, startMinute, landmarkTypes, algorithm }}
+              formData={{
+                budget,
+                hotel,
+                date,
+                startHour,
+                startMinute,
+                landmarkTypes,
+                algorithm,
+              }}
             />
           </div>
         </div>

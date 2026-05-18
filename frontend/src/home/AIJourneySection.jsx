@@ -1,12 +1,6 @@
 import { Typography, Box, Button } from "@mui/material";
-import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
-
-
-
-
-
-
+import PropTypes from "prop-types";
 
 const AIHeadIcon = () => (
   <svg
@@ -17,16 +11,12 @@ const AIHeadIcon = () => (
     xmlns="http://www.w3.org/2000/svg"
     aria-hidden="true"
   >
-
     <path
       d="M26 2C15.507 2 7 10.507 7 21c0 6.574 3.27 12.381 8.286 15.93V46a3 3 0 0 0 3 3h15.428a3 3 0 0 0 3-3v-9.07C41.73 33.381 45 27.574 45 21 45 10.507 36.493 2 26 2z"
       fill="var(--primary)"
     />
-
     <rect x="19" y="47" width="14" height="7" rx="3.5" fill="var(--primary)" />
-
     <circle cx="26" cy="20" r="3" fill="white" />
-
     <path
       d="M26 11a1 1 0 0 1 1 1v1.22a7.1 7.1 0 0 1 2.607 1.08l.863-.863a1 1 0 1 1 1.414 1.414l-.863.863A7.1 7.1 0 0 1 32.1 18.5H33a1 1 0 0 1 0 2h-.9a7.1 7.1 0 0 1-1.08 2.607l.863.863a1 1 0 0 1-1.414 1.414l-.863-.863A7.1 7.1 0 0 1 27 25.1V26a1 1 0 0 1-2 0v-.9a7.1 7.1 0 0 1-2.607-1.08l-.863.863a1 1 0 0 1-1.414-1.414l.863-.863A7.1 7.1 0 0 1 19.9 20.5H19a1 1 0 0 1 0-2h.9a7.1 7.1 0 0 1 1.08-2.607l-.863-.863a1 1 0 1 1 1.414-1.414l.863.863A7.1 7.1 0 0 1 25 12.22V12a1 1 0 0 1 1-1z"
       fill="white"
@@ -34,8 +24,6 @@ const AIHeadIcon = () => (
     />
   </svg>
 );
-
-
 
 const AIJourneySection = ({ className = "" }) => {
   const navigate = useNavigate();

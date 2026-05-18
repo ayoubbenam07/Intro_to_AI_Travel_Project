@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 
 
 const styles = `
@@ -298,12 +299,35 @@ const NAV_ITEMS = [
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-import { Link, useLocation } from "react-router-dom";
+
 
 export default function Navbar() {
   const location = useLocation();
   const activePath = location.pathname;
-  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userEmail, setUserEmail] = useState("");
+
+  useEffect(() => {
+    const token = localStorage.getItem("token") || localStorage.getItem("isLoggedIn") === "true";
+    const email = localStorage.getItem("user_email") || localStorage.getItem("userEmail");
+    if (token) {
+      setIsLoggedIn(true);
+      setUserEmail(email || "");
+    } else {
+      setIsLoggedIn(false);
+      setUserEmail("");
+    }
+  }, [location]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user_email");
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("userEmail");
+    setIsLoggedIn(false);
+    setUserEmail("");
+    window.location.href = "/";
+  };
 
   return (
     <>
@@ -341,6 +365,7 @@ export default function Navbar() {
             <SparkleIcon />
             <span className="btn-ai-text">AI Planner</span>
           </Link>
+          
           {isLoggedIn ? (
             <Link to="/profile" className="avatar-btn" aria-label="User profile" style={{ textDecoration: 'none' }}>
               <UserIcon />

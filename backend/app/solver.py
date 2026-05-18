@@ -97,8 +97,19 @@ def solver(inputs: Inputs) -> Dict[str, Any]:
     if not time_matrix:
         raise HTTPException(status_code=503, detail="Time matrix not loaded")
     
-    # Validate inputs
-    hotel = next((h for h in hotels if h.name == inputs.Hotel_Name), None)
+    # Validate inputs with robust accent and case-insensitive matching
+    import unicodedata
+    def clean(s: str) -> str:
+        s = s.strip().lower()
+        s = "".join(c for c in unicodedata.normalize('NFD', s) if unicodedata.category(c) != 'Mn')
+        return s.replace("hotel", "").replace("hotel", "").replace("–", "-").replace("—", "-").replace(" ", "").replace("'", "").replace("\"", "")
+
+    target_clean = clean(inputs.Hotel_Name)
+    hotel = next((h for h in hotels if clean(h.name) == target_clean), None)
+    if not hotel:
+        # Fallback to substring match
+        hotel = next((h for h in hotels if target_clean in clean(h.name) or clean(h.name) in target_clean), None)
+
     if not hotel:
         available = [h.name for h in hotels[:5]]
         raise HTTPException(

@@ -1,16 +1,6 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import seaLogin from "./seaLogin.png";
-
-const API = {
-  async loginWithEmail(email, password) {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        if (email && password) resolve({ token: "mock_token", user: { email } });
-        else reject(new Error("Invalid credentials"));
-      }, 800);
-    });
-  },
-};
 
 function useIsDesktop() {
   const [isDesktop, setIsDesktop] = useState(
@@ -27,6 +17,7 @@ function useIsDesktop() {
 
 export default function Login() {
   const isDesktop = useIsDesktop();
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -40,11 +31,25 @@ export default function Login() {
     }
     setLoading(true);
     try {
-      const { token, user } = await API.loginWithEmail(email, password);
-      console.log("Logged in:", user, token);
+      const res = await fetch("http://localhost:8000/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (!res.ok) {
+        const errData = await res.json();
+        throw new Error(errData.detail || "Incorrect email or password");
+      }
+
+      const data = await res.json();
+      localStorage.setItem("token", data.access_token);
+      localStorage.setItem("user_email", email);
       localStorage.setItem("isLoggedIn", "true");
       localStorage.setItem("userEmail", email);
-      window.location.href = "/profile";
+
+      console.log("Logged in successfully:", email);
+      navigate("/plan");
     } catch (err) {
       setError(err.message || "Something went wrong.");
     } finally {
@@ -390,9 +395,8 @@ function UnderlineField({ label, labelRight, type, value, onChange, placeholder 
       </div>
       <div
         style={{
-          borderBottom: `1px solid ${
-            focused ? "var(--color-primary)" : "var(--color-neutral-300)"
-          }`,
+          borderBottom: `1px solid ${focused ? "var(--color-primary)" : "var(--color-neutral-300)"
+            }`,
           paddingBottom: 17,
           paddingTop: 16,
           transition: "border-color 0.18s",
@@ -442,8 +446,8 @@ function PillButton({ label, icon, onClick, disabled }) {
         background: disabled
           ? "var(--color-neutral-400)"
           : hovered
-          ? "var(--color-primary-hover)"
-          : "var(--color-primary)",
+            ? "var(--color-primary-hover)"
+            : "var(--color-primary)",
         color: "var(--color-neutral)",
         fontFamily: "var(--font-body)",
         fontSize: 20,

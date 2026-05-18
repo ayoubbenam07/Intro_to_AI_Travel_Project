@@ -29,6 +29,9 @@ class LandmarkResponse(BaseModel):
     interest_score: float
 
 
+from datetime import datetime
+
+
 class TimePlanEntry(BaseModel):
     """Time plan entry for each landmark"""
     arriving_time: float
@@ -47,3 +50,50 @@ class SolverResponse(BaseModel):
     evaluation_score: float
     time_plan: Dict[str, TimePlanEntry]
     metadata: Dict[str, Any]
+
+
+class UserCreate(BaseModel):
+    """Pydantic model for creating a user account"""
+    email: str
+    password: str
+
+
+class UserLogin(BaseModel):
+    """Pydantic model for logging in a user"""
+    email: str
+    password: str
+
+
+class UserResponse(BaseModel):
+    """Pydantic model for user detail response"""
+    user_id: Any
+    email: str
+    full_name: Optional[str] = None
+    budget_profile: Optional[str] = None
+
+    class Config:
+        from_attributes = True
+
+
+class Token(BaseModel):
+    """Pydantic model for auth tokens"""
+    access_token: str
+    token_type: str
+
+
+class SavedItineraryResponse(BaseModel):
+    """Pydantic model for a saved itinerary response"""
+    itinerary_id: Any
+    user_id: Any
+    name: str
+    itinerary_type: str
+    algorithm_used: str
+    fitness_score: Optional[float] = None
+    time_budget_h: Optional[float] = None
+    travel_day: Optional[str] = None
+    start_time: Optional[Any] = None
+    is_saved: bool
+    created_at: datetime
+
+    class Config:
+        from_attributes = True

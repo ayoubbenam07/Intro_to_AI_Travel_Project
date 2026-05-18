@@ -5,23 +5,36 @@ SQLAlchemy setup for Neon PostgreSQL
 """
 
 import os
+import logging
+from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 from sqlalchemy.pool import NullPool
 
+logger = logging.getLogger(__name__)
+
+# Load environment variables from .env file
+load_dotenv()
+
 # Get database URL from environment
 DATABASE_URL = os.getenv("DATABASE_URL", "")
 
+SQLITE_URL = "sqlite:///./travel_api.db"
+
 # Create engine
+engine = None
 if DATABASE_URL:
-    engine = create_engine(
-        DATABASE_URL,
-        poolclass=NullPool,
-        echo=os.getenv("SQL_ECHO", "false").lower() == "true"
-    )
+    try:
+        engine = create_engine(
+            DATABASE_URL,
+            poolclass=NullPool,
+            echo=os.getenv("SQL_ECHO", "false").lower() == "true"
+        )
+    except Exception as e:
+        logger.warning(f"⚠️ Failed to create PostgreSQL engine: {e}. Falling back to SQLite.")
+        engine = create_engine(SQLITE_URL)
 else:
-    # Fallback for development without Neon
-    engine = create_engine("sqlite:///./travel_api.db")
+    engine = create_engine(SQLITE_URL)
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
@@ -37,5 +50,26 @@ def get_db():
 
 
 def init_db():
-    """Initialize database tables"""
-    Base.metadata.create_all(bind=engine)
+    """Initialize database tables with automatic SQLite fallback on failure"""
+    global engine, SessionLocal
+    from sqlalchemy import text
+    
+    try:
+        # Verify if existing tables match our ORM models (using user_id)
+        with engine.connect() as conn:
+            conn.execute(text("SELECT user_id FROM users LIMIT 1;"))
+        logger.info("✅ Neon PostgreSQL database connection verified successfully!")
+    except Exception as e:
+        logger.warning(
+            f"\n❌ DATABASE WARNING: Could not connect to Neon PostgreSQL!\n"
+            f"⚠️  Error details: {e}\n"
+            f"🔄 RESILIENT FALLBACK: Automatically switching to local SQLite Database (travel_api.db)...\n"
+        )
+        # Re-create engine with SQLite
+        engine = create_engine(SQLITE_URL)
+        # Re-bind sessionmaker
+        SessionLocal.configure(bind=engine)
+        # Re-create SQLite tables
+        from app.database.models import Base
+        Base.metadata.create_all(bind=engine)
+        logger.info("✅ Resilient Fallback database initialized successfully on SQLite (travel_api.db)!")

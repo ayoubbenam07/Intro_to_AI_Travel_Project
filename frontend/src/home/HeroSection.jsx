@@ -1,9 +1,9 @@
 import { Typography, Box, Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import heropic from "./herosectionpic.png";
 import casbahpic from "./casbah.png";
 import notreDamePic from "./notreDame.png";
-import { useNavigate } from "react-router-dom";
 
 
 
@@ -461,18 +461,19 @@ const HeroContent = () => {
 };
 
 
-const HeroSection = () => (
-  <>
-
-    <Box sx={sx.heroSection}>
-      <Box component="main" sx={sx.mainContainer}>
-        <Box component="img" sx={sx.bgImage} alt="" src={heropic} />
-        <Box sx={sx.gradient} />
-        <HeroContent />
-        <FloatingCards />
+const HeroSection = () => {
+  return (
+    <>
+      <Box sx={sx.heroSection}>
+        <Box component="main" sx={sx.mainContainer}>
+          <Box component="img" sx={sx.bgImage} alt="" src={heropic} />
+          <Box sx={sx.gradient} />
+          <HeroContent />
+          <FloatingCards />
+        </Box>
       </Box>
-    </Box>
-  </>
-);
+    </>
+  );
+};
 
 export default HeroSection;
