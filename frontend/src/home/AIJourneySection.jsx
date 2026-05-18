@@ -1,4 +1,5 @@
 import { Typography, Box, Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 
 
@@ -36,8 +37,10 @@ const AIHeadIcon = () => (
 
 
 
-const AIJourneySection = ({ className = "" }) => (
-  <>
+const AIJourneySection = ({ className = "" }) => {
+  const navigate = useNavigate();
+  return (
+    <>
 
 
     <Box
@@ -145,6 +148,7 @@ const AIJourneySection = ({ className = "" }) => (
           <Button
             variant="contained"
             fullWidth
+            onClick={() => navigate("/plan")}
             sx={{
               position: "relative",
               zIndex: 1,
@@ -170,7 +174,8 @@ const AIJourneySection = ({ className = "" }) => (
       </Box>
     </Box>
   </>
-);
+  );
+};
 
 AIJourneySection.propTypes = {
   className: PropTypes.string,

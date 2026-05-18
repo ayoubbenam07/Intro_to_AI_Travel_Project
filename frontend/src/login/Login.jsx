@@ -1,16 +1,6 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import seaLogin from "./seaLogin.png";
-
-const API = {
-  async loginWithEmail(email, password) {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        if (email && password) resolve({ token: "mock_token", user: { email } });
-        else reject(new Error("Invalid credentials"));
-      }, 800);
-    });
-  },
-};
 
 function useIsDesktop() {
   const [isDesktop, setIsDesktop] = useState(
@@ -27,6 +17,7 @@ function useIsDesktop() {
 
 export default function Login() {
   const isDesktop = useIsDesktop();
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -40,8 +31,23 @@ export default function Login() {
     }
     setLoading(true);
     try {
-      const { token, user } = await API.loginWithEmail(email, password);
-      console.log("Logged in:", user, token);
+      const res = await fetch("http://localhost:8000/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (!res.ok) {
+        const errData = await res.json();
+        throw new Error(errData.detail || "Incorrect email or password");
+      }
+
+      const data = await res.json();
+      localStorage.setItem("token", data.access_token);
+      localStorage.setItem("user_email", email);
+      
+      console.log("Logged in successfully:", email);
+      navigate("/plan");
     } catch (err) {
       setError(err.message || "Something went wrong.");
     } finally {
@@ -218,7 +224,7 @@ export default function Login() {
 
               <div style={{ display: "flex", justifyContent: "center" }}>
                 <a
-                  href="#"
+                  href="/plan"
                   style={{
                     color: "var(--color-primary)",
                     fontFamily: "var(--font-body)",

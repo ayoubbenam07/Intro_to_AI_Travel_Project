@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 
 
 const styles = `
@@ -270,11 +271,30 @@ const NAV_ITEMS = [
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-import { Link, useLocation } from "react-router-dom";
+
 
 export default function Navbar() {
   const location = useLocation();
   const activePath = location.pathname;
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userEmail, setUserEmail] = useState("");
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const email = localStorage.getItem("user_email");
+    if (token) {
+      setIsLoggedIn(true);
+      setUserEmail(email || "");
+    }
+  }, [location]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user_email");
+    setIsLoggedIn(false);
+    setUserEmail("");
+    window.location.href = "/";
+  };
 
   return (
     <>
@@ -312,9 +332,47 @@ export default function Navbar() {
             <SparkleIcon />
             <span className="btn-ai-text">AI Assistant</span>
           </button>
-          <Link to="/login" className="avatar-btn" aria-label="User profile" style={{ textDecoration: 'none' }}>
-            <UserIcon />
-          </Link>
+          
+          {isLoggedIn ? (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <span style={{ 
+                fontFamily: 'var(--font-body)', 
+                fontSize: '13px', 
+                color: 'var(--color-tertiary)', 
+                fontWeight: '600',
+                background: 'rgba(0, 35, 102, 0.05)',
+                padding: '4px 10px',
+                borderRadius: '12px',
+                border: '1px solid rgba(0, 35, 102, 0.1)',
+                textOverflow: 'ellipsis',
+                overflow: 'hidden',
+                maxWidth: '120px',
+                whiteSpace: 'nowrap'
+              }} title={userEmail}>
+                👤 {userEmail.split('@')[0]}
+              </span>
+              <button 
+                onClick={handleLogout} 
+                className="avatar-btn" 
+                title="Log Out"
+                style={{ 
+                  background: 'rgba(192, 57, 43, 0.08)', 
+                  borderColor: 'rgba(192, 57, 43, 0.2)', 
+                  color: '#c0392b',
+                  fontSize: '14px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}
+              >
+                🚪
+              </button>
+            </div>
+          ) : (
+            <Link to="/login" className="avatar-btn" aria-label="User profile" style={{ textDecoration: 'none' }}>
+              <UserIcon />
+            </Link>
+          )}
         </div>
 
       </nav>

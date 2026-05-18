@@ -84,11 +84,38 @@ function parseHotel(row) {
 }
 
 export async function loadLandmarks() {
-  const rows = await fetchCSV("/data/Algiers_Landmarks.csv");
-  return rows.map(parseLandmark).filter((l) => !Number.isNaN(l.latitude) && !Number.isNaN(l.longitude) && l.id);
+  try {
+    const rows = await fetchCSV("/data/Algiers_Landmarks.csv");
+    return rows.map(parseLandmark).filter((l) => !Number.isNaN(l.latitude) && !Number.isNaN(l.longitude) && l.id);
+  } catch (err) {
+    console.error("Failed to load landmarks CSV:", err);
+    return [];
+  }
 }
 
 export async function loadHotels() {
-  const rows = await fetchCSV("/data/Algiers_hotels.csv");
-  return rows.map(parseHotel).filter((h) => !Number.isNaN(h.latitude) && !Number.isNaN(h.longitude));
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 1500);
+
+  try {
+    const res = await fetch("http://localhost:8000/api/hotels", {
+      signal: controller.signal
+    });
+    clearTimeout(timeoutId);
+    if (res.ok) {
+      return await res.json();
+    }
+  } catch (err) {
+    clearTimeout(timeoutId);
+    console.error("Failed to load hotels from backend, falling back to local csv:", err);
+  }
+
+  try {
+    const rows = await fetchCSV("/data/Algiers_hotels.csv");
+    return rows.map(parseHotel).filter((h) => !Number.isNaN(h.latitude) && !Number.isNaN(h.longitude));
+  } catch (csvErr) {
+    console.error("Failed to load local fallback hotels CSV:", csvErr);
+    return [];
+  }
 }
+

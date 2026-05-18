@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "./PlanJourney.css";
 
 import Stepper from "../components/Stepper";
@@ -22,6 +23,7 @@ const STEPS = [
 ];
 
 export default function PlanJourney() {
+  const navigate = useNavigate();
   const [phase, setPhase] = useState(0);
   const [hotels, setHotels] = useState([]);
 
@@ -52,18 +54,69 @@ export default function PlanJourney() {
     }
   };
 
-  function handleGenerate() {
-    const formData = {
-      budget,
-      hotel,
-      date,
-      startTime: `${String(startHour).padStart(2, "0")}:${String(startMinute).padStart(2, "0")}`,
-      landmarkTypes,
-      algorithm,
+  const [isGenerating, setIsGenerating] = useState(false);
+
+  async function handleGenerate() {
+    setIsGenerating(true);
+    const ALGO_MAP = {
+      greedy: "Greedy",
+      sa: "SA",
+      ga: "GA",
+      hc: "HillClimbing",
+      abc: "ABC",
+      acs: "ACS",
+      csp: "CSP",
+      acs_hybrid: "ACS_Hybrid",
     };
-    console.log("🚀 Generate itinerary:", formData);
-    // Future: navigate to results / call API
-    alert("Itinerary configuration ready! Check the console for details.");
+
+    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    let dayOfWeekName = "Monday";
+    if (date) {
+      const dateObj = new Date(date + "T00:00");
+      dayOfWeekName = days[dateObj.getDay()];
+    }
+
+    const payload = {
+      Hotel_Name: hotel.name,
+      Travel_day: dayOfWeekName,
+      Travel_Time: Number(budget),
+      type_filter: landmarkTypes,
+      trip_start_time: Number(startHour) + Number(startMinute) / 60,
+      algo_name: ALGO_MAP[algorithm] || "Greedy",
+    };
+
+    console.log("🚀 Calling solve API with payload:", payload);
+    try {
+      const token = localStorage.getItem("token");
+      const headers = {
+        "Content-Type": "application/json",
+      };
+      if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
+      }
+
+      const response = await fetch("http://localhost:8000/api/solve", {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.detail || "Failed to generate itinerary");
+      }
+
+      const result = await response.json();
+      console.log("✨ Generated itinerary successfully:", result);
+      
+      // Navigate to /map and pass the generated itinerary
+      navigate("/map", { state: { itinerary: result } });
+    } catch (err) {
+      console.error(err);
+      alert(`Error generating itinerary: ${err.message}`);
+    } finally {
+      setIsGenerating(false);
+    }
   }
 
   return (
@@ -145,10 +198,10 @@ export default function PlanJourney() {
             <Button
               variant="primary"
               size="lg"
-              disabled={!canNext()}
+              disabled={!canNext() || isGenerating}
               onClick={handleGenerate}
             >
-              ✨ Generate Itinerary
+              {isGenerating ? "⏳ Generating..." : "✨ Generate Itinerary"}
             </Button>
           )}
         </div>

@@ -1,4 +1,5 @@
 import { Typography, Box, Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import heropic from "./herosectionpic.png";
 import casbahpic from "./casbah.png";
@@ -400,7 +401,7 @@ const FloatingCards = () => (
 );
 
 
-const HeroContent = () => (
+const HeroContent = ({ navigate }) => (
   <Box component="section" sx={sx.container}>
     <Box sx={sx.heading1}>
       <Typography
@@ -431,7 +432,7 @@ const HeroContent = () => (
     </Box>
 
     <Box sx={sx.buttonRow}>
-      <Box sx={sx.primaryButton}>
+      <Box sx={sx.primaryButton} onClick={() => navigate("/plan")}>
         <Box sx={sx.buttonShadow} />
         <Typography
           variant="inherit"
@@ -441,7 +442,7 @@ const HeroContent = () => (
           Start Your Journey
         </Typography>
       </Box>
-      <Button variant="contained" sx={sx.secondaryButton}>
+      <Button variant="contained" sx={sx.secondaryButton} onClick={() => navigate("/plan")}>
         Explore Experiences
       </Button>
     </Box>
@@ -449,18 +450,20 @@ const HeroContent = () => (
 );
 
 
-const HeroSection = () => (
-  <>
-
-    <Box sx={sx.heroSection}>
-      <Box component="main" sx={sx.mainContainer}>
-        <Box component="img" sx={sx.bgImage} alt="" src={heropic} />
-        <Box sx={sx.gradient} />
-        <HeroContent />
-        <FloatingCards />
+const HeroSection = () => {
+  const navigate = useNavigate();
+  return (
+    <>
+      <Box sx={sx.heroSection}>
+        <Box component="main" sx={sx.mainContainer}>
+          <Box component="img" sx={sx.bgImage} alt="" src={heropic} />
+          <Box sx={sx.gradient} />
+          <HeroContent navigate={navigate} />
+          <FloatingCards />
+        </Box>
       </Box>
-    </Box>
-  </>
-);
+    </>
+  );
+};
 
 export default HeroSection;
