@@ -614,7 +614,11 @@ const styles = `
 `;
 
 export default function Profile() {
-  const [timeBudget, setTimeBudget] = useState(12);
+  const userEmail = localStorage.getItem("userEmail") || "guest@algiers.ai";
+  const [timeBudget, setTimeBudget] = useState(() => {
+    const saved = localStorage.getItem("selectedBudget");
+    return saved ? Number(saved) : 12;
+  });
 
   const sliderPct = `${((timeBudget - 2) / 22) * 100}%`;
 
@@ -637,8 +641,9 @@ export default function Profile() {
                 <div className="avatar avatar-placeholder">
                   <span>MG</span>
                 </div>
-                <div className="hero-name-block" style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                <div className="hero-name-block" style={{ display: "flex", flexDirection: "column", gap: 4 }}>
                   <h1 className="hero-name garamond">Meghabber mohammed Al Ghazali</h1>
+                  <span style={{ color: "rgba(0, 35, 102, 0.65)", fontFamily: "var(--font-body)", fontSize: "14.5px", fontWeight: 500 }}>{userEmail}</span>
                   <button 
                     onClick={() => {
                       localStorage.removeItem("isLoggedIn");
@@ -655,6 +660,7 @@ export default function Profile() {
                       fontWeight: 600,
                       cursor: "pointer",
                       padding: 0,
+                      marginTop: 4,
                       textTransform: "uppercase",
                       letterSpacing: "1px",
                       transition: "opacity 0.2s"
@@ -763,7 +769,11 @@ export default function Profile() {
                   type="range"
                   min="2" max="24"
                   value={timeBudget}
-                  onChange={(e) => setTimeBudget(Number(e.target.value))}
+                  onChange={(e) => {
+                    const val = Number(e.target.value);
+                    setTimeBudget(val);
+                    localStorage.setItem("selectedBudget", val.toString());
+                  }}
                   className="range-input"
                   style={{ "--pct": sliderPct }}
                 />

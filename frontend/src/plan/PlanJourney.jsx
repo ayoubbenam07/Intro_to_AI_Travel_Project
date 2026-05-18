@@ -29,7 +29,15 @@ export default function PlanJourney() {
   const [hotels, setHotels] = useState([]);
 
   // Form state
-  const [budget, setBudget] = useState(12);
+  const [budget, setBudget] = useState(() => {
+    const saved = localStorage.getItem("selectedBudget");
+    return saved ? Number(saved) : 12;
+  });
+
+  useEffect(() => {
+    localStorage.setItem("selectedBudget", budget.toString());
+  }, [budget]);
+
   const [hotel, setHotel] = useState(null);
   const [date, setDate] = useState("");
   const [startHour, setStartHour] = useState(9);
@@ -65,7 +73,7 @@ export default function PlanJourney() {
       algorithm,
     };
     console.log("🚀 Generate itinerary:", formData);
-    navigate("/map");
+    navigate("/itinerary", { state: formData });
   }
 
   return (

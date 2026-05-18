@@ -448,13 +448,6 @@ const HeroContent = () => {
             Start Your Journey
           </Typography>
         </Box>
-        <Button 
-          variant="contained" 
-          sx={sx.secondaryButton}
-          onClick={() => navigate("/map")}
-        >
-          Explore Experiences
-        </Button>
       </Box>
     </Box>
   );

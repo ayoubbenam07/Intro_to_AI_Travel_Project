@@ -1,9 +1,23 @@
 import React, { useEffect, useState, useCallback, useMemo, useRef } from "react";
+import { useLocation } from "react-router-dom";
 import MapComponent from "../map/MapComponent.jsx";
 import { loadLandmarks, loadHotels, getTypeColor, getTypeIcon } from "../map/data.js";
 import "./Itinerary.css";
 
-export default function Itinerary({ startingHotel, destinationHotel, landmarkIDs }) {
+export default function Itinerary({ 
+  startingHotel: propStartingHotel, 
+  destinationHotel: propDestinationHotel, 
+  landmarkIDs: propLandmarkIDs 
+} = {}) {
+  const location = useLocation();
+  const state = location.state || {};
+
+  // Extract user selections
+  const budget = state.budget ?? 12; // default 12 hrs
+  const selectedHotel = state.hotel ?? 1; // default 1st hotel
+  const landmarkTypes = state.landmarkTypes ?? [];
+  const algorithm = state.algorithm ?? "greedy";
+
   const [landmarks, setLandmarks] = useState([]);
   const [hotels, setHotels] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -11,11 +25,6 @@ export default function Itinerary({ startingHotel, destinationHotel, landmarkIDs
   const [highlightId, setHighlightId] = useState(null);
   const [mapExpanded, setMapExpanded] = useState(false);
   const [detailLandmark, setDetailLandmark] = useState(null);
-  /** Landmark IDs in visit order */
-  const targetIds = useMemo(
-    () => landmarkIDs,
-    [landmarkIDs]
-  );
 
   /* ── Load data ── */
   useEffect(() => {
@@ -28,13 +37,51 @@ export default function Itinerary({ startingHotel, destinationHotel, landmarkIDs
       .finally(() => setLoading(false));
   }, []);
 
-  /* ── Ordered landmarks ── */
-  const orderedLandmarks = useMemo(() => {
-    if (!landmarks?.length) return [];
-    return targetIds
-      .map((id) => landmarks.find((l) => l.id === id))
-      .filter(Boolean);
-  }, [landmarks, targetIds]);
+  /* ── Dynamic Planning Engine ── */
+  const { orderedLandmarks, totalTime } = useMemo(() => {
+    if (!landmarks?.length) return { orderedLandmarks: [], totalTime: 0 };
+
+    // 1. Explicit IDs via props (e.g. from static demo)
+    if (propLandmarkIDs?.length) {
+      const ordered = propLandmarkIDs.map(id => landmarks.find(l => l.id === id)).filter(Boolean);
+      const total = ordered.reduce((sum, lm) => sum + (lm.estimatedTime || 0), 0);
+      return { orderedLandmarks: ordered, totalTime: total };
+    }
+
+    // 2. Dynamic client-side greedy travel algorithm
+    let filtered = landmarks;
+    if (landmarkTypes && landmarkTypes.length > 0) {
+      filtered = landmarks.filter(lm => landmarkTypes.includes(lm.type));
+    }
+
+    // Sort by rating desc to prioritize high interest spots
+    const sorted = [...filtered].sort((a, b) => b.rating - a.rating);
+
+    const budgetMinutes = budget * 60;
+    let accumulatedTime = 0;
+    const selected = [];
+
+    for (const lm of sorted) {
+      const visitTime = lm.estimatedTime || 45;
+      if (accumulatedTime + visitTime <= budgetMinutes) {
+        selected.push(lm);
+        accumulatedTime += visitTime;
+      }
+    }
+
+    // Fallback if no matching landmarks found (default Casbah adventure)
+    if (selected.length === 0) {
+      const fallbackIds = [1, 24, 31, 51, 10, 8, 23, 42, 37, 16, 12, 40, 21, 9, 45];
+      const ordered = fallbackIds.map(id => landmarks.find(l => l.id === id)).filter(Boolean);
+      const total = ordered.reduce((sum, lm) => sum + (lm.estimatedTime || 0), 0);
+      return { orderedLandmarks: ordered, totalTime: total };
+    }
+
+    return { orderedLandmarks: selected, totalTime: accumulatedTime };
+  }, [landmarks, propLandmarkIDs, landmarkTypes, budget]);
+
+  const startingHotel = propStartingHotel ?? selectedHotel;
+  const destinationHotel = propDestinationHotel ?? selectedHotel;
 
   /* ── Cumulative time for each stop ── */
   const cumulativeTimes = useMemo(() => {
@@ -44,9 +91,6 @@ export default function Itinerary({ startingHotel, destinationHotel, landmarkIDs
       return total;
     });
   }, [orderedLandmarks]);
-
-  /* ── Total time ── */
-  const totalTime = cumulativeTimes[cumulativeTimes.length - 1] || 0;
 
   /* ── Slider logic: show 2 items at a time ── */
   const slidesPerView = 2;

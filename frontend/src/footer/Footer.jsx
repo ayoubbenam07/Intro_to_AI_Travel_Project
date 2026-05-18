@@ -26,8 +26,11 @@ const FooterSection = ({ className = "" }) => {
           <Typography
             className={styles.algiersAi}
             variant="inherit"
-            variantMapping={{ inherit: "h1" }}
-            sx={{ fontWeight: "500", lineHeight: "3.5rem" }}
+            sx={{ 
+              fontWeight: "500", 
+              lineHeight: { xs: "2.5rem", sm: "3.5rem" },
+              fontSize: { xs: "2.5rem", sm: "3.5rem" } 
+            }}
           >
             Algiers AI
           </Typography>
@@ -62,7 +65,7 @@ const FooterSection = ({ className = "" }) => {
             <Link to="/" className={styles.theSpiritOf} style={{ textDecoration: 'none', color: 'inherit' }}>Home</Link>
           </Box>
           <Box className={styles.item}>
-            <Link to="/map" className={styles.theSpiritOf} style={{ textDecoration: 'none', color: 'inherit' }}>Interactive Map</Link>
+            <Link to="/itinerary" className={styles.theSpiritOf} style={{ textDecoration: 'none', color: 'inherit' }}>Itinerary</Link>
           </Box>
           <Box className={styles.item}>
             <Link to="/plan" className={styles.theSpiritOf} style={{ textDecoration: 'none', color: 'inherit' }}>Plan Journey</Link>
