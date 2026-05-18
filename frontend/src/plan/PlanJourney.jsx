@@ -83,7 +83,6 @@ export default function PlanJourney() {
       acs_hybrid: "ACS_Hybrid",
     };
 
-
     const days = [
       "Sunday",
       "Monday",
@@ -142,7 +141,6 @@ export default function PlanJourney() {
     } finally {
       setIsGenerating(false);
     }
-
   }
 
   return (

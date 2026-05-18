@@ -153,6 +153,8 @@
 .plan-form-card__body {
   flex: 1;
   min-height: 280px;
+  position: relative;
+  z-index: 2;
 }
 
 /* ── Companion wrap ── */
@@ -187,6 +189,8 @@
   padding-top: 24px;
   border-top: 1px solid rgba(0, 94, 151, 0.08);
   flex-shrink: 0;
+  position: relative;
+  z-index: 1;
 }
 
 /* ═══════════════════════════════════════════════════════

@@ -444,9 +444,9 @@ export default function Navbar() {
 
         {/* Right controls (desktop) */}
         <div className="nav-right">
-          <Link to="/plan" className="btn-ai" aria-label="Open AI Planner" style={{ textDecoration: 'none' }}>
+          <Link to="/plan" className="btn-ai" aria-label="Start Your Journey" style={{ textDecoration: 'none' }}>
             <SparkleIcon />
-            <span className="btn-ai-text">AI Planner</span>
+            <span className="btn-ai-text">Start Your Journey</span>
           </Link>
           
           {isLoggedIn ? (
@@ -501,7 +501,7 @@ export default function Navbar() {
 
         <Link to="/plan" className="btn-ai" style={{ textDecoration: 'none' }} onClick={handleNavClick}>
           <SparkleIcon />
-          <span>AI Planner</span>
+          <span>Start Your Journey</span>
         </Link>
 
         {isLoggedIn ? (
