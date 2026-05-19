@@ -27,6 +27,8 @@ class LandmarkResponse(BaseModel):
     opening_hours: Dict[str, Any]
     visit_duration: int
     interest_score: float
+    description: Optional[str] = None
+    image_url: Optional[str] = None
 
 
 from datetime import datetime

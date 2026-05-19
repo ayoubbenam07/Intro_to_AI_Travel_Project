@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback, useMemo, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import MapComponent from "../map/MapComponent.jsx";
-import { loadLandmarks, loadHotels, getTypeColor, getTypeIcon } from "../map/data.js";
+import { loadHotels, getTypeColor, getTypeIcon } from "../map/data.js";
 import "./Itinerary.css";
 
 export default function Itinerary({ 
@@ -19,7 +19,6 @@ export default function Itinerary({
   const landmarkTypes = state.landmarkTypes ?? [];
   const algorithm = state.algorithm ?? "greedy";
 
-  const [landmarks, setLandmarks] = useState([]);
   const [hotels, setHotels] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -29,14 +28,15 @@ export default function Itinerary({
   
   const [historicalPath, setHistoricalPath] = useState(null);
   const [emptyState, setEmptyState] = useState(false);
+  const [isLatestFallback, setIsLatestFallback] = useState(false);
 
   /* ── Load data ── */
   useEffect(() => {
     const fetchData = async () => {
       try {
         // Load base context data
-        const [lm, ht] = await Promise.all([loadLandmarks(), loadHotels()]);
-        setLandmarks(lm);
+        // Load hotel data for map markers
+        const ht = await loadHotels();
         setHotels(ht);
 
         const token = localStorage.getItem("token");
@@ -94,21 +94,28 @@ export default function Itinerary({
           if (res.ok) {
             const list = await res.json();
             if (list && list.length > 0) {
-              const latest = list[list.length - 1]; // Assume the last is the latest generated
-              if (latest.path && latest.path.length > 0) {
-                setHistoricalPath(latest.path.map(item => ({
-                  id: item.landmark_id || item.id,
+              const latest = list[0]; // The backend returns created_at.desc(), so index 0 is newest
+              const pathRes = await fetch(`http://localhost:8000/api/itineraries/${latest.itinerary_id}`, {
+                headers: { "Authorization": `Bearer ${token}` }
+              });
+              
+              if (pathRes.ok) {
+                const data = await pathRes.json();
+                const mappedPath = data.map(item => ({
+                  id: item.landmark_id,
                   name: item.name,
-                  type: item.landmark_type || item.type,
-                  latitude: item.lat || item.latitude,
-                  longitude: item.lon || item.longitude,
-                  estimatedTime: item.visit_duration || item.estimatedTime || 45,
-                  images: item.image_url || item.images,
+                  type: item.landmark_type,
+                  latitude: item.lat,
+                  longitude: item.lon,
+                  estimatedTime: item.visit_duration || 45,
+                  images: item.image_url,
                   description: item.description,
-                  rating: item.interest_score || item.rating || 0,
-                  icon: getTypeIcon(item.landmark_type || item.type),
-                  color: getTypeColor(item.landmark_type || item.type)
-                })));
+                  rating: item.interest_score || 0,
+                  icon: getTypeIcon(item.landmark_type),
+                  color: getTypeColor(item.landmark_type)
+                }));
+                setHistoricalPath(mappedPath);
+                setIsLatestFallback(true);
               } else {
                 setEmptyState(true);
               }
@@ -136,13 +143,9 @@ export default function Itinerary({
 
   /* ── Dynamic Planning Engine ── */
   const { orderedLandmarks, totalTime } = useMemo(() => {
-    if (!landmarks?.length) return { orderedLandmarks: [], totalTime: 0 };
-
     // 1. Explicit IDs via props (e.g. from static demo)
-    if (propLandmarkIDs?.length) {
-      const ordered = propLandmarkIDs.map(id => landmarks.find(l => l.id === id)).filter(Boolean);
-      const total = ordered.reduce((sum, lm) => sum + (lm.estimatedTime || 0), 0);
-      return { orderedLandmarks: ordered, totalTime: total };
+    if (propLandmarkIDs?.length && historicalPath) {
+      // Demo not fully supported in pure DB mode unless historicalPath is populated manually
     }
 
     // 2. Load historical itinerary if fetched
@@ -151,41 +154,8 @@ export default function Itinerary({
       return { orderedLandmarks: historicalPath, totalTime: total };
     }
 
-    if (emptyState) {
-      return { orderedLandmarks: [], totalTime: 0 };
-    }
-
-    // 3. Dynamic client-side greedy travel algorithm (Fallback for legacy routes)
-    let filtered = landmarks;
-    if (landmarkTypes && landmarkTypes.length > 0) {
-      filtered = landmarks.filter(lm => landmarkTypes.includes(lm.type));
-    }
-
-    // Sort by rating desc to prioritize high interest spots
-    const sorted = [...filtered].sort((a, b) => b.rating - a.rating);
-
-    const budgetMinutes = budget * 60;
-    let accumulatedTime = 0;
-    const selected = [];
-
-    for (const lm of sorted) {
-      const visitTime = lm.estimatedTime || 45;
-      if (accumulatedTime + visitTime <= budgetMinutes) {
-        selected.push(lm);
-        accumulatedTime += visitTime;
-      }
-    }
-
-    // Fallback if no matching landmarks found (default Casbah adventure)
-    if (selected.length === 0) {
-      const fallbackIds = [1, 24, 31, 51, 10, 8, 23, 42, 37, 16, 12, 40, 21, 9, 45];
-      const ordered = fallbackIds.map(id => landmarks.find(l => l.id === id)).filter(Boolean);
-      const total = ordered.reduce((sum, lm) => sum + (lm.estimatedTime || 0), 0);
-      return { orderedLandmarks: ordered, totalTime: total };
-    }
-
-    return { orderedLandmarks: selected, totalTime: accumulatedTime };
-  }, [landmarks, propLandmarkIDs, landmarkTypes, budget, historicalPath, emptyState]);
+    return { orderedLandmarks: [], totalTime: 0 };
+  }, [historicalPath, propLandmarkIDs]);
 
   const startingHotel = propStartingHotel ?? selectedHotel;
   const destinationHotel = propDestinationHotel ?? selectedHotel;
@@ -276,7 +246,25 @@ export default function Itinerary({
         <div className="itin-hero__gradient" />
         <div className="itin-hero__content">
           <div className="itin-hero__inner">
-            <span className="itin-eyebrow">Your Itinerary</span>
+            <div className="itin-eyebrow-container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', marginBottom: '16px' }}>
+              <span className="itin-eyebrow" style={{ margin: 0, background: 'var(--bg)', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}>Your Itinerary</span>
+              {isLatestFallback && (
+                <span className="itin-latest-badge" style={{ 
+                  background: 'var(--color-primary)', 
+                  padding: '6px 12px', 
+                  borderRadius: '20px', 
+                  fontSize: '0.75rem', 
+                  fontWeight: '700', 
+                  letterSpacing: '0.05em', 
+                  textTransform: 'uppercase', 
+                  color: 'white',
+                  boxShadow: '0 4px 12px rgba(0, 119, 190, 0.3)',
+                  border: '1px solid rgba(255,255,255,0.2)'
+                }}>
+                  Latest Generated
+                </span>
+              )}
+            </div>
             <h1 className="itin-title">Explore Algiers, step by step.</h1>
             {!loading && !emptyState && (
               <p className="itin-subtitle">
@@ -512,30 +500,6 @@ export default function Itinerary({
 }
 
 /* ═══════════════════════════════════════════════════════
-   HELPERS
-   ═══════════════════════════════════════════════════════ */
-
-const DAY_LABELS = [
-  { key: "mon", label: "Mon" },
-  { key: "tue", label: "Tue" },
-  { key: "wed", label: "Wed" },
-  { key: "thu", label: "Thu" },
-  { key: "fri", label: "Fri" },
-  { key: "sat", label: "Sat" },
-  { key: "sun", label: "Sun" },
-];
-
-/** Convert a 24-element binary array into a human-readable range string, e.g. "09:00 – 19:00" */
-function formatHoursRange(arr) {
-  if (!arr || !Array.isArray(arr)) return "Closed";
-  const open = arr.indexOf(1);
-  const close = arr.lastIndexOf(1);
-  if (open === -1) return "Closed";
-  if (open === 0 && close === 23) return "Open 24h";
-  return `${String(open).padStart(2, "0")}:00 – ${String(close + 1).padStart(2, "0")}:00`;
-}
-
-/* ═══════════════════════════════════════════════════════
    DETAIL MODAL
    ═══════════════════════════════════════════════════════ */
 
@@ -614,30 +578,7 @@ function DetailModal({ landmark, onClose }) {
             </div>
           </div>
 
-          {/* Opening Hours */}
-          <div className="itin-modal__section">
-            <h4 className="itin-modal__section-title">Opening Hours</h4>
-            {lm.hours ? (
-              <div className="itin-modal__hours-grid">
-                {DAY_LABELS.map(({ key, label }) => {
-                  const dayArr = lm.hours[key];
-                  const rangeStr = formatHoursRange(dayArr);
-                  const isOpen = rangeStr !== "Closed";
-                  return (
-                    <div
-                      key={key}
-                      className={`itin-modal__hours-row ${isOpen ? "" : "itin-modal__hours-row--closed"}`}
-                    >
-                      <span className="itin-modal__hours-day">{label}</span>
-                      <span className="itin-modal__hours-range">{rangeStr}</span>
-                    </div>
-                  );
-                })}
-              </div>
-            ) : (
-              <p className="itin-modal__no-data">Hours data not available</p>
-            )}
-          </div>
+
         </div>
       </div>
     </div>

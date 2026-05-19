@@ -203,6 +203,25 @@ async def solve_travel(
                 print(f"Skipping auto-save: {auth_err}")
                 traceback.print_exc()
 
+        # Final pass: Enrich the path with Database descriptions and image URLs before returning
+        try:
+            db_landmarks = db.query(Landmark).all()
+            landmark_db_map = {l.name.strip().lower(): l for l in db_landmarks}
+            for item in result.get("path", []):
+                lm_name = item.get("name", "").strip().lower()
+                matched_lm = landmark_db_map.get(lm_name)
+                if not matched_lm:
+                    for name, l_obj in landmark_db_map.items():
+                        if lm_name in name or name in lm_name:
+                            matched_lm = l_obj
+                            break
+                if matched_lm:
+                    item["description"] = matched_lm.description
+                    item["image_url"] = matched_lm.image_url
+                    item["id"] = str(matched_lm.landmark_id)
+        except Exception as e:
+            print(f"Warning: Could not enrich path with DB data: {e}")
+
         return SolverResponse(**result)
     except HTTPException:
         raise

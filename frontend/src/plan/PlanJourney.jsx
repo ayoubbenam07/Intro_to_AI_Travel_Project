@@ -70,6 +70,17 @@ export default function PlanJourney() {
 
   const [isGenerating, setIsGenerating] = useState(false);
 
+  useEffect(() => {
+    if (isGenerating) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isGenerating]);
+
   async function handleGenerate() {
     setIsGenerating(true);
     const ALGO_MAP = {
