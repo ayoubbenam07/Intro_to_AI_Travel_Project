@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { FaCompass } from "react-icons/fa";
 import "./PlanJourney.css";
 
 import Stepper from "../components/Stepper";
@@ -161,7 +162,7 @@ export default function PlanJourney() {
         <div className="generating-modal-overlay">
           <div className="generating-modal">
             <div className="generating-modal__spinner"></div>
-            <h2 className="generating-modal__title">AI is optimizing your route...</h2>
+            <h2 className="generating-modal__title">Optimizing your route...</h2>
             <p className="generating-modal__desc">Please wait while we calculate the perfect itinerary for your Algiers adventure.</p>
           </div>
         </div>
@@ -259,7 +260,7 @@ export default function PlanJourney() {
                   disabled={!canNext()}
                   onClick={handleGenerate}
                 >
-                  ✨ Generate Itinerary
+                  <FaCompass style={{ marginRight: 8 }} /> Build Itinerary
                 </Button>
               )}
             </div>

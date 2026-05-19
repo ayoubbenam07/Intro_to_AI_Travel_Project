@@ -1,4 +1,5 @@
 import SearchBox from "../components/SearchBox";
+import { FaBed } from "react-icons/fa";
 
 /**
  * HotelPhase — Departure hotel search and selection.
@@ -38,7 +39,7 @@ export default function HotelPhase({ hotels, selected, onChange }) {
             gap: 10,
           }}
         >
-          <span style={{ fontSize: 20 }}>🏨</span>
+          <FaBed size={20} style={{ color: "var(--color-primary)", flexShrink: 0 }} />
           <div>
             <div
               style={{

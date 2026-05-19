@@ -1,4 +1,5 @@
 import React from "react";
+import { FaClock } from "react-icons/fa";
 
 const card = {
   width: "100%",
@@ -90,8 +91,8 @@ export default function Card({ landmark, compact, onClick }) {
             <span style={badgeStyle(color)}>{type}</span>
           </div>
           {estimatedTime > 0 && (
-            <div style={Object.assign({}, metaRowStyle, { marginTop: 6 })}>
-              <span>⏱</span>
+            <div style={Object.assign({}, metaRowStyle, { marginTop: 6, display: "flex", alignItems: "center" })}>
+              <FaClock size={12} style={{ color: "var(--color-neutral-400)" }} />
               <span>{estimatedTime + " min"}</span>
             </div>
           )}
@@ -138,8 +139,8 @@ export default function Card({ landmark, compact, onClick }) {
           </div>
         </div>
         {estimatedTime > 0 && (
-          <div style={metaRowStyle}>
-            <span>⏱</span>
+          <div style={Object.assign({}, metaRowStyle, { display: "flex", alignItems: "center", gap: 6 })}>
+            <FaClock size={12} style={{ color: "var(--color-neutral-400)" }} />
             <span>{"~" + estimatedTime + " min visit"}</span>
           </div>
         )}

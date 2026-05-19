@@ -1,4 +1,17 @@
 import { useMemo, useState, useEffect, useRef } from "react";
+import {
+  FaMapPin,
+  FaSun,
+  FaMoon,
+  FaBolt,
+  FaThermometerHalf,
+  FaDna,
+  FaMountain,
+  FaForumbee,
+  FaRoute,
+  FaPuzzlePiece,
+  FaRandom,
+} from "react-icons/fa";
 
 /**
  * Companion — Contextual right-side panel that changes per phase.
@@ -113,7 +126,7 @@ function HotelCompanion({ hotel }) {
              <div className="radar-ripple r1" />
              <div className="radar-ripple r2" />
              <div className="radar-ripple r3" />
-             <div className="radar-pin">📍</div>
+             <div className="radar-pin" style={{ display: "flex", alignItems: "center", justifyContent: "center" }}><FaMapPin style={{ color: "#ff416c" }} /></div>
           </div>
         )}
       </div>
@@ -148,7 +161,7 @@ function DateCompanion({ startHour = 9 }) {
 
   // Determine if it's daytime or nighttime
   const isDaytime = h >= 6 && h <= 18;
-  const celestialIcon = isDaytime ? "☀️" : "🌙";
+  const celestialIcon = isDaytime ? <FaSun style={{ color: "#f6d365" }} /> : <FaMoon style={{ color: "#a18cd1" }} />;
 
   // Calculate the arc position of the sun/moon
   let progress;
@@ -334,23 +347,16 @@ function LandmarksCompanion({ types }) {
   );
 }
 
-const TYPE_ICONS = {
-  Monument: "🏛️", Nature: "🌿", "Historical Site": "🏰",
-  Mosque: "🕌", Cathedral: "⛪", Museum: "🎨",
-  "Cultural Center & Event Venue": "🎭", Park: "🌳",
-  "Public Square": "📍", Beach: "🏖️", "Shopping/Mall": "🛍️",
-};
-
 /* ── Phase 4: Algorithm ── */
 const ALGO_INFO = {
-  greedy:     { name: "Greedy Search", emoji: "⚡", tip: "Fastest execution, picks the highest-rated next stop." },
-  sa:         { name: "Simulated Annealing", emoji: "🌡️", tip: "Explores broadly then narrows down — great for balanced routes." },
-  ga:         { name: "Genetic Algorithm", emoji: "🧬", tip: "Evolves many candidate routes — best for complex itineraries." },
-  hc:         { name: "Hill Climbing", emoji: "⛰️", tip: "Quick iterative improvement — good for shorter budgets." },
-  abc:        { name: "Artificial Bee Colony", emoji: "🐝", tip: "Swarm intelligence finds hidden gems other algorithms miss." },
-  acs:        { name: "Ant Colony System", emoji: "🐜", tip: "Pheromone-based pathfinding — excels at travel routing." },
-  csp:        { name: "Constraint Satisfaction Problem", emoji: "🧩", tip: "Guarantees all constraints are satisfied — no missed windows." },
-  acs_hybrid: { name: "Hybrid Ant Colony", emoji: "🔀", tip: "Best of both worlds — ACS global search + local refinement." },
+  greedy:     { name: "Greedy Search", icon: <FaBolt />, tip: "Fastest execution, picks the highest-rated next stop." },
+  sa:         { name: "Simulated Annealing", icon: <FaThermometerHalf />, tip: "Explores broadly then narrows down — great for balanced routes." },
+  ga:         { name: "Genetic Algorithm", icon: <FaDna />, tip: "Evolves many candidate routes — best for complex itineraries." },
+  hc:         { name: "Hill Climbing", icon: <FaMountain />, tip: "Quick iterative improvement — good for shorter budgets." },
+  abc:        { name: "Artificial Bee Colony", icon: <FaForumbee />, tip: "Swarm intelligence finds hidden gems other algorithms miss." },
+  acs:        { name: "Ant Colony System", icon: <FaRoute />, tip: "Pheromone-based pathfinding — excels at travel routing." },
+  csp:        { name: "Constraint Satisfaction Problem", icon: <FaPuzzlePiece />, tip: "Guarantees all constraints are satisfied — no missed windows." },
+  acs_hybrid: { name: "Hybrid Ant Colony", icon: <FaRandom />, tip: "Best of both worlds — ACS global search + local refinement." },
 };
 
 function AlgoCompanion({ algorithm }) {
@@ -577,8 +583,8 @@ function AlgoCompanion({ algorithm }) {
         </p>
         {info && (
           <div className="companion-hotel" style={{ marginTop: 16 }}>
-            <div className="companion-hotel__icon" style={{ fontSize: 22 }}>
-              {info.emoji}
+            <div className="companion-hotel__icon" style={{ fontSize: 22, display: "flex", alignItems: "center", justifyContent: "center" }}>
+              {info.icon}
             </div>
             <div>
               <div className="companion-hotel__name" style={{ fontWeight: 600 }}>

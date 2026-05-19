@@ -1,4 +1,5 @@
 import Input from "../components/Input";
+import { FaCalendarAlt } from "react-icons/fa";
 
 /**
  * DatePhase — Journey date + starting time.
@@ -53,7 +54,7 @@ export default function DatePhase({
 
       {date && (
         <div style={{ padding: "12px 16px", borderRadius: 12, background: "rgba(0,119,190,0.06)", border: "1px solid rgba(0,119,190,0.15)", display: "flex", alignItems: "center", gap: 10 }}>
-          <span style={{ fontSize: 20 }}>📅</span>
+          <FaCalendarAlt size={18} style={{ color: "var(--color-primary)", flexShrink: 0 }} />
           <span style={{ fontFamily: "var(--font-body)", fontSize: "var(--text-sm)", color: "var(--color-neutral-800)" }}>
             {new Date(date + "T00:00").toLocaleDateString("en-GB", { weekday: "long", year: "numeric", month: "long", day: "numeric" })}
             {" at "}

@@ -105,7 +105,7 @@ export default function Map() {
           {customItinerary ? (
             <div className="sidebar-hero custom-hero" style={{ paddingBottom: '16px' }}>
               <span className="eyebrow">Optimized Itinerary</span>
-              <h1 style={{ fontSize: '24px', lineHeight: '1.2', margin: '4px 0 12px' }}>Your AI Travel Plan is Ready</h1>
+              <h1 style={{ fontSize: '24px', lineHeight: '1.2', margin: '4px 0 12px' }}>Your Travel Plan is Ready</h1>
               <div className="ai-briefing-grid" style={{
                 display: 'grid',
                 gridTemplateColumns: 'repeat(2, 1fr)',
@@ -138,9 +138,9 @@ export default function Map() {
           ) : (
             <div className="sidebar-hero">
               <span className="eyebrow">Explore Algiers</span>
-              <h1>Let AI weave your perfect Mediterranean narrative.</h1>
+              <h1>Let us design your perfect Mediterranean narrative.</h1>
               <p>
-                Active intelligence routes for cultural discovery, coastal exploration, and
+                Optimized routes for cultural discovery, coastal exploration, and
                 unforgettable city moments.
               </p>
             </div>
@@ -226,7 +226,7 @@ export default function Map() {
               onClick={() => setShowHotels((v) => !v)}
               type="button"
             >
-              {showHotels ? "Refresh AI Route" : "Generate AI Route"}
+              {showHotels ? "Refresh Route" : "Build Route"}
             </button>
           )}
         </div>
@@ -239,7 +239,7 @@ export default function Map() {
             <p className="map-quickpanel-title">Live route briefing</p>
             <p className="map-quickpanel-text">
               {customItinerary 
-                ? `Enjoy your personalized ${customItinerary.metadata?.time_budget_hours}h trip starting at ${customItinerary.hotel} using AI ${customItinerary.algorithm} search.`
+                ? `Enjoy your personalized ${customItinerary.metadata?.time_budget_hours}h trip starting at ${customItinerary.hotel} using the optimized ${customItinerary.algorithm} plan.`
                 : "Follow a curated itinerary through Algiers with coastal viewpoints, heritage stops, and local dining highlights."}
             </p>
           </div>

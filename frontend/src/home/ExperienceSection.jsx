@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 
 
 import beachDinnerPic from "./beach_dinner.png";
-import marketTourPic from "./market_tour.png";
-import yachtMarinasPic from "./yacht_marinas.png";
-import ancientRuinsPic from "./ancient_ruins.png";
+import marketTourPic from "./martyrsMemoPic.png";
+import yachtMarinasPic from "./marina.png";
+import casbahPic from "./Casbah copy.png";
 
 
 
@@ -179,7 +179,7 @@ const SmallCard1 = ({ src }) => (
         gap: "11px",
       }}
     >
-      <TagBadge label="EXCLUSIVE" />
+      <TagBadge label="History" />
       <Typography
         variant="inherit"
         variantMapping={{ inherit: "h3" }}
@@ -193,7 +193,8 @@ const SmallCard1 = ({ src }) => (
           "@media (max-width:450px)": { fontSize: "var(--text-base)", lineHeight: "22px" },
         }}
       >
-        Coastal Yacht Tour
+        Martyrs' Legacy
+       
       </Typography>
     </Box>
   </Box>
@@ -220,7 +221,7 @@ const SmallCard2 = ({ src }) => (
         gap: "11px",
       }}
     >
-      <TagBadge label="HISTORY" />
+      <TagBadge label="EXCLUSIVE" />
       <div
         style={{
           position: "relative",
@@ -230,7 +231,7 @@ const SmallCard2 = ({ src }) => (
           fontWeight: "600",
         }}
       >
-        Martyrs' Legacy
+         Sidi Fredj Marina
       </div>
     </Box>
   </Box>
@@ -267,7 +268,7 @@ const MediumCard = ({ src }) => (
           fontFamily: "var(--font-headline)",
         }}
       >
-        The Artisans of the Old City
+        The Historic Casbah
       </div>
     </Box>
   </Box>
@@ -369,28 +370,6 @@ const ExperienceSection = ({ className = "" }) => (
             </Box>
           </Box>
 
-
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "flex-start",
-              padding: "0 24px 0 0",
-              boxSizing: "border-box",
-              maxWidth: "384px",
-              fontSize: "var(--text-lg)",
-              color: "var(--color-neutral-700)",
-              "@media (max-width:450px)": { maxWidth: "100%" },
-            }}
-          >
-            <Box sx={{ position: "relative", lineHeight: "32px", "@media (max-width:480px)": { fontSize: "var(--text-base)", lineHeight: "26px" } }}>
-              From the bustling markets to the silent yacht
-              <br />
-              marinas, our AI designs a day that flows with
-              <br />
-              your rhythm.
-            </Box>
-          </Box>
         </Box>
 
 
@@ -411,7 +390,7 @@ const ExperienceSection = ({ className = "" }) => (
           <LargeCard src={beachDinnerPic} />
           <SmallCard1 src={marketTourPic} />
           <SmallCard2 src={yachtMarinasPic} />
-          <MediumCard src={ancientRuinsPic} />
+          <MediumCard src={casbahPic} />
         </Box>
       </Box>
     </Box>

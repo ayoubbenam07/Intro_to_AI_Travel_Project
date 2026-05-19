@@ -85,7 +85,7 @@ const AIJourneySection = ({ className = "" }) => {
               mb: "20px",
             }}
           >
-            Let the Intelligence Guide You
+            Plan Your Perfect Journey
           </Typography>
 
           <Typography
@@ -100,9 +100,9 @@ const AIJourneySection = ({ className = "" }) => {
               mb: "52px",
             }}
           >
-            Tell our Mediterranean Intelligence about your interests, and we will
-            weave a seamless path through the city, handling reservations, weather
-            alerts, and cultural context in real-time.
+            Tell us about your interests and time budget, and our intelligent routing engine
+            will design the optimal path through the city, managing opening hours and
+            travel times to give you the ultimate day in Algiers.
           </Typography>
 
           <Box

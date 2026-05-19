@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import heropic from "./herosectionpic.png";
 import casbahpic from "./casbah.png";
-import notreDamePic from "./notreDame.png";
+import notreDamePic from "./notredamePic.png";
 
 
 
@@ -400,7 +400,7 @@ const FloatingCards = () => (
       imageSrc={casbahpic}
       label="MORNING: 09:00"
       title="The Casbah"
-      description={`Wander through the heartbeat of Algiers, a\nUNESCO world heritage site.`}
+      description={`Wander through the heartbeat of Algiers, a\nUNESCO World Heritage Site.`}
     />
     <GlassCard
       imageSrc={notreDamePic}
@@ -438,8 +438,8 @@ const HeroContent = () => {
 
       <Box sx={sx.descriptionBox}>
         <Box sx={sx.descriptionText}>
-          Your AI-powered guide to discovering the perfect 24 hours in Algeria's
-          capital. Experience the blend of long lasting history and Mediterranean
+          Your intelligent guide to discovering the perfect 24 hours in Algeria's
+          capital. Experience the blend of rich history and Mediterranean
           elegance through a refractive lens.
         </Box>
       </Box>

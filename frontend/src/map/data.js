@@ -1,18 +1,21 @@
+import React from "react";
 import Papa from "papaparse";
 
 /* ───────────────────── type-icon mapping ───────────────────── */
-const TYPE_ICONS = {
-  Monument:                     "🏛️",
-  Nature:                       "🌿",
-  "Historical Site":            "🏰",
-  Mosque:                       "🕌",
-  Cathedral:                    "⛪",
-  Museum:                       "🎨",
-  "Cultural Center & Event Venue": "🎭",
-  Park:                         "🌳",
-  "Public Square":              "📍",
-  Beach:                        "🏖️",
-  "Shopping/Mall":              "🛍️",
+const ICON_PATHS = {
+  Monument: `<path d="M3 22h18M6 18v-7M10 18v-7M14 18v-7M18 18v-7M12 2L3 7v4h18V7l-9-5z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`,
+  Nature: `<path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 3.5 1 8a7 7 0 0 1-13.9 3.9M9 22v-4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`,
+  "Historical Site": `<path d="M22 20v-9H2v9a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2zM18 11V4h-2v3h-2V4h-2v3H8V4H6v3H4V4H2v7M12 22v-4a2 2 0 0 0-4 0v4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`,
+  Mosque: `<path d="M12 2a1 1 0 0 1 .7.3l.3.7v1c2.8.2 5 2.5 5 5v3h2a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-6a1 1 0 0 1 1-1h2v-3c0-2.5 2.2-4.8 5-5V4a1 1 0 0 1 1-2zm-6 9v8h12v-8H6z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`,
+  Cathedral: `<path d="M10 20V14h4v6M14 2v4h-4V2M6 6h12M12 22V8M18 22H6M20 14H4M18 8l-6-6-6 6M18 12V8M6 12V8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`,
+  Museum: `<path d="M12 22C17.5 22 22 17.5 22 12S17.5 2 12 2 2 6.5 2 12s4.5 10 10 10z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="7.5" cy="10.5" r="1.5" fill="currentColor"/><circle cx="11.5" cy="7.5" r="1.5" fill="currentColor"/><circle cx="16.5" cy="9.5" r="1.5" fill="currentColor"/><circle cx="15.5" cy="14.5" r="1.5" fill="currentColor"/>`,
+  "Cultural Center & Event Venue": `<path d="M12 22c5.5 0 10-4.5 10-10S17.5 2 12 2 2 6.5 2 12s4.5 10 10 10zM8 14h8M9 9h.01M15 9h.01M10 11.5a2 2 0 0 0 4 0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`,
+  Park: `<path d="M17 14A5 5 0 1 0 7 14c0 3 2.72 5.5 6 5.5V22h2v-2.5c3.28 0 6-2.5 6-5.5z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`,
+  "Public Square": `<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="10" r="3" fill="currentColor"/>`,
+  Beach: `<path d="M23 12a11 11 0 0 0-22 0h22zM12 12v9a1 1 0 0 0 1 1h1M12 12a4 4 0 0 0 4-4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`,
+  "Shopping/Mall": `<path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4H6zM3 6h18M16 10a4 4 0 0 1-8 0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`,
+  Hotel: `<path d="M2 4v16M2 8h18a2 2 0 0 1 2 2v10M2 17h20M6 8v3a2 2 0 0 0 4 0V8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`,
+  Default: `<path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`
 };
 
 const TYPE_COLORS = {
@@ -29,8 +32,24 @@ const TYPE_COLORS = {
   "Shopping/Mall":              "#9b59b6",
 };
 
+export function getTypeIconSvg(type) {
+  return ICON_PATHS[type] || ICON_PATHS.Default;
+}
+
 export function getTypeIcon(type) {
-  return TYPE_ICONS[type] || "📌";
+  const path = ICON_PATHS[type] || ICON_PATHS.Default;
+  return React.createElement("svg", {
+    viewBox: "0 0 24 24",
+    width: "20px",
+    height: "20px",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: "2",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    style: { display: "inline-block", verticalAlign: "middle" },
+    dangerouslySetInnerHTML: { __html: path }
+  });
 }
 
 export function getTypeColor(type) {
@@ -90,7 +109,7 @@ function parseHotel(row) {
     latitude:  parseFloat(row["latitude"]),
     longitude: parseFloat(row["longitude"]),
     type:      "Hotel",
-    icon:      "🏨",
+    icon:      getTypeIcon("Hotel"),
     color:     "#f39c12",
   };
 }

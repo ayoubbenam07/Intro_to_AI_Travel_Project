@@ -73,3 +73,38 @@ def init_db():
         from app.database.models import Base
         Base.metadata.create_all(bind=engine)
         logger.info("✅ Resilient Fallback database initialized successfully on SQLite (travel_api.db)!")
+        
+        # Automatically seed landmarks if empty
+        db = SessionLocal()
+        from app.database.models import Landmark
+        try:
+            if db.query(Landmark).count() == 0:
+                logger.info("🌱 Seeding landmarks into SQLite database...")
+                import csv
+                import uuid
+                csv_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 'data', 'landmarks.csv')
+                if os.path.exists(csv_path):
+                    with open(csv_path, 'r', encoding='utf-8') as f:
+                        reader = csv.DictReader(f)
+                        for row in reader:
+                            landmark = Landmark(
+                                landmark_id=uuid.uuid4(),
+                                name=row.get('Name', '').strip(),
+                                landmark_type=row.get('Type', '').strip(),
+                                interest_score=float(row.get('Rating')) if row.get('Rating') else None,
+                                visit_duration=int(row.get('EstimatedTime (min)')) if row.get('EstimatedTime (min)') else None,
+                                lat=float(row.get('Latitude')) if row.get('Latitude') else 0.0,
+                                lon=float(row.get('Longitude')) if row.get('Longitude') else 0.0,
+                                description=row.get('Description', ''),
+                                image_url=row.get('Images', '')
+                            )
+                            db.add(landmark)
+                    db.commit()
+                    logger.info("✅ Successfully seeded landmarks into SQLite!")
+                else:
+                    logger.warning(f"⚠️ Could not find landmarks CSV at {csv_path} for seeding.")
+        except Exception as seed_err:
+            db.rollback()
+            logger.warning(f"⚠️ Failed to seed landmarks: {seed_err}")
+        finally:
+            db.close()

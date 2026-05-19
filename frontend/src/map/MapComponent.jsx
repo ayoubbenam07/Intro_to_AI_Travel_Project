@@ -1,4 +1,5 @@
 import { useEffect, useState, useMemo, useCallback } from "react";
+import { FaMap, FaBed } from "react-icons/fa";
 import {
   MapContainer,
   TileLayer,
@@ -10,7 +11,7 @@ import L from "leaflet";
 import "leaflet-routing-machine";
 import "leaflet/dist/leaflet.css";
 import Card from "./Card.jsx";
-import { getTypeColor, getTypeIcon } from "./data.js";
+import { getTypeColor, getTypeIcon, getTypeIconSvg } from "./data.js";
 
 /* ── Fix default marker icons ── */
 delete L.Icon.Default.prototype._getIconUrl;
@@ -24,21 +25,24 @@ L.Icon.Default.mergeOptions({
 });
 
 /* ── Create a colored SVG marker for each type ── */
-function createColoredIcon(color, emoji) {
+function createColoredIcon(color, type) {
+  const iconPath = getTypeIconSvg(type);
   const svg = `
     <svg xmlns="http://www.w3.org/2000/svg" width="40" height="46" viewBox="0 0 40 46">
       <defs>
-        <filter id="shadow-${emoji}" x="-20%" y="-20%" width="140%" height="140%">
+        <filter id="shadow-${type}" x="-20%" y="-20%" width="140%" height="140%">
           <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#002366" flood-opacity="0.16"/>
         </filter>
       </defs>
-      <g filter="url(#shadow-${emoji})">
+      <g filter="url(#shadow-${type})">
         <!-- Tear drop map pin path -->
         <path d="M20 2C10.06 2 2 10.06 2 20c0 12.6 16.5 23.3 17.2 23.7a1.94 1.94 0 0 0 1.6 0c.7-.4 17.2-11.1 17.2-23.7 0-9.94-8.06-18-18-18z" fill="${color}" />
         <!-- Pristine core -->
         <circle cx="20" cy="18" r="10" fill="#ffffff" />
-        <!-- Emoji identifier -->
-        <text x="20" y="22" text-anchor="middle" font-size="11" font-family="Apple Color Emoji, Segoe UI Emoji, sans-serif">${emoji}</text>
+        <!-- Custom Vector Icon inside white core -->
+        <g transform="translate(14, 12) scale(0.5)" stroke="${color}" fill="none">
+          ${iconPath}
+        </g>
       </g>
     </svg>`;
 
@@ -85,7 +89,7 @@ function createNumberedIcon(color, number) {
 }
 
 /* ── Hotel marker ── */
-const HOTEL_ICON = createColoredIcon("#f39c12", "🏨");
+const HOTEL_ICON = createColoredIcon("#f39c12", "Hotel");
 
 /* ── Route legs: one color per segment (library default was red-only) ── */
 const SEGMENT_LINE_COLORS = [
@@ -176,7 +180,7 @@ const MapComponent = ({
     landmarks.forEach((lm) => {
       const key = lm.type;
       if (!cache[key]) {
-        cache[key] = createColoredIcon(getTypeColor(key), getTypeIcon(key));
+        cache[key] = createColoredIcon(getTypeColor(key), key);
       }
     });
     return cache;
@@ -228,7 +232,9 @@ const routeWaypoints = useMemo(() => {
   if (landmarks.length === 0 && hotels.length === 0) {
     return (
       <div className="map-empty">
-        <span className="map-empty-icon">🗺️</span>
+        <span className="map-empty-icon" style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <FaMap size={48} style={{ color: "var(--color-primary)", opacity: 0.8 }} />
+        </span>
         <p>Loading map data…</p>
       </div>
     );
@@ -300,7 +306,9 @@ const routeWaypoints = useMemo(() => {
           >
             <Popup>
               <div style={{ fontFamily: "var(--font-body)", padding: 4 }}>
-                <strong style={{ fontSize: 13 }}>🏨 {h.name}</strong>
+                <strong style={{ fontSize: 13, display: "flex", alignItems: "center", gap: 6 }}>
+                  <FaBed style={{ color: "#f39c12" }} /> {h.name}
+                </strong>
               </div>
             </Popup>
           </Marker>
@@ -315,7 +323,9 @@ const routeWaypoints = useMemo(() => {
           >
             <Popup>
               <div style={{ fontFamily: "var(--font-body)", padding: 4 }}>
-                <strong style={{ fontSize: 13 }}>🏨 {startHotel.name}</strong>
+                <strong style={{ fontSize: 13, display: "flex", alignItems: "center", gap: 6 }}>
+                  <FaBed style={{ color: "#f39c12" }} /> {startHotel.name}
+                </strong>
               </div>
             </Popup>
           </Marker>
@@ -326,7 +336,9 @@ const routeWaypoints = useMemo(() => {
           >
             <Popup>
               <div style={{ fontFamily: "var(--font-body)", padding: 4 }}>
-                <strong style={{ fontSize: 13 }}>🏨 {destHotel.name}</strong>
+                <strong style={{ fontSize: 13, display: "flex", alignItems: "center", gap: 6 }}>
+                  <FaBed style={{ color: "#f39c12" }} /> {destHotel.name}
+                </strong>
               </div>
             </Popup>
           </Marker>

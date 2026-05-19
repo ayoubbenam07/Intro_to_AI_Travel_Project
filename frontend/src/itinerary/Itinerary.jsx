@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback, useMemo, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { FaMap, FaClock } from "react-icons/fa";
 import MapComponent from "../map/MapComponent.jsx";
 import { loadHotels, getTypeColor, getTypeIcon } from "../map/data.js";
 import "./Itinerary.css";
@@ -258,7 +259,7 @@ export default function Itinerary({
                   boxShadow: '0 4px 12px rgba(0, 119, 190, 0.3)',
                   border: '1px solid rgba(255,255,255,0.2)'
                 }}>
-                  Latest Generated
+                  Latest Itinerary
                 </span>
               )}
             </div>
@@ -266,7 +267,7 @@ export default function Itinerary({
             {!loading && !emptyState && (
               <p className="itin-subtitle">
                 {orderedLandmarks.length} landmarks · ~{totalTime} min total ·
-                AI-optimised route
+                Optimized route
               </p>
             )}
           </div>
@@ -283,7 +284,9 @@ export default function Itinerary({
         </div>
       ) : emptyState ? (
         <div className="itin-empty-state">
-          <div className="itin-empty-state__icon">🗺️</div>
+          <div className="itin-empty-state__icon">
+            <FaMap size={64} style={{ color: "var(--color-primary)", opacity: 0.8 }} />
+          </div>
           <h2 className="itin-empty-state__title">No Itinerary Found</h2>
           <p className="itin-empty-state__desc">
             You haven't planned any trips yet. Start a new journey to discover the beauty of Algiers!
@@ -377,7 +380,9 @@ export default function Itinerary({
 
                 {/* Time block */}
                 <div className="itin-card__time-block">
-                  <span className="itin-card__time-icon">⏱</span>
+                  <span className="itin-card__time-icon">
+                    <FaClock size={14} style={{ display: "inline-block", verticalAlign: "middle" }} />
+                  </span>
                   <span className="itin-card__time-val">
                     {lm.estimatedTime} min
                   </span>
@@ -438,7 +443,9 @@ export default function Itinerary({
         {/* Map toolbar */}
         <div className="itin-map-toolbar">
           <div className="itin-map-toolbar__left">
-            <span className="itin-map-toolbar__icon">🗺️</span>
+            <span className="itin-map-toolbar__icon">
+              <FaMap size={16} style={{ verticalAlign: "middle" }} />
+            </span>
             <span className="itin-map-toolbar__label">Route Map</span>
           </div>
           <button

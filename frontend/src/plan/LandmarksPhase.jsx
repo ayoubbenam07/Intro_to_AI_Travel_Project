@@ -1,18 +1,19 @@
 import { useState } from "react";
 import Chip from "../components/Chip";
+import { getTypeIcon } from "../map/data.js";
 
 const LANDMARK_TYPES = [
-  { key: "Monument", icon: "🏛️" },
-  { key: "Nature", icon: "🌿" },
-  { key: "Historical Site", icon: "🏰" },
-  { key: "Mosque", icon: "🕌" },
-  { key: "Cathedral", icon: "⛪" },
-  { key: "Museum", icon: "🎨" },
-  { key: "Cultural Center & Event Venue", icon: "🎭" },
-  { key: "Park", icon: "🌳" },
-  { key: "Public Square", icon: "📍" },
-  { key: "Beach", icon: "🏖️" },
-  { key: "Shopping/Mall", icon: "🛍️" },
+  { key: "Monument" },
+  { key: "Nature" },
+  { key: "Historical Site" },
+  { key: "Mosque" },
+  { key: "Cathedral" },
+  { key: "Museum" },
+  { key: "Cultural Center & Event Venue" },
+  { key: "Park" },
+  { key: "Public Square" },
+  { key: "Beach" },
+  { key: "Shopping/Mall" },
 ];
 
 /**
@@ -40,7 +41,7 @@ export default function LandmarksPhase({ selectedTypes, onChange }) {
           <Chip
             key={t.key}
             label={t.key}
-            icon={t.icon}
+            icon={getTypeIcon(t.key)}
             selected={selectedTypes.includes(t.key)}
             onClick={() => toggleType(t.key)}
           />
