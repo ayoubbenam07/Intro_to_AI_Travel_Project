@@ -89,7 +89,8 @@ class TravelProblem_LocalSearch:
         
         if not is_building and hard_constraints:
             if duration < max(0, self.max_travel_time - 2):
-                return False
+                if len(state) < len(self.landmarks):
+                    return False
         
         return True
     
@@ -99,13 +100,13 @@ class TravelProblem_LocalSearch:
         failures = 0
         
         while failures < 500:
+            available = [lm for lm in self.landmarks if lm not in state]
+            if not available:
+                break
+                
             try_state = state.copy()
-            item = random.choice(self.landmarks)
-            
-            if item not in state:
-                try_state.append(item)
-            else:
-                continue
+            item = random.choice(available)
+            try_state.append(item)
             
             if not self.valid_state(try_state, is_building=True):
                 failures += 1

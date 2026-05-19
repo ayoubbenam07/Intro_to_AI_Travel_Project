@@ -94,7 +94,11 @@ class ABC_Optimization:
         for iteration in range(self.iterations):
             # Employed bee phase
             for bee in self.population:
-                neighbor_state = random.choice(self.problem.generate_neighbors(bee.state))
+                neighbors = self.problem.generate_neighbors(bee.state)
+                if not neighbors:
+                    bee.limit += 1
+                    continue
+                neighbor_state = random.choice(neighbors)
                 neighbor_fitness = self.calculate_fitness(neighbor_state)
                 
                 if neighbor_fitness > bee.fitness:
@@ -117,7 +121,12 @@ class ABC_Optimization:
                 else:
                     selected_bee = self.tournament_selection()
                 
-                neighbor_state = random.choice(self.problem.generate_neighbors(selected_bee.state))
+                neighbors = self.problem.generate_neighbors(selected_bee.state)
+                if not neighbors:
+                    selected_bee.limit += 1
+                    continue
+                
+                neighbor_state = random.choice(neighbors)
                 neighbor_fitness = self.calculate_fitness(neighbor_state)
                 
                 if neighbor_fitness > selected_bee.fitness:
