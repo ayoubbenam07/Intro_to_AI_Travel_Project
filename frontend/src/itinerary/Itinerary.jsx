@@ -35,23 +35,25 @@ export default function Itinerary({
     const fetchData = async () => {
       try {
         // Load base context data
-        // Load hotel data for map markers
-        const ht = await loadHotels();
-        setHotels(ht);
+        // Start fetching hotels immediately in the background
+        const hotelsPromise = loadHotels().then(ht => {
+          setHotels(ht);
+          return ht;
+        });
 
         const token = localStorage.getItem("token");
+        let foundPath = null;
+        let shouldBeEmpty = false;
 
         // 1. If we are viewing a historical itinerary (explicit ID)
         if (state.itineraryId) {
           const res = await fetch(`http://localhost:8000/api/itineraries/${state.itineraryId}`, {
-            headers: {
-              "Authorization": `Bearer ${token}`
-            }
+            headers: { "Authorization": `Bearer ${token}` }
           });
           if (res.ok) {
             const data = await res.json();
             // Map the backend format to the expected frontend schema
-            const mappedPath = data.map(item => ({
+            foundPath = data.map(item => ({
               id: item.landmark_id,
               name: item.name,
               type: item.landmark_type,
@@ -64,15 +66,14 @@ export default function Itinerary({
               icon: getTypeIcon(item.landmark_type),
               color: getTypeColor(item.landmark_type)
             }));
-            setHistoricalPath(mappedPath);
           } else {
             console.error("Failed to load historical itinerary details:", res.status);
-            setEmptyState(true);
+            shouldBeEmpty = true;
           }
         }
         // 2. If we received a newly generated plan from PlanJourney
         else if (state.itinerary && state.itinerary.path) {
-          setHistoricalPath(state.itinerary.path.map(item => ({
+          foundPath = state.itinerary.path.map(item => ({
             id: item.landmark_id || item.id,
             name: item.name,
             type: item.landmark_type || item.type,
@@ -84,51 +85,47 @@ export default function Itinerary({
             rating: item.interest_score || item.rating || 0,
             icon: getTypeIcon(item.landmark_type || item.type),
             color: getTypeColor(item.landmark_type || item.type)
-          })));
+          }));
         }
         // 3. We didn't explicitly request one, so let's try to load the latest
         else if (token && !propLandmarkIDs?.length) {
-          const res = await fetch(`http://localhost:8000/api/itineraries`, {
+          const res = await fetch(`http://localhost:8000/api/itineraries/latest`, {
             headers: { "Authorization": `Bearer ${token}` }
           });
+          
           if (res.ok) {
-            const list = await res.json();
-            if (list && list.length > 0) {
-              const latest = list[0]; // The backend returns created_at.desc(), so index 0 is newest
-              const pathRes = await fetch(`http://localhost:8000/api/itineraries/${latest.itinerary_id}`, {
-                headers: { "Authorization": `Bearer ${token}` }
-              });
-              
-              if (pathRes.ok) {
-                const data = await pathRes.json();
-                const mappedPath = data.map(item => ({
-                  id: item.landmark_id,
-                  name: item.name,
-                  type: item.landmark_type,
-                  latitude: item.lat,
-                  longitude: item.lon,
-                  estimatedTime: item.visit_duration || 45,
-                  images: item.image_url,
-                  description: item.description,
-                  rating: item.interest_score || 0,
-                  icon: getTypeIcon(item.landmark_type),
-                  color: getTypeColor(item.landmark_type)
-                }));
-                setHistoricalPath(mappedPath);
-                setIsLatestFallback(true);
-              } else {
-                setEmptyState(true);
-              }
-            } else {
-              setEmptyState(true);
-            }
+            const data = await res.json();
+            foundPath = data.map(item => ({
+              id: item.landmark_id,
+              name: item.name,
+              type: item.landmark_type,
+              latitude: item.lat,
+              longitude: item.lon,
+              estimatedTime: item.visit_duration || 45,
+              images: item.image_url,
+              description: item.description,
+              rating: item.interest_score || 0,
+              icon: getTypeIcon(item.landmark_type),
+              color: getTypeColor(item.landmark_type)
+            }));
+            setIsLatestFallback(true);
           } else {
-            setEmptyState(true);
+            shouldBeEmpty = true;
           }
         } else if (!propLandmarkIDs?.length) {
           // Not logged in, no state passed
+          shouldBeEmpty = true;
+        }
+
+        if (foundPath) {
+          setHistoricalPath(foundPath);
+        }
+        if (shouldBeEmpty) {
           setEmptyState(true);
         }
+
+        // Wait for hotels to finish before removing the loading screen
+        await hotelsPromise;
 
       } catch (err) {
         console.error("Error loading itinerary data:", err);

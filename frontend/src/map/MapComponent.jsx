@@ -113,35 +113,31 @@ const RoutingSegments = ({ waypoints }) => {
   useEffect(() => {
     if (!map || !waypoints || waypoints.length < 2) return;
 
-    const controls = [];
-    for (let i = 0; i < waypoints.length - 1; i++) {
-      const c = L.Routing.control({
-        waypoints: [
-          L.latLng(waypoints[i][0], waypoints[i][1]),
-          L.latLng(waypoints[i + 1][0], waypoints[i + 1][1]),
+    // Make a single routing request for all waypoints to prevent OSRM rate-limiting
+    const control = L.Routing.control({
+      waypoints: waypoints.map(wp => L.latLng(wp[0], wp[1])),
+      routeWhileDragging: false,
+      createMarker: () => null,
+      show: false,
+      lineOptions: {
+        styles: [
+          { color: "#0f172a", opacity: 0.15, weight: 10 },
+          { color: "#ffffff", opacity: 0.9, weight: 6 },
+          { color: "#0077be", opacity: 1, weight: 4, dashArray: "10,10" }
         ],
-        routeWhileDragging: false,
-        createMarker: () => null,
-        show: false,
-        lineOptions: {
-          styles: lineStylesForSegment(i),
-          addWaypoints: false,
-          extendToWaypoints: true,
-        },
-      }).addTo(map);
-      controls.push(c);
-    }
+        addWaypoints: false,
+        extendToWaypoints: true,
+      },
+    }).addTo(map);
 
     return () => {
-      controls.forEach((ctrl) => {
-        try {
-          if (ctrl && ctrl._map) {
-            map.removeControl(ctrl);
-          }
-        } catch (error) {
-          console.warn("Routing cleanup failed", error);
+      try {
+        if (control && control._map) {
+          map.removeControl(control);
         }
-      });
+      } catch (error) {
+        console.warn("Routing cleanup failed", error);
+      }
     };
   }, [map, waypoints]);
 

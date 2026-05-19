@@ -63,6 +63,52 @@ async def list_itineraries(
     return itineraries
 
 
+@router.get("/itineraries/latest", response_model=List[ItineraryPathItemResponse])
+async def get_latest_itinerary_path(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """
+    Get the full path (ordered list of landmarks) for the user's most recently saved itinerary.
+    """
+    itinerary = db.query(Itinerary).filter(
+        Itinerary.user_id == current_user.user_id
+    ).order_by(Itinerary.created_at.desc()).first()
+    
+    if not itinerary:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="No itineraries found."
+        )
+
+    path_items = db.query(ItineraryLandmark).join(
+        Landmark, ItineraryLandmark.landmark_id == Landmark.landmark_id
+    ).filter(
+        ItineraryLandmark.itinerary_id == itinerary.itinerary_id
+    ).order_by(
+        ItineraryLandmark.position.asc()
+    ).all()
+
+    result = []
+    for item in path_items:
+        landmark = item.landmark
+        result.append({
+            "landmark_id": str(landmark.landmark_id),
+            "name": landmark.name,
+            "landmark_type": landmark.landmark_type,
+            "lat": landmark.lat,
+            "lon": landmark.lon,
+            "interest_score": landmark.interest_score,
+            "visit_duration": landmark.visit_duration,
+            "description": landmark.description,
+            "image_url": landmark.image_url,
+            "position": item.position,
+            "arrival_time": item.arrival_time,
+            "departure_time": item.departure_time
+        })
+
+    return result
+
 
 @router.get("/itineraries/{itinerary_id}", response_model=List[ItineraryPathItemResponse])
 async def get_itinerary_path(

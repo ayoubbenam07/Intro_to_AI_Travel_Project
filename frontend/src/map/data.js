@@ -105,7 +105,14 @@ export async function loadLandmarks() {
   }
 }
 
+let cachedHotels = null;
+
 export async function loadHotels() {
+  // Return the cached version instantly if we already loaded it
+  if (cachedHotels) {
+    return cachedHotels;
+  }
+
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), 1500);
 
@@ -115,7 +122,8 @@ export async function loadHotels() {
     });
     clearTimeout(timeoutId);
     if (res.ok) {
-      return await res.json();
+      cachedHotels = await res.json();
+      return cachedHotels;
     }
   } catch (err) {
     clearTimeout(timeoutId);
@@ -124,7 +132,8 @@ export async function loadHotels() {
 
   try {
     const rows = await fetchCSV("/data/Algiers_hotels.csv");
-    return rows.map(parseHotel).filter((h) => !Number.isNaN(h.latitude) && !Number.isNaN(h.longitude));
+    cachedHotels = rows.map(parseHotel).filter((h) => !Number.isNaN(h.latitude) && !Number.isNaN(h.longitude));
+    return cachedHotels;
   } catch (csvErr) {
     console.error("Failed to load local fallback hotels CSV:", csvErr);
     return [];
