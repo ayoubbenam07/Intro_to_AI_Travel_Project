@@ -165,15 +165,33 @@ a.theSpiritOf:hover {
     grid-template-rows: auto;
     height: auto;
     padding: 3rem 2rem;
+    border-radius: 32px 32px 0 0;
+    margin-top: -32px;
+    text-align: center;
+    gap: 1.5rem;
   }
-  .container, .container4, .container5 {
+  .container,
+  .container4,
+  .container5 {
     grid-column: 1;
     grid-row: auto;
     height: auto;
+    align-items: center;
+  }
+  .container3,
+  .item,
+  .list {
+    align-items: center;
   }
   .margin {
     grid-column: 1;
     grid-row: auto;
+    align-items: center;
+    width: 100%;
+  }
+  .container6 {
+    align-items: center;
+    width: 100%;
   }
   .container5 {
     justify-content: flex-start;
@@ -186,6 +204,8 @@ a.theSpiritOf:hover {
 @media screen and (max-width: 450px) {
   .footerSection {
     padding: 2rem 1.5rem;
+    border-radius: 20px 20px 0 0;
+    margin-top: -20px;
   }
   .algiersAi {
     font-size: 1.813rem;
