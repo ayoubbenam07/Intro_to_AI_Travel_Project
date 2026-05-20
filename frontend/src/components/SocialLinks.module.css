@@ -1,0 +1,41 @@
+.root {
+  display: block;
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  list-style: none;
+  margin: 1rem 0 0;
+  padding: 0;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  color: rgba(125, 249, 255, 0.85);
+  background: rgba(125, 249, 255, 0.08);
+  border: 1px solid rgba(125, 249, 255, 0.15);
+  transition: color 0.2s, background 0.2s, border-color 0.2s, transform 0.2s;
+}
+
+.link:hover {
+  color: #fff;
+  background: rgba(125, 249, 255, 0.2);
+  border-color: rgba(125, 249, 255, 0.4);
+  transform: translateY(-2px);
+}
+
+.icon {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+.centered .list {
+  justify-content: center;
+}
