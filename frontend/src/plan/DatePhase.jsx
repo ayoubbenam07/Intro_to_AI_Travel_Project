@@ -1,6 +1,10 @@
 import Input from "../components/Input";
 import { FaCalendarAlt } from "react-icons/fa";
 
+export function getTodayDate() {
+  return new Date().toISOString().split("T")[0];
+}
+
 /**
  * DatePhase — Journey date + starting time.
  */
@@ -8,7 +12,7 @@ export default function DatePhase({
   date, startHour, startMinute,
   onDateChange, onHourChange, onMinuteChange,
 }) {
-  const today = new Date().toISOString().split("T")[0];
+  const today = getTodayDate();
 
   return (
     <div className="plan-phase" key="date">

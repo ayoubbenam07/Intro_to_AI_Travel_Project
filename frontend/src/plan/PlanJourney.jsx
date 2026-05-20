@@ -8,7 +8,7 @@ import Button from "../components/Button";
 
 import BudgetPhase from "./BudgetPhase";
 import HotelPhase from "./HotelPhase";
-import DatePhase from "./DatePhase";
+import DatePhase, { getTodayDate } from "./DatePhase";
 import LandmarksPhase, { LANDMARK_TYPES } from "./LandmarksPhase";
 import AlgoPhase from "./AlgoPhase";
 import Companion from "./Companion";
@@ -39,7 +39,7 @@ export default function PlanJourney() {
   }, [budget]);
 
   const [hotel, setHotel] = useState(null);
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState(getTodayDate);
   const [startHour, setStartHour] = useState(9);
   const [startMinute, setStartMinute] = useState(0);
   const [landmarkTypes, setLandmarkTypes] = useState(
