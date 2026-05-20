@@ -41,7 +41,7 @@ export default function Register() {
     setLoading(true);
     try {
       // 1. Hit the SignUp API
-      const res = await fetch("http://localhost:8000/api/signup", {
+      const res = await fetch("https://intro-to-ai-travel-project-2.onrender.com/api/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -53,7 +53,7 @@ export default function Register() {
       }
 
       // 2. Perform Auto-Login
-      const loginRes = await fetch("http://localhost:8000/api/login", {
+      const loginRes = await fetch("https://intro-to-ai-travel-project-2.onrender.com/api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),

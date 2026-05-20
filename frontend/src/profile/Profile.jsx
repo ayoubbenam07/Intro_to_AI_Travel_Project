@@ -632,7 +632,7 @@ export default function Profile() {
       }
       try {
         // Fetch real user info
-        const userRes = await fetch("http://localhost:8000/api/me", {
+        const userRes = await fetch("https://intro-to-ai-travel-project-2.onrender.com/api/me", {
           headers: { "Authorization": `Bearer ${token}` }
         });
         if (userRes.ok) {
@@ -641,7 +641,7 @@ export default function Profile() {
         }
 
         // Fetch real itineraries
-        const itinerariesRes = await fetch("http://localhost:8000/api/itineraries", {
+        const itinerariesRes = await fetch("https://intro-to-ai-travel-project-2.onrender.com/api/itineraries", {
           headers: { "Authorization": `Bearer ${token}` }
         });
         if (itinerariesRes.ok) {
@@ -671,7 +671,7 @@ export default function Profile() {
     if (!window.confirm("Are you sure you want to delete this itinerary?")) return;
     const token = localStorage.getItem("token");
     try {
-      const res = await fetch(`http://localhost:8000/api/itineraries/${id}`, {
+      const res = await fetch(`https://intro-to-ai-travel-project-2.onrender.com/api/itineraries/${id}`, {
         method: "DELETE",
         headers: { "Authorization": `Bearer ${token}` }
       });

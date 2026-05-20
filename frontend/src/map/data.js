@@ -202,7 +202,7 @@ export async function loadHotels() {
   const timeoutId = setTimeout(() => controller.abort(), 1500);
 
   try {
-    const res = await fetch("http://localhost:8000/api/hotels", {
+    const res = await fetch("https://intro-to-ai-travel-project-2.onrender.com/api/hotels", {
       signal: controller.signal
     });
     clearTimeout(timeoutId);
