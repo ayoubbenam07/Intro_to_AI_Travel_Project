@@ -103,15 +103,81 @@ function parseLandmark(row) {
 }
 
 function parseHotel(row) {
+  return normalizeHotelRecord({
+    id: `hotel-${row["name"]}`,
+    name: row["name"],
+    latitude: row["latitude"],
+    longitude: row["longitude"],
+  });
+}
+
+/** Normalize API/CSV hotel records to a consistent shape */
+export function normalizeHotelRecord(h) {
+  const name = (h?.name || "").trim();
+  const latitude = Number(h?.latitude ?? h?.lat);
+  const longitude = Number(h?.longitude ?? h?.lon);
   return {
-    id:        `hotel-${row["name"]}`,
-    name:      (row["name"] || "").trim(),
-    latitude:  parseFloat(row["latitude"]),
-    longitude: parseFloat(row["longitude"]),
-    type:      "Hotel",
-    icon:      getTypeIcon("Hotel"),
-    color:     "#f39c12",
+    id: h?.id ?? `hotel-${name}`,
+    name,
+    latitude,
+    longitude,
+    type: h?.type || "Hotel",
+    icon: h?.icon || getTypeIcon("Hotel"),
+    color: h?.color || "#f39c12",
   };
+}
+
+/** Match backend/frontend hotel name variants (e.g. "Hôtel RALF" vs "RALF Hotel") */
+export function normalizeHotelName(name) {
+  if (!name) return "";
+  return name
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/hotel|hôtel|فندق/gi, "")
+    .replace(/[–—]/g, "-")
+    .replace(/[^\w\d-]/g, "")
+    .toLowerCase()
+    .trim();
+}
+
+export function findHotelByName(hotels, nameOrHotel) {
+  if (!hotels?.length && !(nameOrHotel?.latitude != null)) return null;
+
+  if (nameOrHotel && typeof nameOrHotel === "object") {
+    const lat = Number(nameOrHotel.latitude ?? nameOrHotel.lat);
+    const lon = Number(nameOrHotel.longitude ?? nameOrHotel.lon);
+    if (!Number.isNaN(lat) && !Number.isNaN(lon) && hotels?.length) {
+      const byCoords = hotels.find(
+        (h) =>
+          Math.abs(h.latitude - lat) < 0.0002 &&
+          Math.abs(h.longitude - lon) < 0.0002,
+      );
+      if (byCoords) return byCoords;
+    }
+    if (nameOrHotel.name && hotels?.length) {
+      const byName = findHotelByName(hotels, nameOrHotel.name);
+      if (byName) return byName;
+    }
+    if (!Number.isNaN(lat) && !Number.isNaN(lon)) {
+      return normalizeHotelRecord(nameOrHotel);
+    }
+  }
+
+  const name = typeof nameOrHotel === "string" ? nameOrHotel.trim() : null;
+  if (!name || !hotels?.length) return null;
+
+  const exact = hotels.find((h) => h.name === name);
+  if (exact) return exact;
+
+  const target = normalizeHotelName(name);
+  if (!target) return null;
+
+  return (
+    hotels.find((h) => {
+      const n = normalizeHotelName(h.name);
+      return n === target || n.includes(target) || target.includes(n);
+    }) ?? null
+  );
 }
 
 export async function loadLandmarks() {
@@ -141,7 +207,10 @@ export async function loadHotels() {
     });
     clearTimeout(timeoutId);
     if (res.ok) {
-      cachedHotels = await res.json();
+      const raw = await res.json();
+      cachedHotels = raw
+        .map(normalizeHotelRecord)
+        .filter((h) => !Number.isNaN(h.latitude) && !Number.isNaN(h.longitude));
       return cachedHotels;
     }
   } catch (err) {

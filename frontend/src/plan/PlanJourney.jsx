@@ -146,7 +146,9 @@ export default function PlanJourney() {
       console.log("✨ Generated itinerary successfully:", result);
 
       // Navigate to /itinerary and pass the generated itinerary
-      navigate("/itinerary", { state: { itinerary: result } });
+      navigate("/itinerary", {
+        state: { itinerary: result, hotel },
+      });
     } catch (err) {
       console.error(err);
       alert(`Error generating itinerary: ${err.message}`);

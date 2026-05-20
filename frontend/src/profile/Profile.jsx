@@ -688,17 +688,26 @@ export default function Profile() {
 
   const handleCardClick = (itinerary) => {
     // Navigate to /itinerary passing the itinerary_id so Itinerary.jsx can fetch the path
-    navigate("/itinerary", { 
-      state: { 
+    const hotelName =
+      itinerary.hotel_name ||
+      itinerary.hotel ||
+      (itinerary.name?.startsWith("Trip from ")
+        ? itinerary.name.slice("Trip from ".length)
+        : null);
+
+    navigate("/itinerary", {
+      state: {
         itineraryId: itinerary.itinerary_id,
+        hotel: hotelName,
         metadata: {
           name: itinerary.name,
+          hotel: hotelName,
           algorithm: itinerary.algorithm,
           evaluation_score: itinerary.evaluation_score,
           time_budget_hours: itinerary.time_budget_hours,
-          travel_day: itinerary.travel_day
-        }
-      } 
+          travel_day: itinerary.travel_day,
+        },
+      },
     });
   };
 

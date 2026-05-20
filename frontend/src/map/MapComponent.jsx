@@ -166,6 +166,7 @@ const FlyTo = ({ target }) => {
 const MapComponent = ({
   landmarks = [],
   hotels = [],
+  anchorHotel = null,
   startingHotel = 1,
   destinationHotel = 1,
   highlightId = null,
@@ -205,29 +206,31 @@ const MapComponent = ({
       ? [landmarks[0].latitude, landmarks[0].longitude]
       : [36.7538, 3.0588];
 
-const routeWaypoints = useMemo(() => {
-  if (
-    !hotels?.length ||
-    hotels[startingHotel - 1] == null ||
-    hotels[destinationHotel - 1] == null
-  ) {
-    return [];
-  }
+  const startHotel =
+    anchorHotel ??
+    (hotels?.length ? hotels[startingHotel - 1] : null) ??
+    null;
+  const destHotel =
+    anchorHotel ??
+    (hotels?.length ? hotels[destinationHotel - 1] : null) ??
+    null;
 
-  return [
-    // 1. Starting hotel
-    [hotels[startingHotel - 1].latitude, hotels[startingHotel - 1].longitude],
+  const routeWaypoints = useMemo(() => {
+    if (
+      !startHotel ||
+      !destHotel ||
+      Number.isNaN(startHotel.latitude) ||
+      Number.isNaN(startHotel.longitude)
+    ) {
+      return [];
+    }
 
-    // 2. Spread the landmarks into the array
-    ...landmarks.map((lm) => [lm.latitude, lm.longitude]),
-
-    // 3. Destination hotel
-    [hotels[destinationHotel - 1].latitude, hotels[destinationHotel - 1].longitude],
-  ];
-}, [landmarks, hotels, startingHotel, destinationHotel]);
-
-  const startHotel = hotels[startingHotel - 1] || null;
-  const destHotel = hotels[destinationHotel  - 1] || null;
+    return [
+      [startHotel.latitude, startHotel.longitude],
+      ...landmarks.map((lm) => [lm.latitude, lm.longitude]),
+      [destHotel.latitude, destHotel.longitude],
+    ];
+  }, [landmarks, startHotel, destHotel]);
 
   if (landmarks.length === 0 && hotels.length === 0) {
     return (

@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback, useMemo, useRef } from "react"
 import { useLocation, useNavigate } from "react-router-dom";
 import { FaMap, FaClock } from "react-icons/fa";
 import MapComponent from "../map/MapComponent.jsx";
-import { loadHotels, getTypeColor, getTypeIcon } from "../map/data.js";
+import { loadHotels, findHotelByName, getTypeColor, getTypeIcon } from "../map/data.js";
 import "./Itinerary.css";
 
 export default function Itinerary({ 
@@ -16,8 +16,8 @@ export default function Itinerary({
 
   // Extract user selections
   const budget = state.budget ?? 12; // default 12 hrs
-  const selectedHotel = state.hotel ?? 1; // default 1st hotel
   const landmarkTypes = state.landmarkTypes ?? [];
+  const [resolvedHotelName, setResolvedHotelName] = useState(null);
   const algorithm = state.algorithm ?? "greedy";
 
   const [hotels, setHotels] = useState([]);
@@ -110,6 +110,16 @@ export default function Itinerary({
               color: getTypeColor(item.landmark_type)
             }));
             setIsLatestFallback(true);
+            // Latest path endpoint omits hotel; read it from the saved itinerary name
+            const listRes = await fetch("http://localhost:8000/api/itineraries", {
+              headers: { "Authorization": `Bearer ${token}` },
+            });
+            if (listRes.ok) {
+              const list = await listRes.json();
+              if (list.length > 0) {
+                setResolvedHotelName(parseHotelFromTripName(list[0].name));
+              }
+            }
           } else {
             shouldBeEmpty = true;
           }
@@ -155,8 +165,34 @@ export default function Itinerary({
     return { orderedLandmarks: [], totalTime: 0 };
   }, [historicalPath, propLandmarkIDs]);
 
-  const startingHotel = propStartingHotel ?? selectedHotel;
-  const destinationHotel = propDestinationHotel ?? selectedHotel;
+  const anchorHotel = useMemo(() => {
+    const hotelName =
+      (typeof state.hotel === "string" ? state.hotel : null) ??
+      state.itinerary?.hotel ??
+      state.metadata?.hotel ??
+      resolvedHotelName ??
+      parseHotelFromTripName(state.metadata?.name);
+
+    const candidate =
+      state.hotel && typeof state.hotel === "object" ? state.hotel : hotelName;
+
+    return findHotelByName(hotels, candidate);
+  }, [hotels, state.hotel, state.itinerary, state.metadata, resolvedHotelName]);
+
+  const hotelIndex = useMemo(() => {
+    if (propStartingHotel != null) return propStartingHotel;
+    if (anchorHotel && hotels.length) {
+      const idx = hotels.findIndex((h) => h.name === anchorHotel.name);
+      if (idx >= 0) return idx + 1;
+    }
+    if (typeof state.hotel === "number" && state.hotel >= 1 && hotels.length) {
+      return Math.min(state.hotel, hotels.length);
+    }
+    return 1;
+  }, [hotels, anchorHotel, state.hotel, propStartingHotel]);
+
+  const startingHotel = propStartingHotel ?? hotelIndex;
+  const destinationHotel = propDestinationHotel ?? hotelIndex;
 
   /* ── Cumulative time for each stop ── */
   const cumulativeTimes = useMemo(() => {
@@ -478,6 +514,7 @@ export default function Itinerary({
             landmarks={orderedLandmarks}
             hotels={hotels}
             highlightId={highlightId}
+            anchorHotel={anchorHotel}
             startingHotel={startingHotel}
             destinationHotel={destinationHotel}
             showHotels={false}       
@@ -506,6 +543,12 @@ export default function Itinerary({
 /* ═══════════════════════════════════════════════════════
    DETAIL MODAL
    ═══════════════════════════════════════════════════════ */
+
+function parseHotelFromTripName(tripName) {
+  if (!tripName || typeof tripName !== "string") return null;
+  const prefix = "Trip from ";
+  return tripName.startsWith(prefix) ? tripName.slice(prefix.length) : null;
+}
 
 function DetailModal({ landmark, onClose }) {
   const lm = landmark;
