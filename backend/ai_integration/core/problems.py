@@ -87,11 +87,6 @@ class TravelProblem_LocalSearch:
         if hard_constraints and duration > self.max_travel_time:
             return False
         
-        if not is_building and hard_constraints:
-            if duration < max(0, self.max_travel_time - 2):
-                if len(state) < len(self.landmarks):
-                    return False
-        
         return True
     
     def _generate_random_state(self) -> List[Landmark]:
