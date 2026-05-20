@@ -145,9 +145,10 @@ export default function PlanJourney() {
       const result = await response.json();
       console.log("✨ Generated itinerary successfully:", result);
 
-      // Navigate to /itinerary and pass the generated itinerary
+      // History state must be structured-cloneable (no React elements in hotel.icon)
+      const { icon: _icon, ...hotelForNav } = hotel;
       navigate("/itinerary", {
-        state: { itinerary: result, hotel },
+        state: { itinerary: result, hotel: hotelForNav },
       });
     } catch (err) {
       console.error(err);
