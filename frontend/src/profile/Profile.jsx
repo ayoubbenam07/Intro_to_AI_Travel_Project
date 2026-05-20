@@ -857,6 +857,9 @@ export default function Profile() {
                         <div className="itinerary-tags">
                           <span className="itinerary-tag">{item.time_budget_hours ? `${item.time_budget_hours} Hours` : "24h"}</span>
                           <span className="itinerary-tag">{item.travel_day}</span>
+                          {item.num_types !== undefined && item.num_types !== null && (
+                            <span className="itinerary-tag">{item.num_types} {item.num_types === 1 ? 'Type' : 'Types'}</span>
+                          )}
                         </div>
                       </div>
                       

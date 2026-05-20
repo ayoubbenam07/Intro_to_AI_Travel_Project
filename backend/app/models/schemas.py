@@ -96,6 +96,7 @@ class SavedItineraryResponse(BaseModel):
     start_time_hour: Optional[Any] = None
     is_saved: bool
     created_at: datetime
+    num_types: Optional[int] = None
 
     class Config:
         from_attributes = True

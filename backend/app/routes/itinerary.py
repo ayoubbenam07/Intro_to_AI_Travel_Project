@@ -36,6 +36,15 @@ async def save_itinerary(
     db: Session = Depends(get_db)
 ):
     """Save an itinerary for the currently logged-in user"""
+    # Calculate num_types from payload.path
+    path = payload.path or []
+    unique_types = set()
+    for item in path:
+        l_type = item.get("landmark_type") or item.get("type")
+        if l_type:
+            unique_types.add(l_type)
+    num_types_val = len(unique_types)
+
     itinerary = Itinerary(
         user_id=current_user.user_id,
         algorithm=payload.algorithm,
@@ -50,6 +59,9 @@ async def save_itinerary(
     db.add(itinerary)
     db.commit()
     db.refresh(itinerary)
+    
+    # Attach computed num_types to the instance so the response schema serializes it
+    itinerary.num_types = num_types_val
     return itinerary
 
 
@@ -60,6 +72,13 @@ async def list_itineraries(
 ):
     """List all saved itineraries for the logged-in user"""
     itineraries = db.query(Itinerary).filter(Itinerary.user_id == current_user.user_id).order_by(Itinerary.created_at.desc()).all()
+    for itinerary in itineraries:
+        # Calculate distinct landmark types from landmarks relation
+        types = set()
+        for il in itinerary.landmarks:
+            if il.landmark and il.landmark.landmark_type:
+                types.add(il.landmark.landmark_type)
+        itinerary.num_types = len(types)
     return itineraries
 
 
