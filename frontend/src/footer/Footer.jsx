@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import styles from "./FooterSection.module.css";
 import backgroundImage from "./image.png";
 import { Link } from "react-router-dom";
-import SocialLinks from "../components/SocialLinks";
 
 const FooterSection = ({ className = "" }) => {
   const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
@@ -44,7 +43,6 @@ const FooterSection = ({ className = "" }) => {
             <br />
             the lens of pure intelligence.
           </div>
-          <SocialLinks centered />
         </Box>
       </Box>
       <Box className={styles.container4}>

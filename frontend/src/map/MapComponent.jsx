@@ -110,9 +110,28 @@ function lineStylesForSegment(segmentIndex) {
   ];
 }
 
+/* Invalidate in-flight OSRM callbacks before the control is detached from the map. */
+function disposeRoutingControl(map, control) {
+  if (!control) return;
+
+  if (control._pendingRequest?.abort) {
+    control._pendingRequest.abort();
+  }
+  // Stale route callbacks still call _clearLines(); bumping the counter skips them.
+  control._requestCount = (control._requestCount || 0) + 1;
+
+  if (map && control._map) {
+    map.removeControl(control);
+  }
+}
+
 /* One routing control per consecutive pair so each leg gets its own color */
 const RoutingSegments = ({ waypoints }) => {
   const map = useMap();
+  const waypointsKey = useMemo(
+    () => JSON.stringify(waypoints),
+    [waypoints]
+  );
 
   useEffect(() => {
     if (!map || !waypoints || waypoints.length < 2) return;
@@ -136,14 +155,12 @@ const RoutingSegments = ({ waypoints }) => {
 
     return () => {
       try {
-        if (control && control._map) {
-          map.removeControl(control);
-        }
+        disposeRoutingControl(map, control);
       } catch (error) {
         console.warn("Routing cleanup failed", error);
       }
     };
-  }, [map, waypoints]);
+  }, [map, waypointsKey, waypoints]);
 
   return null;
 };
@@ -349,7 +366,6 @@ const MapComponent = ({
       )}
 
       {/* ── Routing (order matches landmarks array) ── */}
-      {/* Temporarily disabled due to leaflet-routing-machine cleanup issues */}
       {routeWaypoints.length > 1 && <RoutingSegments waypoints={routeWaypoints} />}
 
       {/* ── Fly to highlighted ── */}
