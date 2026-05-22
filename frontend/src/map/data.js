@@ -130,14 +130,7 @@ export function normalizeHotelRecord(h) {
 /** Match backend/frontend hotel name variants (e.g. "Hôtel RALF" vs "RALF Hotel") */
 export function normalizeHotelName(name) {
   if (!name) return "";
-  return name
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/hotel|hôtel|فندق/gi, "")
-    .replace(/[–—]/g, "-")
-    .replace(/[^\w\d-]/g, "")
-    .toLowerCase()
-    .trim();
+  return name   
 }
 
 export function findHotelByName(hotels, nameOrHotel) {
@@ -190,10 +183,11 @@ export async function loadLandmarks() {
   }
 }
 
-let cachedHotels = null;
+// 1. DECLARE the cache variable at the module level (outside the function)
+let cachedHotels = null; 
 
 export async function loadHotels() {
-  // Return the cached version instantly if we already loaded it
+  // 2. Check cache
   if (cachedHotels) {
     return cachedHotels;
   }
@@ -202,29 +196,54 @@ export async function loadHotels() {
   const timeoutId = setTimeout(() => controller.abort(), 1500);
 
   try {
-    const res = await fetch("https://intro-to-ai-travel-project-2.onrender.com/api/hotels", {
+    const res = await fetch("http://localhost:8000/api/hotels", {
       signal: controller.signal
     });
-    clearTimeout(timeoutId);
-    if (res.ok) {
-      const raw = await res.json();
-      cachedHotels = raw
-        .map(normalizeHotelRecord)
-        .filter((h) => !Number.isNaN(h.latitude) && !Number.isNaN(h.longitude));
-      return cachedHotels;
-    }
-  } catch (err) {
-    clearTimeout(timeoutId);
-    console.error("Failed to load hotels from backend, falling back to local csv:", err);
-  }
+    
+    clearTimeout(timeoutId); // Clear timeout on success
 
-  try {
-    const rows = await fetchCSV("/data/Algiers_hotels.csv");
-    cachedHotels = rows.map(parseHotel).filter((h) => !Number.isNaN(h.latitude) && !Number.isNaN(h.longitude));
+    if (!res.ok) {
+      throw new Error(`HTTP error! status: ${res.status}`);
+    }
+
+    const raw = await res.json();
+    
+    // Process data
+    const processed = raw
+      .map(normalizeHotelRecord)
+      .filter((h) => !Number.isNaN(h.latitude) && !Number.isNaN(h.longitude));
+    
+    // 3. UPDATE CACHE before returning
+    cachedHotels = processed;
+    console.log(cachedHotels)
     return cachedHotels;
-  } catch (csvErr) {
-    console.error("Failed to load local fallback hotels CSV:", csvErr);
-    return [];
+
+  } catch (err) {
+    clearTimeout(timeoutId); // Clear timeout on error
+    
+    // Distinguish between abort (timeout) and other errors
+    if (err.name === 'AbortError') {
+      console.warn("Request timed out after 1.5s");
+    } else {
+      console.error("Failed to load hotels from backend:", err);
+    }
+
+    // 4. FALLBACK LOGIC
+    // If you want to try the CSV fallback, uncomment and fix this:
+    /*
+    try {
+      const rows = await fetchCSV("/data/Algiers_hotels.csv");
+      const fallbackData = rows.map(parseHotel).filter((h) => !Number.isNaN(h.latitude) && !Number.isNaN(h.longitude));
+      cachedHotels = fallbackData; // Update cache with fallback so we don't retry network
+      return cachedHotels;
+    } catch (csvErr) {
+      console.error("Fallback CSV also failed:", csvErr);
+      return []; // Return empty array instead of undefined
+    }
+    */
+    
+    // If no fallback, return empty array to prevent undefined errors in UI
+    return []; 
   }
 }
 
