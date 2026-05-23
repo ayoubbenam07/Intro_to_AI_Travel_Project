@@ -130,14 +130,7 @@ export function normalizeHotelRecord(h) {
 /** Match backend/frontend hotel name variants (e.g. "Hôtel RALF" vs "RALF Hotel") */
 export function normalizeHotelName(name) {
   if (!name) return "";
-  return name
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/hotel|hôtel|فندق/gi, "")
-    .replace(/[–—]/g, "-")
-    .replace(/[^\w\d-]/g, "")
-    .toLowerCase()
-    .trim();
+  return name   
 }
 
 export function findHotelByName(hotels, nameOrHotel) {
@@ -204,7 +197,7 @@ function getHotelsApiCandidates() {
 }
 
 export async function loadHotels() {
-  // Return the cached version instantly if we already loaded it
+  // 2. Check cache
   if (cachedHotels) {
     return cachedHotels;
   }
