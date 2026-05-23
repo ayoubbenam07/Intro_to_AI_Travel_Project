@@ -191,6 +191,17 @@ export async function loadLandmarks() {
 }
 
 let cachedHotels = null;
+const HOTEL_REQUEST_TIMEOUT_MS = 10000;
+const DEFAULT_API_BASES = [
+  import.meta.env.VITE_API_BASE_URL,
+  "http://127.0.0.1:8000",
+  "http://localhost:8000",
+  "https://intro-to-ai-travel-project-2.onrender.com",
+].filter(Boolean);
+
+function getHotelsApiCandidates() {
+  return [...new Set(DEFAULT_API_BASES)].map((base) => `${base.replace(/\/$/, "")}/api/hotels`);
+}
 
 export async function loadHotels() {
   // Return the cached version instantly if we already loaded it
@@ -198,24 +209,29 @@ export async function loadHotels() {
     return cachedHotels;
   }
 
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 1500);
+  for (const endpoint of getHotelsApiCandidates()) {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), HOTEL_REQUEST_TIMEOUT_MS);
 
-  try {
-    const res = await fetch("https://intro-to-ai-travel-project-2.onrender.com/api/hotels", {
-      signal: controller.signal
-    });
-    clearTimeout(timeoutId);
-    if (res.ok) {
+    try {
+      const res = await fetch(endpoint, { signal: controller.signal });
+      clearTimeout(timeoutId);
+      if (!res.ok) {
+        continue;
+      }
+
       const raw = await res.json();
-      cachedHotels = raw
-        .map(normalizeHotelRecord)
-        .filter((h) => !Number.isNaN(h.latitude) && !Number.isNaN(h.longitude));
-      return cachedHotels;
+      const hotelRows = Array.isArray(raw) ? raw : Array.isArray(raw?.hotels) ? raw.hotels : [];
+      if (hotelRows.length > 0) {
+        cachedHotels = hotelRows
+          .map(normalizeHotelRecord)
+          .filter((h) => !Number.isNaN(h.latitude) && !Number.isNaN(h.longitude));
+        return cachedHotels;
+      }
+    } catch (err) {
+      clearTimeout(timeoutId);
+      console.warn(`Failed to load hotels from ${endpoint}:`, err);
     }
-  } catch (err) {
-    clearTimeout(timeoutId);
-    console.error("Failed to load hotels from backend, falling back to local csv:", err);
   }
 
   try {
